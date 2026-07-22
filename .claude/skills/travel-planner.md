@@ -1,122 +1,96 @@
 # Travel Planner Skill
 
-Use this skill when the user wants to plan a multi-day road trip or domestic travel itinerary in China. The output is an interactive HTML travel planner with hand-drawn sketch aesthetics.
+Use this skill when the user wants to plan a multi-day road trip or domestic travel itinerary. The output is an interactive HTML travel planner with a hand-drawn sketch aesthetic.
 
 ## Methodology
 
-### Phase 1: Batch-Grill-Me (Information Gathering)
+### Phase 1: Information Gathering
 
-Ask 3-4 questions at a time using `AskUserQuestion`. Group related questions. Cover these dimensions in order:
+Use `AskUserQuestion` to batch questions in groups of 3-4 at a time. Adapt the order and content to what the user has already volunteered — skip dimensions they've already covered. The goal is to pin down these key variables, but not necessarily in this order:
 
-**Round 1 — Basics:**
-- Travel companions (solo, couple, family w/ kids, friends) — determines pace and logistics
-- Daily driving tolerance (3-4h relaxed, 5-6h moderate, 7-8h aggressive)
-- Trip themes (nature scenery, minority culture, food, relaxation/escape heat)
-- Accommodation style + budget per night
+- **Travel companions** — determines pace, accommodation needs, and how many can drive
+- **Dates & duration** — start/end dates, any hard constraints mid-trip
+- **Driving tolerance** — hours per day (3-4h relaxed, 5-6h moderate, 7-8h aggressive)
+- **Trip themes** — nature, culture, food, relaxation, or a mix
+- **Route direction** — starting point, general direction, endpoint, any must-hit places
+- **Transport** — self-drive, rental car (异地还车 fees?), high-speed rail, or hybrid
+- **Accommodation & budget** — style and nightly range; total budget for the trip
+- **Previous experience** — which destinations on the route have they already visited?
+- **Weather attitude** — accept rain, try to avoid, or flexible day-by-day
+- **Regional trade-offs** — when geography and time conflict, which areas get priority?
+- **Flight price sensitivity** — willing to adjust route or endpoint to save on flights?
 
-**Round 2 — Route & Logistics:**
-- Car: own car (ship back via 拖车) vs rental (异地还车 fee?) vs mix with high-speed rail
-- For each province/region on the route: which specific sub-regions interest them?
-- Previous travel experience — have they been to any of the destinations before?
-- Must-see items or hard constraints (dates, meeting friends, etc.)
-
-**Round 3 — Refinement:**
-- Total budget range (for 2 people, excluding flights)
-- Weather attitude (accept rain, try to avoid, flexible)
-- Regional priority trade-offs when geography conflicts with time
-- Flight price sensitivity — willing to adjust route to save on flights?
+Don't ask all of these in one session. Feel out which ones are most relevant based on the trip the user describes. If the user explicitly says `batch-grill-me`, front-load the most decision-critical questions.
 
 ### Phase 2: Route Design
 
 **Principles:**
 1. Minimize backtracking — the route should flow in one general direction
 2. Match driving distance to daily tolerance (200-300km for relaxed, 300-500km moderate)
-3. Use high-speed rail to skip boring highway segments (e.g., Guangzhou→Guilin, Kunming→Lijiang)
+3. Use high-speed rail to skip boring highway segments
 4. Car rental segments should minimize cross-province one-way fees
-5. Consider altitude acclimatization (gradual ascent: 0→1900→2400→3300m)
-6. July-August in SW China = rainy season → waterfalls at peak flow, but mountain roads have risks
+5. Consider altitude acclimatization (gradual ascent better than sudden)
+6. Factor in seasonal weather patterns — e.g., July-August in SW China = rainy season, waterfalls at peak flow but mountain roads have risks
 
 **Transport mode selection:**
 - Highway segments with no scenery → high-speed rail
 - Scenic mountain/coastal roads → self-drive
 - Within a city/region → self-drive for flexibility
-- Cross-province one-way rental → check if fee exceeds ¥2000, if so, split into local rentals with train in between
+- Cross-province one-way rental → if fee exceeds ~¥2000, consider splitting into local rentals with a train segment in between
 
-**Car rental strategy (China):**
-- 一嗨租车 (eHi) and 神州租车 (CAR Inc) are the main players
-- Same-city return: no extra fee
-- Same-province cross-city: moderate fee (~¥500-1000)
-- Cross-province: high fee (~¥2000-4000+) — avoid unless budget allows
-- Pre-book early for summer (July-August is peak season)
+**Car rental in China:**
+- 一嗨租车 and 神州租车 are the main players
+- Same-city return: no extra fee; same-province cross-city: ~¥500-1000; cross-province: ¥2000-4000+
+- Pre-book early for summer — July-August is peak season
 
 ### Phase 3: Flight & Weather Optimization
 
-- Compare flight prices for ALL airports in the endpoint region
-- General rule: hub airports (Kunming, Guiyang) are cheaper than tourist airports (Lijiang, Shangri-La)
+- Compare flight prices for all airports in the endpoint region
+- Hub airports (Kunming, Guiyang) are generally cheaper than tourist airports (Lijiang, Shangri-La)
 - Check if reversing the route would save on flights
-- Combine train+flight if it's cheaper and not much slower
-- Weather: July-August rainfall patterns should inform which areas get more/less time
+- Train+flight combos can beat direct tourist-airport flights
+- Use weather data (rainfall, temperature) to inform how much time each area gets
 
 ### Phase 4: HTML Output
 
 Generate a single self-contained HTML file with:
 
-**Map section:** SVG route diagram (NOT Leaflet — too heavy, too much irrelevant info)
-- Vertical timeline layout with color-coded sections
+**Route diagram:** SVG timeline (NOT Leaflet — too heavy, too much irrelevant map data)
+- Vertical layout with color-coded section backgrounds
 - Solid lines for driving, dashed for trains, dotted for flights
-- Transport mode + duration on every segment
-- Clickable nodes that scroll to day cards
-- Node sizes: large for hubs/key destinations, medium for stays, small for transits
-- viewBox should accommodate the tallest possible route (~960px for 15 nodes)
+- Transport mode + duration labels on every segment
+- Clickable nodes that scroll to the relevant day cards
+- Node sizes vary by importance (hubs > stays > transits)
+- viewBox must accommodate all nodes — calculate tallest Y + padding
 
-**Day cards (grid layout, `minmax(440px, 1fr)` for 2-3 per row):**
-- Each card: date, route badge, quick-info tags (weather, drive time, transport), then sections for 玩什么/吃什么/住哪里, and a note callout
-- Cards get slight random rotation (--r: -0.5deg to 0.5deg) for hand-drawn feel
+**Day cards** (CSS Grid, `minmax(440px, 1fr)` for 2-3 per row):
+- Each card: day number + date, route badge, quick-info tags (weather, drive time, transport mode), sections for 玩什么 / 吃什么 / 住哪里, and a `📌` note callout
+- Cards get subtle random rotation (--r: ±0.5deg max)
 - Pastel color variants: yellow, pink, blue, green, purple, orange
 
 **Hand-drawn sketch aesthetic:**
 - Dot-grid paper background (`radial-gradient`)
-- Handwriting fonts: "Ma Shan Zheng" for Chinese headings, "Caveat" for English/numbers
-- System fonts for body text (readability > style)
-- Asymmetric border-radius on cards (mild, not extreme: `12px 8px` not `18px 4px`)
-- Card rotation: max ±0.5deg (subtle)
-- Route labels and info tags: NO rotation, balanced border-radius
-- Hard box-shadows (not blurry glow)
-
-**Additional sections:**
-- Route flow overview (inline pills showing the entire route at a glance)
-- Stats bar (total days, driving distance, train segments, provinces, buffer days)
-- Packing checklist organized by category (证件, 衣物 by layer, 药品, 车用品, 电子设备, 日用品)
-- Important reminders (altitude, rainy driving, advance bookings, food safety, luggage strategy)
-
-**CSS rules:**
-- No `transform: rotate()` on functional tags (route labels, info badges)
-- SVG fills must use hardcoded colors (CSS variables don't work in SVG)
-- Responsive: single column on mobile, 2-3 columns on desktop
-- Print-friendly: hide backgrounds, avoid card breaks
+- "Ma Shan Zheng" for Chinese headings, "Caveat" for English/numbers, system fonts for body text
+- Mild asymmetric border-radius on cards (`12px 8px`, not extreme `18px 4px`)
+- Functional tags (route labels, info badges): NO rotation, balanced border-radius
+- Hard box-shadows, not blurry glow
 - Zero external dependencies except Google Fonts
 
-### Phase 5: Deployment
+**Additional sections:**
+- Route flow overview — inline pills showing the entire route at a glance
+- Stats bar — total days, driving distance, train segments, provinces, buffer days
+- Packing checklist — organized by category (证件, 衣物 by layer, 药品, 车用品, 电子设备, 日用品)
+- Important reminders — altitude, rainy driving, advance bookings, food safety, luggage strategy
 
-- Rename to `index.html`
-- `git init` + push to GitHub as `username/repo-name`
-- Enable GitHub Pages via API: `gh api repos/user/repo/pages -X POST --input - <<<'{"source":{"branch":"main","path":"/"}}'`
-- Verify with curl after ~30s build time
+**Key CSS/SVG rules:**
+- SVG fills must use hardcoded hex colors — CSS variables don't work in SVG
+- Transport labels go on the LEFT side of the main route line, node text on the RIGHT
+- Never put meta-language in traveler-facing UI (no "优先级A<B", no colored ranking dots)
+- Always verify day-of-week against the actual calendar year
 
-## Common Pitfalls
+### Phase 5: Deployment (Optional)
 
-1. **Over-rotating elements**: Max 0.5° for cards, 0° for functional tags. The hand-drawn feel comes from fonts and border-radius, not extreme tilting.
-
-2. **SVG viewBox too small**: Calculate the Y coordinate of the last node + its radius + padding. For 15 nodes at ~60px spacing, viewBox height needs ~960px.
-
-3. **SVG CSS variables**: `fill="var(--color)"` does NOT work in SVG. Use hardcoded hex values.
-
-4. **Too many cards per row**: `minmax(350px, 1fr)` gives 4-5 cards on a wide screen. Use `minmax(440px, 1fr)` for 2-3 max.
-
-5. **Forgetting transport labels**: Every segment between nodes needs a transport mode icon + duration. These go on the LEFT side of the main route line.
-
-6. **Leaflet maps are heavy and low-info**: For a fixed route, an SVG diagram conveys more useful information (duration, mode, nights) than a geographic map full of irrelevant place names.
-
-7. **Day-of-week errors**: Always calculate the actual day of week for the trip year. 2026-07-22 is a Wednesday, so July 24 is Friday.
-
-8. **Priority meta-language in UI**: Never write "优先级：A < B < C" or colored dot rankings in the travel plan itself. Those are internal planning notes, not traveler-facing content.
+If the user wants to publish:
+- Rename to `index.html`, `git init`, push to GitHub
+- Enable GitHub Pages: `gh api repos/user/repo/pages -X POST --input - <<<'{"source":{"branch":"main","path":"/"}}'`
+- Site will be live at `https://<user>.github.io/<repo>/` within ~30s
