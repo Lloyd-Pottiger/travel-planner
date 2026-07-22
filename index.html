@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🚗 2026 西南自驾 — 广州→广西→贵州→云南</title>
+<title>🚗 2026 西南自驾 — 广西→贵州→滇西北</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Caveat:wght@400;600;700&family=ZCOOL+KuaiLe&family=Hi+Melody&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Caveat:wght@400;600;700&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
 <style>
 /* ===== RESET & BASE ===== */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -20,7 +20,6 @@
   --green: #f0faf4;
   --purple: #f7f2ff;
   --orange: #fff7ed;
-  --red: #fef2f2;
   --shadow: 3px 3px 0 rgba(44,62,80,0.08);
   --shadow-hover: 5px 5px 0 rgba(44,62,80,0.12);
   --border: 2px solid var(--ink);
@@ -28,7 +27,7 @@
 
 html { scroll-behavior: smooth; }
 body {
-  font-family: "Ma Shan Zheng", "ZCOOL KuaiLe", "Hi Melody", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: "Ma Shan Zheng", "ZCOOL KuaiLe", "PingFang SC", "Microsoft YaHei", sans-serif;
   background-color: var(--paper);
   background-image: radial-gradient(circle, #d4cfc4 1px, transparent 1px);
   background-size: 24px 24px;
@@ -37,185 +36,109 @@ body {
   min-height: 100vh;
   position: relative;
 }
-
-/* Paper texture overlay */
 body::before {
-  content: '';
-  position: fixed; inset: 0;
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  content: ''; position: fixed; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
   pointer-events: none; z-index: 0;
 }
 
-/* ===== LAYOUT ===== */
 .container { max-width: 1200px; margin: 0 auto; padding: 20px; position: relative; z-index: 1; }
 
 /* ===== HEADER ===== */
-.header {
-  text-align: center;
-  padding: 50px 20px 30px;
-  position: relative;
-}
+.header { text-align: center; padding: 50px 20px 30px; position: relative; }
 .header .doodle-line {
-  width: 200px; height: 4px;
-  background: var(--ink);
-  border-radius: 2px;
-  margin: 16px auto;
-  position: relative;
-  transform: rotate(-0.8deg);
+  width: 200px; height: 4px; background: var(--ink); border-radius: 2px;
+  margin: 16px auto; position: relative; transform: rotate(-0.8deg);
 }
 .header .doodle-line::after {
-  content: '';
-  position: absolute;
-  right: -20px; top: -6px;
-  width: 16px; height: 16px;
-  border: 2px solid var(--ink);
-  border-radius: 50%;
+  content: ''; position: absolute; right: -20px; top: -6px;
+  width: 16px; height: 16px; border: 2px solid var(--ink); border-radius: 50%;
 }
 .header h1 {
   font-family: "Ma Shan Zheng", cursive;
   font-size: clamp(2rem, 5vw, 3.2rem);
-  color: var(--ink);
-  transform: rotate(-0.5deg);
-  letter-spacing: 2px;
+  color: var(--ink); transform: rotate(-0.5deg); letter-spacing: 2px;
 }
 .header .subtitle {
-  font-family: "Caveat", cursive;
-  font-size: 1.3rem;
-  color: var(--ink-light);
-  margin-top: 8px;
-  transform: rotate(0.3deg);
+  font-family: "Caveat", cursive; font-size: 1.3rem;
+  color: var(--ink-light); margin-top: 8px; transform: rotate(0.3deg);
 }
 
 /* ===== STATS BAR ===== */
-.stats-bar {
-  display: flex; flex-wrap: wrap; gap: 16px;
-  justify-content: center;
-  margin: 0 0 40px;
-}
+.stats-bar { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; margin: 0 0 40px; }
 .stat-card {
-  background: #fff;
-  border: var(--border);
+  background: #fff; border: var(--border);
   border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
-  padding: 16px 24px;
-  box-shadow: var(--shadow);
+  padding: 16px 24px; box-shadow: var(--shadow);
   transform: rotate(var(--rot, 0deg));
-  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
-  cursor: default;
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1); cursor: default;
 }
-.stat-card:hover {
-  transform: rotate(var(--rot,0deg)) translateY(-3px);
-  box-shadow: var(--shadow-hover);
-}
-.stat-card .stat-num {
-  font-family: "Caveat", cursive;
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--ink);
-  display: block;
-}
-.stat-card .stat-label {
-  font-size: 0.9rem;
-  color: var(--ink-light);
-}
+.stat-card:hover { transform: rotate(var(--rot,0deg)) translateY(-3px); box-shadow: var(--shadow-hover); }
+.stat-card .stat-num { font-family: "Caveat", cursive; font-size: 2rem; font-weight: 700; color: var(--ink); display: block; }
+.stat-card .stat-label { font-size: 0.9rem; color: var(--ink-light); }
 
-/* ===== MAP SECTION ===== */
+/* ===== MAP ===== */
 .map-section {
-  background: #fff;
-  border: var(--border);
+  background: #fff; border: var(--border);
   border-radius: 30px 10px 30px 10px / 10px 30px 10px 30px;
-  box-shadow: var(--shadow);
-  overflow: hidden;
-  margin-bottom: 50px;
-  position: relative;
+  box-shadow: var(--shadow); overflow: hidden; margin-bottom: 50px; position: relative;
 }
 .map-section .map-label {
   position: absolute; top: 12px; left: 16px; z-index: 1000;
-  background: var(--yellow);
-  border: 2px solid var(--ink);
-  padding: 6px 14px;
+  background: var(--yellow); border: 2px solid var(--ink); padding: 6px 14px;
   border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
-  font-family: "Caveat", cursive;
-  font-size: 1rem;
-  font-weight: 600;
-  transform: rotate(-1.5deg);
-  box-shadow: 2px 2px 0 rgba(0,0,0,0.08);
+  font-family: "Caveat", cursive; font-size: 1rem; font-weight: 600;
+  transform: rotate(-1.5deg); box-shadow: 2px 2px 0 rgba(0,0,0,0.08);
 }
 #map { height: 520px; width: 100%; }
 
-/* Custom leaflet styles */
 .leaflet-popup-content-wrapper {
-  border-radius: 20px 8px 20px 8px !important;
-  border: 2px solid var(--ink) !important;
-  box-shadow: 4px 4px 0 rgba(0,0,0,0.1) !important;
-  font-family: "Ma Shan Zheng", cursive !important;
+  border-radius: 20px 8px 20px 8px !important; border: 2px solid var(--ink) !important;
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.1) !important; font-family: "Ma Shan Zheng", cursive !important;
 }
 .leaflet-popup-content { font-size: 1rem !important; margin: 10px 14px !important; }
 
+.map-legend {
+  position: absolute; bottom: 20px; right: 16px; z-index: 1000;
+  background: #fff; border: 1.5px solid var(--ink);
+  border-radius: 15px 5px 15px 5px; padding: 10px 14px;
+  font-size: 0.8rem; box-shadow: var(--shadow);
+}
+.map-legend .legend-item { display: flex; align-items: center; gap: 8px; margin: 4px 0; font-family: "Caveat", cursive; }
+.legend-line { width: 24px; height: 3px; border-radius: 2px; }
+.legend-line.drive { background: #e8734a; }
+.legend-line.train { background: #6366f1; border-top: 2px dashed #6366f1; height: 0; }
+
 /* ===== SECTION HEADERS ===== */
-.section-header {
-  display: flex; align-items: center; gap: 16px;
-  margin: 50px 0 30px;
-  position: relative;
-}
+.section-header { display: flex; align-items: center; gap: 16px; margin: 50px 0 30px; position: relative; }
 .section-header .section-num {
-  font-family: "Caveat", cursive;
-  font-size: 3rem; font-weight: 700;
-  color: var(--ink);
-  background: var(--yellow);
-  border: var(--border);
-  border-radius: 50%;
-  width: 64px; height: 64px;
+  font-family: "Caveat", cursive; font-size: 3rem; font-weight: 700;
+  color: var(--ink); background: var(--yellow); border: var(--border);
+  border-radius: 50%; width: 64px; height: 64px;
   display: flex; align-items: center; justify-content: center;
-  transform: rotate(-3deg);
-  box-shadow: var(--shadow);
-  flex-shrink: 0;
+  transform: rotate(-3deg); box-shadow: var(--shadow); flex-shrink: 0;
 }
-.section-header h2 {
-  font-family: "Ma Shan Zheng", cursive;
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  transform: rotate(-0.3deg);
-}
-.section-header .section-sub {
-  font-family: "Caveat", cursive;
-  font-size: 1.1rem;
-  color: var(--ink-light);
-  display: block;
-}
+.section-header h2 { font-family: "Ma Shan Zheng", cursive; font-size: clamp(1.5rem, 3vw, 2rem); transform: rotate(-0.3deg); }
+.section-header .section-sub { font-family: "Caveat", cursive; font-size: 1.1rem; color: var(--ink-light); display: block; }
 .section-header::after {
-  content: '~';
-  position: absolute;
-  right: 0; top: 50%;
-  font-family: "Caveat", cursive;
-  font-size: 2rem;
-  color: var(--ink-light);
-  transform: translateY(-50%) rotate(-10deg);
-  opacity: 0.4;
+  content: '~'; position: absolute; right: 0; top: 50%;
+  font-family: "Caveat", cursive; font-size: 2rem;
+  color: var(--ink-light); transform: translateY(-50%) rotate(-10deg); opacity: 0.4;
 }
 
-/* ===== DAY CARDS GRID ===== */
-.days-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-  gap: 24px;
-}
+/* ===== DAY CARDS ===== */
+.days-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 24px; }
 
-/* ===== DAY CARD ===== */
 .day-card {
-  background: #fff;
-  border: 2px solid var(--ink);
+  background: #fff; border: 2px solid var(--ink);
   border-radius: 30px 10px 30px 10px / 12px 30px 12px 30px;
-  padding: 24px;
-  box-shadow: var(--shadow);
+  padding: 24px; box-shadow: var(--shadow);
   transform: rotate(var(--rot, 0deg));
   transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
-  position: relative;
-  overflow: visible;
+  position: relative; overflow: visible;
 }
-.day-card:hover {
-  transform: rotate(0deg) translateY(-4px);
-  box-shadow: var(--shadow-hover);
-}
-/* Card color variants */
+.day-card:hover { transform: rotate(0deg) translateY(-4px); box-shadow: var(--shadow-hover); }
+
 .day-card.card-yellow { background: var(--yellow); }
 .day-card.card-pink   { background: var(--pink); }
 .day-card.card-blue   { background: var(--blue); }
@@ -223,223 +146,88 @@ body::before {
 .day-card.card-purple { background: var(--purple); }
 .day-card.card-orange { background: var(--orange); }
 
-/* Card header */
 .card-header {
   display: flex; justify-content: space-between; align-items: flex-start;
-  margin-bottom: 16px;
-  padding-bottom: 12px;
-  border-bottom: 2px dashed #d4cfc4;
+  margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px dashed #d4cfc4;
 }
-.card-day {
-  font-family: "Caveat", cursive;
-  font-size: 2rem; font-weight: 700;
-  line-height: 1.1;
-  color: var(--ink);
-}
-.card-date {
-  font-family: "Caveat", cursive;
-  font-size: 1rem;
-  color: var(--ink-light);
-  display: block;
-}
+.card-day { font-family: "Caveat", cursive; font-size: 2rem; font-weight: 700; line-height: 1.1; color: var(--ink); }
+.card-date { font-family: "Caveat", cursive; font-size: 1rem; color: var(--ink-light); display: block; }
 .card-route {
-  font-size: 0.85rem;
-  background: #fff;
-  border: 1.5px solid var(--ink);
-  border-radius: 20px 5px 20px 5px;
-  padding: 4px 12px;
-  transform: rotate(1.5deg);
-  white-space: nowrap;
+  font-size: 0.85rem; background: #fff; border: 1.5px solid var(--ink);
+  border-radius: 20px 5px 20px 5px; padding: 4px 12px;
+  transform: rotate(1.5deg); white-space: nowrap;
 }
-.card-drive {
-  font-family: "Caveat", cursive;
-  font-size: 0.9rem;
-  color: var(--ink-light);
-  text-align: right;
-}
+.card-drive { font-family: "Caveat", cursive; font-size: 0.9rem; color: var(--ink-light); text-align: right; }
 
-/* Card sections */
-.card-section {
-  margin: 10px 0;
-  padding: 8px 0;
-}
-.card-section .label {
-  font-family: "Caveat", cursive;
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--ink);
-  display: flex; align-items: center; gap: 6px;
-  margin-bottom: 4px;
-}
-.card-section .label .icon { font-size: 1.2rem; }
-.card-section .content {
-  font-size: 0.92rem;
-  color: var(--ink-light);
-  padding-left: 28px;
-}
+.card-section { margin: 10px 0; padding: 8px 0; }
+.card-section .label { font-family: "Caveat", cursive; font-size: 1.05rem; font-weight: 600; color: var(--ink); display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+.card-section .content { font-size: 0.92rem; color: var(--ink-light); padding-left: 28px; }
 
-/* Weather badge */
 .weather-badge {
   display: inline-flex; align-items: center; gap: 6px;
-  background: #fff;
-  border: 1.5px solid var(--ink);
-  border-radius: 20px 5px 20px 5px;
-  padding: 4px 12px;
-  font-family: "Caveat", cursive;
-  font-size: 0.95rem;
-  transform: rotate(-0.8deg);
+  background: #fff; border: 1.5px solid var(--ink);
+  border-radius: 20px 5px 20px 5px; padding: 4px 12px;
+  font-family: "Caveat", cursive; font-size: 0.95rem; transform: rotate(-0.8deg);
 }
+.weather-badge + .weather-badge { margin-left: 6px; }
 
-/* Warning / note callout */
-.card-note {
-  margin-top: 12px;
-  padding: 10px 14px;
-  background: repeating-linear-gradient(
-    -45deg, transparent, transparent 4px,
-    rgba(0,0,0,0.015) 4px, rgba(0,0,0,0.015) 8px
-  );
-  border: 1.5px dashed #e0d7c0;
-  border-radius: 10px 3px 10px 3px;
-  font-size: 0.85rem;
-  color: #8b7355;
-  transform: rotate(0.2deg);
-}
-.card-note::before {
-  content: '📌 ';
-}
-
-/* High-speed train badge */
 .train-badge {
   display: inline-flex; align-items: center; gap: 4px;
-  background: #fff;
-  border: 1.5px solid #6366f1;
-  color: #6366f1;
-  border-radius: 20px 5px 20px 5px;
-  padding: 2px 10px;
-  font-family: "Caveat", cursive;
-  font-size: 0.85rem;
-  transform: rotate(1deg);
+  background: #fff; border: 1.5px solid #6366f1; color: #6366f1;
+  border-radius: 20px 5px 20px 5px; padding: 2px 10px;
+  font-family: "Caveat", cursive; font-size: 0.85rem; transform: rotate(1deg);
 }
 
-/* ===== TIMELINE CONNECTOR ===== */
-.timeline-connector {
-  display: flex; align-items: center; justify-content: center;
-  margin: -8px 0;
-  position: relative; z-index: 2;
+.card-note {
+  margin-top: 12px; padding: 10px 14px;
+  background: repeating-linear-gradient(-45deg, transparent, transparent 4px, rgba(0,0,0,0.015) 4px, rgba(0,0,0,0.015) 8px);
+  border: 1.5px dashed #e0d7c0; border-radius: 10px 3px 10px 3px;
+  font-size: 0.85rem; color: #8b7355; transform: rotate(0.2deg);
 }
-.timeline-connector .arrow {
-  font-family: "Caveat", cursive;
-  font-size: 2rem;
-  color: var(--ink-light);
-  transform: rotate(90deg);
-  opacity: 0.5;
-}
+.card-note::before { content: '📌 '; }
 
-/* ===== BUDGET SECTION ===== */
-.budget-section {
-  margin: 50px 0;
-  background: #fff;
-  border: var(--border);
-  border-radius: 30px 10px 30px 10px / 12px 30px 12px 30px;
-  padding: 32px;
-  box-shadow: var(--shadow);
-  transform: rotate(-0.2deg);
+.card-buffer {
+  margin-top: 12px; padding: 10px 14px;
+  background: repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(99,102,241,0.03) 4px, rgba(99,102,241,0.03) 8px);
+  border: 1.5px dashed #c7d2fe; border-radius: 10px 3px 10px 3px;
+  font-size: 0.85rem; color: #6366f1; transform: rotate(-0.2deg);
 }
-.budget-section h3 {
-  font-family: "Ma Shan Zheng", cursive;
-  font-size: 1.6rem;
-  margin-bottom: 20px;
-}
-.budget-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 16px;
-}
-.budget-item {
-  background: var(--yellow);
-  border: 1.5px solid var(--ink);
-  border-radius: 20px 5px 20px 5px;
-  padding: 14px 18px;
-  text-align: center;
-  transform: rotate(var(--rot,0deg));
-}
-.budget-item .amount {
-  font-family: "Caveat", cursive;
-  font-size: 1.6rem; font-weight: 700;
-}
-.budget-item .b-label {
-  font-size: 0.8rem; color: var(--ink-light);
-}
-.total-row {
-  margin-top: 20px;
-  padding: 16px 20px;
-  background: var(--green);
-  border: 2px solid var(--ink);
-  border-radius: 15px 5px 15px 5px;
-  display: flex; justify-content: space-between; align-items: center;
-  transform: rotate(0.3deg);
-}
-.total-row .total-label {
-  font-family: "Caveat", cursive;
-  font-size: 1.4rem; font-weight: 700;
-}
-.total-row .total-amount {
-  font-family: "Caveat", cursive;
-  font-size: 2rem; font-weight: 700;
-  color: var(--ink);
-}
+.card-buffer::before { content: '💡 '; }
 
-/* ===== FOOTER ===== */
-.footer {
-  text-align: center; padding: 40px 20px;
-  font-family: "Caveat", cursive;
-  font-size: 1.1rem;
-  color: var(--ink-light);
-}
-.footer .doodle-heart {
-  display: inline-block;
-  font-size: 1.5rem;
-  animation: heartbeat 1.5s ease-in-out infinite;
-}
-@keyframes heartbeat {
-  0%,100%{transform:scale(1)}
-  15%{transform:scale(1.25)}
-  30%{transform:scale(1)}
-  45%{transform:scale(1.15)}
-}
-
-/* ===== DOODLE DECORATIONS ===== */
+/* ===== SQUIGGLE ===== */
 .doodle-squiggle {
-  width: 100%; height: 24px;
-  margin: 20px 0;
-  opacity: 0.3;
+  width: 100%; height: 24px; margin: 30px 0; opacity: 0.3;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='24'%3E%3Cpath d='M0 12 Q50 4 100 12 T200 12 T300 12 T400 12 T500 12 T600 12 T700 12 T800 12 T900 12 T1000 12 T1100 12 T1200 12' fill='none' stroke='%232c3e50' stroke-width='2'/%3E%3C/svg%3E") repeat-x;
 }
 
 /* ===== NAV ===== */
-.nav-pills {
-  display: flex; flex-wrap: wrap; gap: 10px;
-  justify-content: center;
-  margin-bottom: 40px;
-}
+.nav-pills { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 40px; }
 .nav-pill {
-  background: #fff;
-  border: 1.5px solid var(--ink);
-  border-radius: 25px 6px 25px 6px;
-  padding: 8px 20px;
-  font-family: "Caveat", cursive;
-  font-size: 1.05rem;
-  cursor: pointer;
-  text-decoration: none;
-  color: var(--ink);
-  transition: all 0.25s;
-  transform: rotate(var(--rot,0deg));
+  background: #fff; border: 1.5px solid var(--ink);
+  border-radius: 25px 6px 25px 6px; padding: 8px 20px;
+  font-family: "Caveat", cursive; font-size: 1.05rem;
+  cursor: pointer; text-decoration: none; color: var(--ink);
+  transition: all 0.25s; transform: rotate(var(--rot,0deg));
   box-shadow: 2px 2px 0 rgba(0,0,0,0.06);
 }
-.nav-pill:hover {
-  background: var(--yellow);
-  transform: rotate(0deg) translateY(-2px);
-  box-shadow: var(--shadow-hover);
+.nav-pill:hover { background: var(--yellow); transform: rotate(0deg) translateY(-2px); box-shadow: var(--shadow-hover); }
+
+/* ===== ROUTE OVERVIEW ===== */
+.route-overview {
+  background: #fff; border: var(--border);
+  border-radius: 20px 8px 20px 8px; padding: 24px 28px; margin-bottom: 40px;
+  box-shadow: var(--shadow); transform: rotate(-0.2deg);
+  font-size: 0.95rem; line-height: 2.2;
 }
+.route-overview .route-flow { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; justify-content: center; }
+.route-flow .stop { padding: 2px 10px; background: var(--yellow); border: 1.5px solid var(--ink); border-radius: 20px 5px 20px 5px; white-space: nowrap; font-size: 0.9rem; }
+.route-flow .arrow { font-size: 1.2rem; color: var(--ink-light); }
+.route-flow .train-marker { font-size: 0.8rem; color: #6366f1; font-weight: bold; }
+
+/* ===== FOOTER ===== */
+.footer { text-align: center; padding: 40px 20px; font-family: "Caveat", cursive; font-size: 1.1rem; color: var(--ink-light); }
+.footer .doodle-heart { display: inline-block; font-size: 1.5rem; animation: heartbeat 1.5s ease-in-out infinite; }
+@keyframes heartbeat { 0%,100%{transform:scale(1)} 15%{transform:scale(1.25)} 30%{transform:scale(1)} 45%{transform:scale(1.15)} }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
@@ -456,35 +244,11 @@ body::before {
   .day-card { padding: 16px; }
   .card-day { font-size: 1.5rem; }
 }
-
-/* ===== PRINT STYLES ===== */
 @media print {
   body { background: #fff; }
   .day-card { break-inside: avoid; box-shadow: none; }
   #map { height: 400px; }
 }
-
-/* ===== MAP LEGEND ===== */
-.map-legend {
-  position: absolute; bottom: 20px; right: 16px; z-index: 1000;
-  background: #fff;
-  border: 1.5px solid var(--ink);
-  border-radius: 15px 5px 15px 5px;
-  padding: 10px 14px;
-  font-size: 0.8rem;
-  box-shadow: var(--shadow);
-}
-.map-legend .legend-item {
-  display: flex; align-items: center; gap: 8px;
-  margin: 4px 0;
-  font-family: "Caveat", cursive;
-}
-.legend-line {
-  width: 24px; height: 3px;
-  border-radius: 2px;
-}
-.legend-line.drive { background: #e8734a; }
-.legend-line.train { background: #6366f1; border-top: 2px dashed #6366f1; height:0; }
 </style>
 </head>
 <body>
@@ -495,16 +259,18 @@ body::before {
 <header class="header">
   <h1>🚗 2026 西南自驾之旅</h1>
   <div class="doodle-line"></div>
-  <p class="subtitle">广州 → 广西 → 贵州 → 云南 · 20天 · 7.24-8.12</p>
-  <p class="subtitle" style="font-size:1rem;margin-top:4px;">两人换着开 · 轻松游 · 自然风光 + 美食 · 高铁+自驾混搭</p>
+  <p class="subtitle">广州 → 广西 → 贵州 → 滇西北 · 20天 · 7.24 — 8.12</p>
+  <p class="subtitle" style="font-size:1rem;margin-top:4px;">
+    两人换着开 · 轻松游 · 自然风光 + 美食 · 一路向西北
+  </p>
 </header>
 
 <!-- ===== QUICK NAV ===== -->
 <nav class="nav-pills">
-  <a href="#map-section" class="nav-pill" style="--rot:-1deg">🗺️ 地图总览</a>
-  <a href="#sec1" class="nav-pill" style="--rot:0.5deg">🏞️ 广西段</a>
-  <a href="#sec2" class="nav-pill" style="--rot:-0.5deg">🌊 贵州→滇南</a>
-  <a href="#sec3" class="nav-pill" style="--rot:0.8deg">🏔️ 滇西北</a>
+  <a href="#map-section" class="nav-pill" style="--rot:-1deg">🗺️ 路线地图</a>
+  <a href="#sec1" class="nav-pill" style="--rot:0.5deg">🏞️ 广西段 D1-D4</a>
+  <a href="#sec2" class="nav-pill" style="--rot:-0.5deg">🌊 贵州段 D5-D8</a>
+  <a href="#sec3" class="nav-pill" style="--rot:0.8deg">🏔️ 滇西北段 D9-D20</a>
 </nav>
 
 <!-- ===== STATS BAR ===== -->
@@ -514,24 +280,44 @@ body::before {
     <span class="stat-label">总行程</span>
   </div>
   <div class="stat-card" style="--rot:0.7deg">
-    <span class="stat-num">~2,000 <small style="font-size:1rem">km</small></span>
+    <span class="stat-num">~1,800 <small style="font-size:1rem">km</small></span>
     <span class="stat-label">自驾里程</span>
   </div>
   <div class="stat-card" style="--rot:-0.4deg">
-    <span class="stat-num">3 <small style="font-size:1rem">段</small></span>
+    <span class="stat-num">1 <small style="font-size:1rem">程</small></span>
     <span class="stat-label">高铁接驳</span>
   </div>
   <div class="stat-card" style="--rot:0.9deg">
-    <span class="stat-num">3 <small style="font-size:1rem">次</small></span>
-    <span class="stat-label">租车取还</span>
-  </div>
-  <div class="stat-card" style="--rot:-0.6deg">
-    <span class="stat-num">15+</span>
+    <span class="stat-num">12+</span>
     <span class="stat-label">核心景点</span>
   </div>
+  <div class="stat-card" style="--rot:-0.6deg">
+    <span class="stat-num">3 <small style="font-size:1rem">省</small></span>
+    <span class="stat-label">广东→广西→贵州→云南</span>
+  </div>
   <div class="stat-card" style="--rot:0.3deg">
-    <span class="stat-num">¥2.3-2.9<small style="font-size:1rem">万</small></span>
-    <span class="stat-label">预算(不含回程机票)</span>
+    <span class="stat-num">2-3 <small style="font-size:1rem">天</small></span>
+    <span class="stat-label">灵活缓冲</span>
+  </div>
+</div>
+
+<!-- ===== ROUTE OVERVIEW ===== -->
+<div class="route-overview">
+  <div class="route-flow">
+    <span class="stop">🏠 广州</span><span class="arrow">→</span>
+    <span class="stop">🏞️ 阳朔</span><span class="arrow">→</span>
+    <span class="stop">🌾 龙脊</span><span class="arrow">→</span>
+    <span class="stop">🚄 桂林</span><span class="train-marker">━高铁━</span><span class="stop">🚄 贵阳</span><span class="arrow">→</span>
+    <span class="stop">🌊 黄果树</span><span class="arrow">→</span>
+    <span class="stop">⛰️ 万峰林</span><span class="arrow">→</span>
+    <span class="stop">💧 罗平</span><span class="arrow">→</span>
+    <span class="stop">🌸 昆明</span><span class="arrow">→</span>
+    <span class="stop">🌊 大理</span><span class="arrow">→</span>
+    <span class="stop">🏘️ 沙溪</span><span class="arrow">→</span>
+    <span class="stop">🏔️ 丽江</span><span class="arrow">→</span>
+    <span class="stop">🥾 虎跳峡</span><span class="arrow">→</span>
+    <span class="stop">🏞️ 香格里拉</span><span class="arrow">→</span>
+    <span class="stop">🏔️ 丽江</span><span class="train-marker">━✈️━</span><span class="stop">🏠 广州</span>
   </div>
 </div>
 
@@ -541,25 +327,24 @@ body::before {
   <div id="map"></div>
   <div class="map-legend">
     <div class="legend-item"><span class="legend-line drive"></span> 自驾路段</div>
-    <div class="legend-item"><span class="legend-line train"></span> 高铁接驳</div>
+    <div class="legend-item"><span class="legend-line train"></span> 高铁 / 飞机</div>
     <div class="legend-item" style="margin-top:4px;">🔵 住宿停留点</div>
   </div>
 </div>
 
 <!-- ========== SECTION 1: 广西 ========== -->
 <div class="doodle-squiggle"></div>
-
 <div class="section-header" id="sec1">
   <div class="section-num">❶</div>
   <div>
     <h2>广西 · 桂林山水</h2>
-    <span class="section-sub">7.24 - 7.27 ｜ 🚗 桂林取还 &nbsp;|&nbsp; 🚄 广州→阳朔→桂林→贵阳</span>
+    <span class="section-sub">7.24 - 7.27 ｜ 🚗 广州取→桂林还 ｜ 🚄 桂林→贵阳接驳</span>
   </div>
 </div>
 
 <div class="days-grid">
 
-  <!-- D1: 7/24 -->
+  <!-- D1 -->
   <div class="day-card card-yellow" style="--rot:-0.4deg">
     <div class="card-header">
       <div>
@@ -567,136 +352,102 @@ body::before {
         <span class="card-date">📅 7月24日 周五</span>
       </div>
       <div style="text-align:right">
-        <span class="train-badge">🚄 高铁</span>
-        <span class="card-drive">🚗 0h</span>
+        <span class="card-drive">🚗 5h ⚠️</span>
       </div>
     </div>
-    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 广州南 → 阳朔（高铁2.5h）</div>
+    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 广州 → 阳朔（400km）</div>
 
     <div class="card-section">
       <div class="label"><span class="icon">🌤️</span>天气</div>
-      <div class="content">
-        <span class="weather-badge">🌦️ 多云转阵雨 26-33°C</span>
-        <span style="font-size:0.8rem;color:#999">下午雷阵雨概率高，带伞</span>
-      </div>
+      <div class="content"><span class="weather-badge">🌦️ 多云转阵雨 26-33°C</span></div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🎯</span>玩什么</div>
       <div class="content">
-        · 下午到阳朔，站外取车<br>
-        · <strong>十里画廊</strong>骑行 warm up<br>
+        · 🚗 全程高速，约5小时，两人换开无压力<br>
+        · 下午到阳朔，<strong>十里画廊</strong>骑行 warm up<br>
         · 工农桥看日落
       </div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🍜</span>吃什么</div>
-      <div class="content">
-        🍺 <strong>啤酒鱼</strong>（西街·大师傅 or 谢三姐）<br>
-        🥢 阳朔田螺酿
-      </div>
+      <div class="content">🍺 <strong>啤酒鱼</strong>（西街·大师傅/谢三姐）<br>🥢 阳朔田螺酿</div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🏠</span>住哪里</div>
-      <div class="content">阳朔县城 or 遇龙河畔民宿<br><span style="font-size:0.8rem;color:#999">推荐遇龙河一侧，安静且早上可以看晨雾</span></div>
+      <div class="content">遇龙河畔民宿（安静，早上看晨雾）</div>
     </div>
+    <div class="card-note">第一天驾驶最长（5h），但全程高速，G65包茂高速一路到阳朔。早点出发，中午到。</div>
   </div>
 
-  <!-- D2: 7/25 -->
+  <!-- D2 -->
   <div class="day-card card-green" style="--rot:0.3deg">
     <div class="card-header">
       <div>
         <span class="card-day">Day 2</span>
         <span class="card-date">📅 7月25日 周六</span>
       </div>
-      <div style="text-align:right">
-        <span class="card-drive">🚗 0h</span>
-      </div>
+      <div style="text-align:right"><span class="card-drive">🚗 0h</span></div>
     </div>
     <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 阳朔全天</div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🌤️</span>天气</div>
-      <div class="content">
-        <span class="weather-badge">⛅ 阵雨转多云 26-34°C</span>
-      </div>
+      <div class="content"><span class="weather-badge">⛅ 阵雨转多云 26-34°C</span></div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🎯</span>玩什么</div>
       <div class="content">
-        · 🌊 <strong>漓江竹筏</strong>（杨堤→兴坪段精华）<br>
+        · 🌊 <strong>漓江竹筏</strong>（杨堤→兴坪精华段）<br>
         · 兴坪古镇午饭<br>
-        · ⛰️ 爬<strong>相公山</strong>看漓江第一湾（下午光线最好）<br>
+        · ⛰️ 爬<strong>相公山</strong>看漓江第一湾<br>
         · 20元人民币背景打卡
       </div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🍜</span>吃什么</div>
-      <div class="content">
-        🥢 兴坪·刘姐啤酒鱼 or 当地农家菜<br>
-        🌿 漓江小鱼干、柚子皮酿
-      </div>
+      <div class="content">🥢 兴坪·农家菜、漓江小鱼干<br>🌿 柚子皮酿</div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🏠</span>住哪里</div>
-      <div class="content">继续住阳朔（同一家，不用搬行李）</div>
+      <div class="content">继续住阳朔（同一家，不搬行李）</div>
     </div>
-
-    <div class="card-note">⏰ 竹筏早上8点前到码头排队人最少；相公山门票60元，15分钟登顶，值！</div>
+    <div class="card-note">⏰ 竹筏早上8点前到码头人最少；相公山门票60元，15分钟登顶。</div>
   </div>
 
-  <!-- D3: 7/26 -->
+  <!-- D3 -->
   <div class="day-card card-blue" style="--rot:-0.2deg">
     <div class="card-header">
       <div>
         <span class="card-day">Day 3</span>
         <span class="card-date">📅 7月26日 周日</span>
       </div>
-      <div style="text-align:right">
-        <span class="card-drive">🚗 3h</span>
-      </div>
+      <div style="text-align:right"><span class="card-drive">🚗 3h</span></div>
     </div>
     <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 阳朔 → 龙脊梯田（150km）</div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🌤️</span>天气</div>
-      <div class="content">
-        <span class="weather-badge">⛅ 多云 25-32°C</span>
-        <span style="font-size:0.8rem;color:#999">龙脊比阳朔低2-3°C</span>
-      </div>
+      <div class="content"><span class="weather-badge">⛅ 多云 25-32°C</span></div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🎯</span>玩什么</div>
       <div class="content">
-        · 🌅 上午<strong>遇龙河漂流</strong>（金龙桥→旧县，最精华段）<br>
-        · 🚗 中午出发→龙脊（3h，二级路+山路）<br>
+        · 🌅 上午<strong>遇龙河漂流</strong>（金龙桥→旧县）<br>
+        · 🚗 中午出发→龙脊（3h）<br>
         · 🏔️ 傍晚到<strong>金坑大寨</strong>，缆车上3号观景台看日落
       </div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🍜</span>吃什么</div>
-      <div class="content">
-        🍚 <strong>竹筒饭</strong>（龙脊特色！糯米+腊肉塞竹筒里烤）<br>
-        🐔 龙脊土鸡、腊肉炒笋
-      </div>
+      <div class="content">🍚 <strong>竹筒饭</strong>、龙脊土鸡<br>🥩 腊肉炒笋</div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🏠</span>住哪里</div>
-      <div class="content"><strong>金坑大寨山顶民宿</strong>（田头寨 or 大寨3号观景台附近）<br><span style="font-size:0.8rem;color:#999">务必住山顶！日出就在窗前，不用爬山</span></div>
+      <div class="content"><strong>金坑大寨山顶民宿</strong>（田头寨/3号观景台附近）</div>
     </div>
-
-    <div class="card-note">⛰️ 阳朔→龙脊后半段是山路，弯多路窄，慢慢开。遇龙河漂流早上最舒服，不晒。</div>
+    <div class="card-note">⛰️ 后半段山路弯多路窄。遇龙河漂流早上最舒服，不晒人少。</div>
   </div>
 
-  <!-- D4: 7/27 -->
+  <!-- D4 -->
   <div class="day-card card-purple" style="--rot:0.5deg">
     <div class="card-header">
       <div>
@@ -709,772 +460,570 @@ body::before {
       </div>
     </div>
     <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 龙脊 → 桂林（80km）→ 🚄 贵阳北（2h）</div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🌤️</span>天气</div>
-      <div class="content">
-        <span class="weather-badge">☀️ 多云转晴 25-32°C（龙脊）</span>
-        <span class="weather-badge" style="margin-left:4px">🌧️ 阵雨 21-28°C（贵阳）</span>
-      </div>
+      <div class="content"><span class="weather-badge">☀️ 晴 25-32°C（龙脊）</span> <span class="weather-badge">🌧️ 阵雨 21-28°C（贵阳）</span></div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🎯</span>玩什么</div>
       <div class="content">
-        · 🌄 龙脊<strong>日出</strong>（6点左右，值得早起！）<br>
-        · 🥾 上午梯田徒步（金佛顶→千层梯田）<br>
-        · 🚗 中午下山→桂林市区，还车<br>
-        · 🚄 桂林西→贵阳北（高铁2h，下午/傍晚班次多）<br>
+        · 🌄 龙脊<strong>日出</strong>（6点，值得早起）<br>
+        · 🥾 上午梯田徒步→中午下山→桂林还车<br>
+        · 🚄 桂林西→贵阳北（2h，下午班次多）<br>
         · 🌃 晚上贵阳·甲秀楼夜景
       </div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🍜</span>吃什么</div>
-      <div class="content">
-        🐟 <strong>酸汤鱼</strong>（贵阳·老凯俚 or 亮欢寨）<br>
-        🍜 肠旺面、丝娃娃、豆腐圆子
-      </div>
+      <div class="content">🐟 <strong>酸汤鱼</strong>（老凯俚/亮欢寨）<br>🍜 肠旺面、丝娃娃</div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🏠</span>住哪里</div>
-      <div class="content">贵阳市区（喷水池/大十字附近，吃逛方便）</div>
+      <div class="content">贵阳市区（喷水池/大十字附近）</div>
     </div>
-
-    <div class="card-note">🚄 桂林西站在郊区，预留40分钟从市区到车站。贵阳北站在新城区，打车到市区约30分钟。</div>
+    <div class="card-note">🚄 桂林西站在郊区，预留40分钟。贵阳北→市区打车30分钟。今天高铁+还车要衔接好时间。</div>
   </div>
 
 </div>
 
-<!-- ========== SECTION 2: 贵州→滇南 ========== -->
+<!-- ========== SECTION 2: 贵州 ========== -->
 <div class="doodle-squiggle"></div>
-
 <div class="section-header" id="sec2">
   <div class="section-num">❷</div>
   <div>
-    <h2>贵州→滇南 · 瀑布峡谷 + 梯田湖泊</h2>
-    <span class="section-sub">7.28 - 8.5 ｜ 🚗 贵阳取→昆明还 &nbsp;|&nbsp; 全程自驾精华段</span>
+    <h2>贵州 · 瀑布峡谷</h2>
+    <span class="section-sub">7.28 - 7.31 ｜ 🚗 贵阳取→昆明还 ｜ 7月底水量巅峰</span>
   </div>
 </div>
 
 <div class="days-grid">
 
-  <!-- D5: 7/28 -->
+  <!-- D5 -->
   <div class="day-card card-orange" style="--rot:-0.3deg">
     <div class="card-header">
       <div>
         <span class="card-day">Day 5</span>
         <span class="card-date">📅 7月28日 周二</span>
       </div>
-      <div style="text-align:right">
-        <span class="card-drive">🚗 2h</span>
-      </div>
+      <div style="text-align:right"><span class="card-drive">🚗 2h</span></div>
     </div>
     <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 贵阳取车 → 黄果树（130km）</div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🌤️</span>天气</div>
-      <div class="content">
-        <span class="weather-badge">🌦️ 阵雨 22-30°C</span>
-        <span style="font-size:0.8rem;color:#999">贵州"天无三日晴"，阵雨过后瀑布更猛</span>
-      </div>
+      <div class="content"><span class="weather-badge">🌦️ 阵雨 22-30°C</span></div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🎯</span>玩什么</div>
       <div class="content">
         · 🚗 上午贵阳取车→黄果树（全程高速2h）<br>
-        · 🌊 下午<strong>大瀑布+水帘洞</strong>（7月底水量巅峰！）<br>
-        · 穿雨衣进水帘洞，极其震撼
+        · 🌊 下午<strong>大瀑布+水帘洞</strong><br>
+        · 7月底水量巅峰！穿雨衣进水帘洞
       </div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🍜</span>吃什么</div>
-      <div class="content">
-        🥘 安顺·夺夺粉、花江狗肉（不吃狗可选牛肉火锅）<br>
-        🍢 安顺烤小肠
-      </div>
+      <div class="content">🥘 安顺·夺夺粉、烤小肠<br>🍖 花江牛肉火锅</div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🏠</span>住哪里</div>
-      <div class="content">黄果树景区附近（黄果树镇 or 安顺市区）<br><span style="font-size:0.8rem;color:#999">住景区附近方便第二天早去天星桥</span></div>
+      <div class="content">黄果树景区附近（方便第二天早去天星桥）</div>
     </div>
-
-    <div class="card-note">🌊 7月底是黄果树水量最大时段，大瀑布落差感拉满！水帘洞必进，带雨衣。</div>
+    <div class="card-note">🌊 水帘洞必进！雨季水雾大到像暴风雨，穿雨衣+防水鞋，手机装防水袋。</div>
   </div>
 
-  <!-- D6: 7/29 -->
+  <!-- D6 -->
   <div class="day-card card-green" style="--rot:0.4deg">
     <div class="card-header">
       <div>
         <span class="card-day">Day 6</span>
         <span class="card-date">📅 7月29日 周三</span>
       </div>
-      <div style="text-align:right">
-        <span class="card-drive">🚗 3h</span>
-      </div>
+      <div style="text-align:right"><span class="card-drive">🚗 3h</span></div>
     </div>
     <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 黄果树 → 兴义万峰林（190km）</div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🌤️</span>天气</div>
-      <div class="content">
-        <span class="weather-badge">⛅ 多云 22-29°C</span>
-      </div>
+      <div class="content"><span class="weather-badge">⛅ 多云 22-29°C</span></div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🎯</span>玩什么</div>
       <div class="content">
-        · 🏞️ 上午<strong>天星桥景区</strong>（银链坠潭瀑布绝美！）<br>
-        · 🚗 中午出发→兴义（全程高速3h）<br>
+        · 🏞️ 上午<strong>天星桥</strong>（银链坠潭瀑布绝美！）<br>
+        · 🚗 中午→兴义（全程高速3h）<br>
         · 🚲 傍晚租电动车骑<strong>纳灰村</strong>田间路<br>
         · 🌅 八卦田看日落
       </div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🍜</span>吃什么</div>
-      <div class="content">
-        🍜 兴义·<strong>羊肉粉</strong>（贵州No.1！）<br>
-        🐔 兴义辣子鸡、刷把头
-      </div>
+      <div class="content">🍜 兴义·<strong>羊肉粉</strong>（贵州No.1！）<br>🐔 辣子鸡、刷把头</div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🏠</span>住哪里</div>
-      <div class="content"><strong>纳灰村</strong>民宿（万峰林景区内，推窗就是峰林）</div>
+      <div class="content"><strong>纳灰村</strong>民宿（推窗就是峰林）</div>
     </div>
-
-    <div class="card-note">🚲 纳灰村田间骑行是万峰林最正确的打开方式，租电动车30-50元/天，傍晚光线最好。</div>
+    <div class="card-note">🚲 纳灰村田间骑行是万峰林最正确的打开方式，傍晚光线最好，租电动车30-50元/天。</div>
   </div>
 
-  <!-- D7: 7/30 -->
+  <!-- D7 -->
   <div class="day-card card-blue" style="--rot:-0.5deg">
     <div class="card-header">
       <div>
         <span class="card-day">Day 7</span>
         <span class="card-date">📅 7月30日 周四</span>
       </div>
-      <div style="text-align:right">
-        <span class="card-drive">🚗 1.5h</span>
-      </div>
+      <div style="text-align:right"><span class="card-drive">🚗 1.5h</span></div>
     </div>
-    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 万峰林 → 马岭河 → 罗平（80km → 80km）</div>
-
+    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 万峰林 → 马岭河 → 罗平（80km）</div>
     <div class="card-section">
       <div class="label"><span class="icon">🌤️</span>天气</div>
-      <div class="content">
-        <span class="weather-badge">🌦️ 阵雨 20-28°C</span>
-      </div>
+      <div class="content"><span class="weather-badge">🌦️ 阵雨 20-28°C</span></div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🎯</span>玩什么</div>
       <div class="content">
         · 🏔️ 上午<strong>马岭河大峡谷</strong>（"地球上最美的伤疤"）<br>
-        · 🌊 雨季瀑布群极其壮观，十几条瀑布挂壁而下<br>
-        · 🚗 下午→罗平（1.5h），<strong>九龙瀑布</strong>打卡<br>
+        · 🌊 雨季十几条瀑布挂壁而下，极其壮观<br>
+        · 🚗 下午→罗平（1.5h），<strong>九龙瀑布</strong><br>
         · 🎉 正式进入云南！
       </div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🍜</span>吃什么</div>
-      <div class="content">
-        🥘 罗平·<strong>砂锅饭</strong>、油菜花蜜（虽然看不到花但蜜还在）<br>
-        🍗 罗平土鸡火锅
-      </div>
+      <div class="content">🥘 罗平·<strong>砂锅饭</strong>、土鸡火锅</div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🏠</span>住哪里</div>
       <div class="content">罗平县城</div>
     </div>
-
-    <div class="card-note">🌊 马岭河峡谷的"万马奔腾"瀑布群是雨季限定，水量小的时候只能看到光秃秃的崖壁。</div>
+    <div class="card-note">🌊 马岭河"万马奔腾"瀑布群是雨季限定——如果旱季来只能看到光秃秃的崖壁，7月底是最佳时机。</div>
   </div>
 
-  <!-- D8: 7/31 -->
+  <!-- D8 -->
   <div class="day-card card-pink" style="--rot:0.2deg">
     <div class="card-header">
       <div>
         <span class="card-day">Day 8</span>
         <span class="card-date">📅 7月31日 周五</span>
       </div>
-      <div style="text-align:right">
-        <span class="card-drive">🚗 4h</span>
-      </div>
+      <div style="text-align:right"><span class="card-drive">🚗 3h</span></div>
     </div>
-    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 罗平 → 普者黑（230km）</div>
-
+    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 罗平 → 昆明（230km）</div>
     <div class="card-section">
       <div class="label"><span class="icon">🌤️</span>天气</div>
-      <div class="content">
-        <span class="weather-badge">☀️ 多云转晴 21-30°C</span>
-      </div>
+      <div class="content"><span class="weather-badge">☀️ 晴间多云 19-27°C</span></div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🎯</span>玩什么</div>
       <div class="content">
-        · 🚗 上午出发→普者黑（4h）<br>
-        · 🛶 下午<strong>划船打水仗</strong>（普者黑必玩项目！）<br>
-        · ⛰️ <strong>青龙山</strong>登顶看全景（20分钟登顶，值！）<br>
-        · 🌸 荷花季尾巴，运气好还能看到大片荷花
+        · 🚗 上午出发→昆明（全程高速3h）<br>
+        · 🌳 下午<strong>翠湖公园</strong>散步<br>
+        · 🛍️ <strong>篆新菜市场</strong>吃小吃扫街<br>
+        · 😴 昆明作为休整站，不赶景点
       </div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🍜</span>吃什么</div>
-      <div class="content">
-        🐟 普者黑·<strong>荷花鱼</strong>、湖鲜<br>
-        🍲 文山米线、三七炖鸡
-      </div>
+      <div class="content">🍜 篆新市场·豆花米线、烧饵块<br>🍄 8月菌子季！野生菌火锅</div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🏠</span>住哪里</div>
-      <div class="content">普者黑景区内（仙人洞村 or 普者黑村湖边民宿）</div>
+      <div class="content">昆明市区（翠湖附近 or 篆新附近）</div>
     </div>
-
-    <div class="card-note">🛶 划船打水仗会全身湿透！手机防水袋必备，带一套换洗衣服放车上。</div>
-  </div>
-
-  <!-- D9: 8/1 -->
-  <div class="day-card card-yellow" style="--rot:-0.3deg">
-    <div class="card-header">
-      <div>
-        <span class="card-day">Day 9</span>
-        <span class="card-date">📅 8月1日 周六</span>
-      </div>
-      <div style="text-align:right">
-        <span class="card-drive">🚗 0h</span>
-      </div>
-    </div>
-    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 普者黑全天</div>
-
-    <div class="card-section">
-      <div class="label"><span class="icon">🌤️</span>天气</div>
-      <div class="content">
-        <span class="weather-badge">☀️ 晴间多云 22-31°C</span>
-      </div>
-    </div>
-
-    <div class="card-section">
-      <div class="label"><span class="icon">🎯</span>玩什么</div>
-      <div class="content">
-        · 🦢 <strong>天鹅湖</strong>看黑天鹅<br>
-        · 🌿 <strong>菜花箐</strong>（《三生三世十里桃花》取景地）<br>
-        · 🏕️ 舍得草场（如果不想跑远就在湖边发呆也很棒）
-      </div>
-    </div>
-
-    <div class="card-section">
-      <div class="label"><span class="icon">🍜</span>吃什么</div>
-      <div class="content">
-        🍢 景区小吃：烤鱼、烤豆腐、凉粉<br>
-        🍲 仙人洞村的农家菜
-      </div>
-    </div>
-
-    <div class="card-section">
-      <div class="label"><span class="icon">🏠</span>住哪里</div>
-      <div class="content">继续住普者黑（同一家）</div>
-    </div>
-
-    <div class="card-note">📸 青龙山日出也很绝，起得来的话6点上山，俯瞰整片喀斯特峰林+湖面晨雾。</div>
-  </div>
-
-  <!-- D10: 8/2 -->
-  <div class="day-card card-orange" style="--rot:0.6deg">
-    <div class="card-header">
-      <div>
-        <span class="card-day">Day 10</span>
-        <span class="card-date">📅 8月2日 周日</span>
-      </div>
-      <div style="text-align:right">
-        <span class="card-drive">🚗 5h ⚠️</span>
-      </div>
-    </div>
-    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 普者黑 → 元阳梯田（300km）</div>
-
-    <div class="card-section">
-      <div class="label"><span class="icon">🌤️</span>天气</div>
-      <div class="content">
-        <span class="weather-badge">🌦️ 多云转阵雨 20-30°C（路上）</span>
-        <span class="weather-badge" style="margin-left:4px">☁️ 多云 18-28°C（元阳）</span>
-      </div>
-    </div>
-
-    <div class="card-section">
-      <div class="label"><span class="icon">🎯</span>玩什么</div>
-      <div class="content">
-        · 🚗 <strong>全程最长驾驶日</strong>：早出发，预计5h<br>
-        · 途经蒙自（可下来吃碗过桥米线！）<br>
-        · 🌅 下午到元阳，<strong>坝达看日落</strong>
-      </div>
-    </div>
-
-    <div class="card-section">
-      <div class="label"><span class="icon">🍜</span>吃什么</div>
-      <div class="content">
-        🍜 <strong>蒙自过桥米线</strong>（路过必吃，发源地！）<br>
-        🍚 元阳·哈尼红米、梯田鱼
-      </div>
-    </div>
-
-    <div class="card-section">
-      <div class="label"><span class="icon">🏠</span>住哪里</div>
-      <div class="content"><strong>多依树</strong>附近民宿（日出观景台旁边）<br><span style="font-size:0.8rem;color:#999">务必住多依树！第二天看日出不用开车</span></div>
-    </div>
-
-    <div class="card-note">⚠️ 全程最长的一天。普者黑→元阳有好几段山路，弯多，两人轮换开。蒙自过桥米线是灵魂食物！</div>
-  </div>
-
-  <!-- D11: 8/3 -->
-  <div class="day-card card-purple" style="--rot:-0.4deg">
-    <div class="card-header">
-      <div>
-        <span class="card-day">Day 11</span>
-        <span class="card-date">📅 8月3日 周一</span>
-      </div>
-      <div style="text-align:right">
-        <span class="card-drive">🚗 0h</span>
-      </div>
-    </div>
-    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 元阳梯田全天</div>
-
-    <div class="card-section">
-      <div class="label"><span class="icon">🌤️</span>天气</div>
-      <div class="content">
-        <span class="weather-badge">☁️ 多云偶有阵雨 18-28°C</span>
-        <span style="font-size:0.8rem;color:#999">海拔1800m，凉爽！</span>
-      </div>
-    </div>
-
-    <div class="card-section">
-      <div class="label"><span class="icon">🎯</span>玩什么</div>
-      <div class="content">
-        · 🌄 <strong>多依树日出</strong>（6:00前到观景台占位）<br>
-        · 🟦 <strong>爱春蓝梯田</strong>（上午9点前光线最好）<br>
-        · 🍄 <strong>阿者科</strong>哈尼族蘑菇房村落（世界文化遗产）<br>
-        · 🌇 老虎嘴日落
-      </div>
-    </div>
-
-    <div class="card-section">
-      <div class="label"><span class="icon">🍜</span>吃什么</div>
-      <div class="content">
-        🍚 <strong>哈尼红米饭</strong>、梯田鱼、哈尼蘸水鸡<br>
-        🌿 山茅野菜
-      </div>
-    </div>
-
-    <div class="card-section">
-      <div class="label"><span class="icon">🏠</span>住哪里</div>
-      <div class="content">继续住多依树（同一家）</div>
-    </div>
-
-    <div class="card-note">📸 8月梯田是绿色的（不是灌水期），但云海概率高！绿色稻浪+云海是一种不同的美。阿者科蘑菇房拍照绝了。</div>
-  </div>
-
-  <!-- D12: 8/4 -->
-  <div class="day-card card-green" style="--rot:0.3deg">
-    <div class="card-header">
-      <div>
-        <span class="card-day">Day 12</span>
-        <span class="card-date">📅 8月4日 周二</span>
-      </div>
-      <div style="text-align:right">
-        <span class="card-drive">🚗 2.5h</span>
-      </div>
-    </div>
-    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 元阳 → 建水（130km）</div>
-
-    <div class="card-section">
-      <div class="label"><span class="icon">🌤️</span>天气</div>
-      <div class="content">
-        <span class="weather-badge">☀️ 晴间多云 21-31°C</span>
-      </div>
-    </div>
-
-    <div class="card-section">
-      <div class="label"><span class="icon">🎯</span>玩什么</div>
-      <div class="content">
-        · 🚗 上午出发→建水（2.5h）<br>
-        · 🌉 <strong>双龙桥</strong>（十七孔桥）打卡拍照<br>
-        · 🍵 建水古城浅逛（你不好人文，纯粹的吃+拍照即可）
-      </div>
-    </div>
-
-    <div class="card-section">
-      <div class="label"><span class="icon">🍜</span>吃什么</div>
-      <div class="content">
-        🧀 <strong>建水烧豆腐</strong>（围着烤炉吃！）<br>
-        🍲 <strong>汽锅鸡</strong>（发源地，必吃）<br>
-        🍜 草芽米线
-      </div>
-    </div>
-
-    <div class="card-section">
-      <div class="label"><span class="icon">🏠</span>住哪里</div>
-      <div class="content">建水古城附近</div>
-    </div>
-
-    <div class="card-note">🧀 建水烧豆腐的正确吃法：围坐在烤炉旁，老板烤一个你吃一个，蘸干料+油料，按吃掉的豆腐计数。</div>
-  </div>
-
-  <!-- D13: 8/5 -->
-  <div class="day-card card-blue" style="--rot:-0.2deg">
-    <div class="card-header">
-      <div>
-        <span class="card-day">Day 13</span>
-        <span class="card-date">📅 8月5日 周三</span>
-      </div>
-      <div style="text-align:right">
-        <span class="card-drive">🚗 3.5h</span>
-      </div>
-    </div>
-    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 建水 → 抚仙湖 → 昆明（150km + 70km）</div>
-
-    <div class="card-section">
-      <div class="label"><span class="icon">🌤️</span>天气</div>
-      <div class="content">
-        <span class="weather-badge">☀️ 晴 20-28°C</span>
-      </div>
-    </div>
-
-    <div class="card-section">
-      <div class="label"><span class="icon">🎯</span>玩什么</div>
-      <div class="content">
-        · 🚗 上午→<strong>抚仙湖</strong>（2.5h）<br>
-        · 🌊 东岸环湖自驾（比西岸美得多！）<br>
-        · ☕ <strong>太阳山</strong>喝咖啡看湖发呆<br>
-        · 🚗 傍晚→昆明（1h），<strong>昆明还车</strong>
-      </div>
-    </div>
-
-    <div class="card-section">
-      <div class="label"><span class="icon">🍜</span>吃什么</div>
-      <div class="content">
-        🐟 抚仙湖·<strong>铜锅鱼</strong>（湖里现捞的！）<br>
-        🥔 铜锅洋芋焖饭<br>
-        🍢 晚上昆明·篆新菜市场小吃扫街
-      </div>
-    </div>
-
-    <div class="card-section">
-      <div class="label"><span class="icon">🏠</span>住哪里</div>
-      <div class="content">昆明（南站附近 or 市区）<br><span style="font-size:0.8rem;color:#999">住昆明南站附近方便第二天坐高铁</span></div>
-    </div>
-
-    <div class="card-note">⚠️ 今天要掐好时间：建议14:00前离开抚仙湖，赶在16:00前到昆明还车，晚上还能逛篆新菜市场。</div>
+    <div class="card-note">🍄 篆新菜市场是昆明最有烟火气的地方，8月松茸、鸡枞、见手青全在摊位上，逛一圈就是一顿饭。</div>
   </div>
 
 </div>
 
 <!-- ========== SECTION 3: 滇西北 ========== -->
 <div class="doodle-squiggle"></div>
-
 <div class="section-header" id="sec3">
   <div class="section-num">❸</div>
   <div>
-    <h2>滇西北 · 雪山峡谷 + 香格里拉</h2>
-    <span class="section-sub">8.6 - 8.12 ｜ 🚗 丽江取还 &nbsp;|&nbsp; 本次旅行的高潮</span>
+    <h2>滇西北 · 大理→丽江→香格里拉</h2>
+    <span class="section-sub">8.1 - 8.12 ｜ 🚗 昆明取→丽江还 ｜ 本次旅行的高潮</span>
   </div>
 </div>
 
 <div class="days-grid">
 
-  <!-- D14: 8/6 -->
+  <!-- D9: 8/1 昆明休整 -->
   <div class="day-card card-yellow" style="--rot:0.4deg">
+    <div class="card-header">
+      <div>
+        <span class="card-day">Day 9</span>
+        <span class="card-date">📅 8月1日 周六</span>
+      </div>
+      <div style="text-align:right"><span class="card-drive">🚗 0h</span></div>
+    </div>
+    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 昆明 · 休整日</div>
+    <div class="card-section">
+      <div class="label"><span class="icon">🌤️</span>天气</div>
+      <div class="content"><span class="weather-badge">☀️ 晴 18-26°C</span></div>
+    </div>
+    <div class="card-section">
+      <div class="label"><span class="icon">🎯</span>玩什么</div>
+      <div class="content">
+        · 😴 睡到自然醒（8天奔波后的休息日）<br>
+        · 🍜 再去<strong>篆新</strong>吃一轮<br>
+        · 🏯 可选：西山滇池（来都来了）or 彻底躺平<br>
+        · 🧳 洗衣服、整理行李，准备进入滇西北
+      </div>
+    </div>
+    <div class="card-section">
+      <div class="label"><span class="icon">🍜</span>吃什么</div>
+      <div class="content">🍲 过桥米线、汽锅鸡<br>🍄 菌子火锅（8月正当季！）</div>
+    </div>
+    <div class="card-section">
+      <div class="label"><span class="icon">🏠</span>住哪里</div>
+      <div class="content">继续住昆明</div>
+    </div>
+    <div class="card-note">😴 这是全程唯一的纯休息日——洗衣、补觉、整理照片。滇西北需要体力，今天就是充电日。</div>
+  </div>
+
+  <!-- D10: 8/2 昆明→大理 -->
+  <div class="day-card card-pink" style="--rot:-0.3deg">
+    <div class="card-header">
+      <div>
+        <span class="card-day">Day 10</span>
+        <span class="card-date">📅 8月2日 周日</span>
+      </div>
+      <div style="text-align:right"><span class="card-drive">🚗 4h</span></div>
+    </div>
+    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 昆明 → 大理（320km）</div>
+    <div class="card-section">
+      <div class="label"><span class="icon">🌤️</span>天气</div>
+      <div class="content"><span class="weather-badge">☀️ 晴间多云 17-26°C</span></div>
+    </div>
+    <div class="card-section">
+      <div class="label"><span class="icon">🎯</span>玩什么</div>
+      <div class="content">
+        · 🚗 上午出发→大理（全程高速4h）<br>
+        · 🏘️ 下午<strong>喜洲古镇</strong>（白族民居+稻田）<br>
+        · 🚲 <strong>洱海生态廊道</strong>骑行（S湾到喜洲段最美）<br>
+        · 🌅 洱海边看日落
+      </div>
+    </div>
+    <div class="card-section">
+      <div class="label"><span class="icon">🍜</span>吃什么</div>
+      <div class="content">🥟 喜洲·<strong>破酥粑粑</strong>（甜咸都来一个）<br>🥛 烤乳扇、酸辣鱼</div>
+    </div>
+    <div class="card-section">
+      <div class="label"><span class="icon">🏠</span>住哪里</div>
+      <div class="content">洱海西岸（才村/龙龛码头附近）<br><span style="font-size:0.8rem;color:#999">不住古城里，太吵。洱海边早上能看日出</span></div>
+    </div>
+    <div class="card-note">🏘️ 大理古城商业化严重，喜洲更原生态。破酥粑粑一定要吃现烤的，凉的不好吃。</div>
+  </div>
+
+  <!-- D11: 8/3 大理全天 -->
+  <div class="day-card card-green" style="--rot:0.2deg">
+    <div class="card-header">
+      <div>
+        <span class="card-day">Day 11</span>
+        <span class="card-date">📅 8月3日 周一</span>
+      </div>
+      <div style="text-align:right"><span class="card-drive">🚗 0h</span></div>
+    </div>
+    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 大理全天</div>
+    <div class="card-section">
+      <div class="label"><span class="icon">🌤️</span>天气</div>
+      <div class="content"><span class="weather-badge">☀️ 晴 18-27°C</span></div>
+    </div>
+    <div class="card-section">
+      <div class="label"><span class="icon">🎯</span>玩什么</div>
+      <div class="content">
+        · 🌅 龙龛码头看日出<br>
+        · ⛰️ <strong>苍山</strong>（感通索道上，徒步玉带路）<br>
+        · 或：租车环洱海东岸（双廊、挖色、小普陀）<br>
+        · 🍵 下午找个洱海边咖啡馆发呆
+      </div>
+    </div>
+    <div class="card-section">
+      <div class="label"><span class="icon">🍜</span>吃什么</div>
+      <div class="content">🐟 大理·<strong>酸辣鱼</strong>、海菜芋头汤<br>🍄 松茸刺身（8月！）</div>
+    </div>
+    <div class="card-section">
+      <div class="label"><span class="icon">🏠</span>住哪里</div>
+      <div class="content">继续住大理</div>
+    </div>
+    <div class="card-note">⛰️ 苍山选感通索道最轻松。洱海东岸比西岸更有"公路旅行"的感觉，自驾环一圈约120km/3h。</div>
+  </div>
+
+  <!-- D12: 8/4 大理→沙溪 -->
+  <div class="day-card card-purple" style="--rot:-0.4deg">
+    <div class="card-header">
+      <div>
+        <span class="card-day">Day 12</span>
+        <span class="card-date">📅 8月4日 周二</span>
+      </div>
+      <div style="text-align:right"><span class="card-drive">🚗 2.5h</span></div>
+    </div>
+    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 大理 → 沙溪古镇（140km）</div>
+    <div class="card-section">
+      <div class="label"><span class="icon">🌤️</span>天气</div>
+      <div class="content"><span class="weather-badge">☀️ 晴间多云 16-26°C</span></div>
+    </div>
+    <div class="card-section">
+      <div class="label"><span class="icon">🎯</span>玩什么</div>
+      <div class="content">
+        · 🚗 上午出发→沙溪（2.5h）<br>
+        · 🏘️ <strong>沙溪古镇</strong>：茶马古道唯一幸存的集市<br>
+        · 🌉 玉津桥、古戏台、寺登街<br>
+        · 比大理安静10倍，真正的慢时光
+      </div>
+    </div>
+    <div class="card-section">
+      <div class="label"><span class="icon">🍜</span>吃什么</div>
+      <div class="content">🥘 沙溪·马帮菜、土鸡火锅<br>☕ 古镇咖啡馆（沙溪的咖啡意外地好）</div>
+    </div>
+    <div class="card-section">
+      <div class="label"><span class="icon">🏠</span>住哪里</div>
+      <div class="content">沙溪古镇内民宿</div>
+    </div>
+    <div class="card-note">🏘️ 沙溪是整条线路上最安静的一站。没有旅行团，傍晚玉津桥边只有蛙声和马铃声，值得到此一停。</div>
+  </div>
+
+  <!-- D13: 8/5 沙溪→丽江 -->
+  <div class="day-card card-blue" style="--rot:0.3deg">
+    <div class="card-header">
+      <div>
+        <span class="card-day">Day 13</span>
+        <span class="card-date">📅 8月5日 周三</span>
+      </div>
+      <div style="text-align:right"><span class="card-drive">🚗 2h</span></div>
+    </div>
+    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 沙溪 → 丽江（100km）</div>
+    <div class="card-section">
+      <div class="label"><span class="icon">🌤️</span>天气</div>
+      <div class="content"><span class="weather-badge">☀️ 晴 16-25°C</span></div>
+    </div>
+    <div class="card-section">
+      <div class="label"><span class="icon">🎯</span>玩什么</div>
+      <div class="content">
+        · 🌅 沙溪清晨再逛一圈（人最少的时候最美）<br>
+        · 🚗 上午出发→丽江（2h）<br>
+        · 🏘️ 下午<strong>白沙古镇</strong>（比束河更原生态）<br>
+        · 🏔️ <strong>玉湖村</strong>（洛克故居），远眺玉龙雪山
+      </div>
+    </div>
+    <div class="card-section">
+      <div class="label"><span class="icon">🍜</span>吃什么</div>
+      <div class="content">🍲 <strong>腊排骨火锅</strong>（象山市场附近最正）<br>🫓 丽江粑粑、鸡豆凉粉</div>
+    </div>
+    <div class="card-section">
+      <div class="label"><span class="icon">🏠</span>住哪里</div>
+      <div class="content">丽江古城外围 or 束河（不住古城中心）</div>
+    </div>
+    <div class="card-note">🏔️ 白沙+玉湖村是免费看玉龙雪山的最佳位置，下午光线最好，雪山在夕阳下变成金色。</div>
+  </div>
+
+  <!-- D14: 8/6 丽江灵活日 -->
+  <div class="day-card card-yellow" style="--rot:-0.5deg">
     <div class="card-header">
       <div>
         <span class="card-day">Day 14</span>
         <span class="card-date">📅 8月6日 周四</span>
       </div>
-      <div style="text-align:right">
-        <span class="train-badge">🚄 高铁</span>
-        <span class="card-drive">🚗 0h</span>
-      </div>
+      <div style="text-align:right"><span class="card-drive">🚗 0h</span></div>
     </div>
-    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 昆明 → 丽江（高铁3.5h）</div>
-
+    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 丽江 · 灵活日</div>
     <div class="card-section">
       <div class="label"><span class="icon">🌤️</span>天气</div>
-      <div class="content">
-        <span class="weather-badge">☀️ 晴 16-25°C</span>
-        <span style="font-size:0.8rem;color:#999">丽江海拔2400m，比昆明凉快一截</span>
-      </div>
+      <div class="content"><span class="weather-badge">☀️ 晴间多云 16-25°C</span></div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🎯</span>玩什么</div>
       <div class="content">
-        · 🚄 早上昆明南→丽江（3.5h，中午到）<br>
-        · 🚗 丽江站取车<br>
-        · 🏘️ 下午<strong>白沙古镇</strong>（比束河更原生态）<br>
-        · 🏔️ <strong>玉湖村</strong>（洛克故居），远眺玉龙雪山<br>
-        · 不用门票就能看雪山！
+        <strong>Plan A（抢到索道票）：</strong><br>
+        🏔️ <strong>玉龙雪山冰川大索道</strong>+蓝月谷一日游<br><br>
+        <strong>Plan B（没抢到/天气差）：</strong><br>
+        🌿 <strong>文海</strong>（高山草甸湖泊，野生小众）<br>
+        🐴 拉市海后山骑马<br>
+        🛍️ 忠义市场买菌子
       </div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🍜</span>吃什么</div>
-      <div class="content">
-        🍲 <strong>腊排骨火锅</strong>（丽江标志！象山市场附近的店最正）<br>
-        🫓 丽江粑粑、鸡豆凉粉
-      </div>
+      <div class="content">🍄 <strong>野生菌火锅</strong>（8月菌子季巅峰！）<br>🥘 黑山羊火锅</div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🏠</span>住哪里</div>
-      <div class="content">丽江古城外围 or 束河古镇（住古城里拖箱子太痛苦）</div>
+      <div class="content">继续住丽江</div>
     </div>
-
-    <div class="card-note">🏔️ 玉龙雪山不用买票进景区就能看到！白沙古镇+玉湖村是最佳免费观赏点。大索道票需要提前3天抢。</div>
+    <div class="card-note">🍄 菌子火锅一定要去正规店！见手青必须煮够15分钟以上。大索道票提前3天在"丽江旅游集团"小程序抢。</div>
   </div>
 
-  <!-- D15: 8/7 -->
-  <div class="day-card card-pink" style="--rot:-0.3deg">
+  <!-- D15: 8/7 丽江→虎跳峡→香格里拉 -->
+  <div class="day-card card-orange" style="--rot:0.2deg">
     <div class="card-header">
       <div>
         <span class="card-day">Day 15</span>
         <span class="card-date">📅 8月7日 周五</span>
       </div>
-      <div style="text-align:right">
-        <span class="card-drive">🚗 0h</span>
-      </div>
+      <div style="text-align:right"><span class="card-drive">🚗 3.5h</span></div>
     </div>
-    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 丽江全天 · 灵活日</div>
-
+    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 丽江 → 虎跳峡 → 香格里拉（180km）</div>
     <div class="card-section">
       <div class="label"><span class="icon">🌤️</span>天气</div>
-      <div class="content">
-        <span class="weather-badge">☀️ 晴间多云 16-25°C</span>
-      </div>
+      <div class="content"><span class="weather-badge">⛅ 多云 14-24°C（香格里拉）</span></div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🎯</span>玩什么</div>
       <div class="content">
-        <strong>Plan A（抢到索道票）：</strong><br>
-        · 🏔️ <strong>玉龙雪山冰川大索道</strong>一日游<br>
-        · 蓝月谷（山脚下的蓝绿色湖泊）<br><br>
-        <strong>Plan B（没抢到 or 天气差）：</strong><br>
-        · 🌿 <strong>文海</strong>（高山草甸湖泊，野生小众）<br>
-        · 🐴 拉市海后山骑马（别去前山景区，去后山）<br>
-        · 🛍️ 忠义市场买菌子（8月是菌子季！）
+        · 🚗 上午→<strong>虎跳峡</strong>（1.5h）<br>
+        · 🥾 <strong>中虎跳徒步</strong>2-3h（江水咆哮最震撼！）<br>
+        · 🚗 下午→<strong>香格里拉</strong>（2h）<br>
+        · 🛞 独克宗古城<strong>转经筒</strong><br>
+        · 🍖 晚上藏餐
       </div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🍜</span>吃什么</div>
-      <div class="content">
-        🍄 <strong>野生菌火锅</strong>（8月菌子季！见手青、鸡枞、牛肝菌）<br>
-        🥘 黑山羊火锅
-      </div>
+      <div class="content">🥩 <strong>牦牛肉火锅</strong>、青稞饼<br>🫖 酥油茶、糌粑</div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🏠</span>住哪里</div>
-      <div class="content">继续住丽江</div>
+      <div class="content">独克宗古城附近（海拔3300m）</div>
     </div>
-
-    <div class="card-note">🍄 野生菌火锅一定要去正规店吃！不要自己乱买乱煮。见手青必须煮够15分钟以上。</div>
+    <div class="card-note">⚠️ 香格里拉海拔3300m。第一天不建议洗澡（浴室缺氧+温差大）。行动放慢，多喝水。</div>
   </div>
 
-  <!-- D16: 8/8 -->
-  <div class="day-card card-orange" style="--rot:0.2deg">
+  <!-- D16: 8/8 香格里拉 -->
+  <div class="day-card card-green" style="--rot:-0.3deg">
     <div class="card-header">
       <div>
         <span class="card-day">Day 16</span>
         <span class="card-date">📅 8月8日 周六</span>
       </div>
-      <div style="text-align:right">
-        <span class="card-drive">🚗 3.5h</span>
-      </div>
+      <div style="text-align:right"><span class="card-drive">🚗 0h</span></div>
     </div>
-    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 丽江 → 虎跳峡 → 香格里拉（80km + 100km）</div>
-
+    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 香格里拉全天</div>
     <div class="card-section">
       <div class="label"><span class="icon">🌤️</span>天气</div>
-      <div class="content">
-        <span class="weather-badge">⛅ 多云 14-24°C（香格里拉）</span>
-        <span style="font-size:0.8rem;color:#999">海拔升到3300m，气温明显下降</span>
-      </div>
+      <div class="content"><span class="weather-badge">☀️ 晴间多云 10-22°C</span></div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🎯</span>玩什么</div>
       <div class="content">
-        · 🚗 上午→<strong>虎跳峡</strong>（1.5h）<br>
-        · 🥾 <strong>中虎跳徒步</strong>2-3h（江水咆哮，最震撼的一段）<br>
-        · 🚗 下午→<strong>香格里拉</strong>（2h）<br>
-        · 🛞 独克宗古城<strong>转经筒</strong>（世界最大转经筒）<br>
-        · 🍖 晚上藏餐
+        · 🏞️ <strong>普达措国家公园</strong>全天<br>
+        · 🌲 <strong>属都湖</strong>环湖徒步（3.3km木栈道）<br>
+        · 💧 碧塔海（更安静的第二湖区）<br>
+        · 🐿️ 松鼠、牦牛随处可见
       </div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🍜</span>吃什么</div>
-      <div class="content">
-        🥩 香格里拉·<strong>牦牛肉火锅</strong><br>
-        🫓 青稞饼、酥油茶、糌粑
-      </div>
+      <div class="content">🥛 牦牛酸奶（景区里也有）<br>🍲 松茸炖鸡（8月松茸季！）</div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🏠</span>住哪里</div>
-      <div class="content">独克宗古城附近（海拔3300m）<br><span style="font-size:0.8rem;color:#999">第一晚注意高反，别洗澡太久</span></div>
+      <div class="content">继续住香格里拉</div>
     </div>
-
-    <div class="card-note">⚠️ 香格里拉海拔3300m。第一天不建议洗澡（浴室缺氧+温差大容易高反）。行动放慢，多喝水。虎跳峡徒步穿防滑鞋！</div>
+    <div class="card-note">🧥 普达措海拔3500m，早上可能10°C。7-8月也要穿薄羽绒+冲锋衣。属都湖徒步别跑跳，慢慢走。</div>
   </div>
 
-  <!-- D17: 8/9 -->
-  <div class="day-card card-green" style="--rot:-0.5deg">
+  <!-- D17: 8/9 香格里拉→丽江 -->
+  <div class="day-card card-purple" style="--rot:0.4deg">
     <div class="card-header">
       <div>
         <span class="card-day">Day 17</span>
         <span class="card-date">📅 8月9日 周日</span>
       </div>
-      <div style="text-align:right">
-        <span class="card-drive">🚗 0h</span>
-      </div>
+      <div style="text-align:right"><span class="card-drive">🚗 3.5h</span></div>
     </div>
-    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 香格里拉全天</div>
-
+    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 松赞林寺 → 纳帕海 → 丽江（180km）</div>
     <div class="card-section">
       <div class="label"><span class="icon">🌤️</span>天气</div>
-      <div class="content">
-        <span class="weather-badge">☀️ 晴间多云 10-22°C</span>
-        <span style="font-size:0.8rem;color:#999">早晚冷！带薄羽绒服</span>
-      </div>
+      <div class="content"><span class="weather-badge">☀️ 晴 10-22°C（香格里拉）</span></div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🎯</span>玩什么</div>
       <div class="content">
-        · 🏞️ <strong>普达措国家公园</strong>全天<br>
-        · 🌲 <strong>属都湖</strong>环湖徒步（3.3km木栈道，很轻松）<br>
-        · 💧 碧塔海（第二个湖区，更安静）<br>
-        · 🐿️ 沿途有松鼠、牦牛，真正的"人间仙境"
+        · 🌅 清晨<strong>松赞林寺</strong>晨雾（远观即可）<br>
+        · 🌊 <strong>纳帕海</strong>环湖自驾（8月是真正的湖！）<br>
+        · 🚗 下午→丽江（3.5h），还车
       </div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🍜</span>吃什么</div>
-      <div class="content">
-        🥛 <strong>牦牛酸奶</strong>（普达措景区里有卖）<br>
-        🍲 松茸炖鸡（8月是松茸季！）
-      </div>
+      <div class="content">中午香格里拉最后一顿藏餐<br>晚上丽江·再来一顿腊排骨</div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🏠</span>住哪里</div>
-      <div class="content">继续住香格里拉</div>
+      <div class="content">丽江（还车后坐车or打车去住宿）</div>
     </div>
-
-    <div class="card-note">🧥 普达措海拔3500m，早上可能只有10°C。7-8月也要穿薄羽绒+冲锋衣。属都湖徒步不要跑跳，慢慢走。</div>
+    <div class="card-note">⚠️ 纳帕海环湖路雨季可能被淹，轿车别硬闯水上公路。SUV可以低速通过。松赞林寺对面山坡是最佳拍摄点。</div>
   </div>
 
-  <!-- D18: 8/10 -->
-  <div class="day-card card-purple" style="--rot:0.3deg">
+  <!-- D18: 8/10 缓冲日 -->
+  <div class="day-card card-blue" style="--rot:-0.2deg">
     <div class="card-header">
       <div>
         <span class="card-day">Day 18</span>
         <span class="card-date">📅 8月10日 周一</span>
       </div>
-      <div style="text-align:right">
-        <span class="card-drive">🚗 3.5h</span>
-      </div>
+      <div style="text-align:right"><span class="card-drive">🚗 0h</span></div>
     </div>
-    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 松赞林寺 → 纳帕海 → 丽江（180km）</div>
-
+    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 丽江 · 缓冲日</div>
     <div class="card-section">
       <div class="label"><span class="icon">🌤️</span>天气</div>
-      <div class="content">
-        <span class="weather-badge">☀️ 晴 10-22°C（香格里拉）/ 16-25°C（丽江）</span>
-      </div>
+      <div class="content"><span class="weather-badge">☀️ 晴间多云 16-26°C</span></div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🎯</span>玩什么</div>
       <div class="content">
-        · 🌅 清晨<strong>松赞林寺</strong>晨雾（远观即可，不进寺也行）<br>
-        · 🌊 <strong>纳帕海</strong>环湖自驾（雨季是湖，旱季是草原）<br>
-        · 8月纳帕海水最多，水上公路可能会淹<br>
-        · 🚗 下午→丽江（3.5h），还车
+        · 17天旅途后的自由日<br>
+        · 可以用作：前面某站多待了一天 / 天气调整<br>
+        · 或者：丽江周边一日游（文海、老君山）<br>
+        · 或者：纯躺平
       </div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🍜</span>吃什么</div>
-      <div class="content">
-        🍜 中午香格里拉最后一顿藏餐<br>
-        🍲 晚上丽江·再吃一顿腊排骨 or 黑山羊
-      </div>
+      <div class="content">把前面没吃够的再来一遍！</div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🏠</span>住哪里</div>
-      <div class="content">丽江（最后一晚丽江住宿）</div>
+      <div class="content">丽江</div>
     </div>
-
-    <div class="card-note">⚠️ 纳帕海环湖路雨季容易被水淹没，开轿车的话别硬闯水上公路！SUV可以低速通过。</div>
+    <div class="card-buffer">💡 缓冲日 = 之前任何一天如果下雨或太累，可以往后推。这是给旅途留的呼吸空间。</div>
   </div>
 
-  <!-- D19: 8/11 -->
-  <div class="day-card card-blue" style="--rot:-0.2deg">
+  <!-- D19: 8/11 缓冲日 -->
+  <div class="day-card card-yellow" style="--rot:0.3deg">
     <div class="card-header">
       <div>
         <span class="card-day">Day 19</span>
         <span class="card-date">📅 8月11日 周二</span>
       </div>
-      <div style="text-align:right">
-        <span class="card-drive">🚗 0h</span>
-      </div>
+      <div style="text-align:right"><span class="card-drive">🚗 0h</span></div>
     </div>
-    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 丽江 · 缓冲日</div>
-
+    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 丽江 · 收尾日</div>
     <div class="card-section">
       <div class="label"><span class="icon">🌤️</span>天气</div>
-      <div class="content">
-        <span class="weather-badge">☀️ 晴间多云 16-26°C</span>
-      </div>
+      <div class="content"><span class="weather-badge">☀️ 晴间多云 16-26°C</span></div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🎯</span>玩什么</div>
       <div class="content">
-        · 😴 睡到自然醒（20天旅途最后的懒觉）<br>
-        · 🛍️ <strong>忠义市场</strong>买菌子干货、火腿、松茸带回家<br>
-        · ☕ 束河古镇找个咖啡馆发呆<br>
-        · 🧳 收拾行李，准备回家
+        · 🛍️ <strong>忠义市场</strong>扫货：菌子干、火腿、松茸、普洱茶<br>
+        · ☕ 束河古镇找个咖啡馆写写明信片<br>
+        · 🧳 收拾行李，20天的行李要好好打包
       </div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🍜</span>吃什么</div>
-      <div class="content">
-        把前面没吃够的再来一遍！<br>
-        🍲 腊排骨 / 🍄 菌子火锅 / 🍜 土鸡米线
-      </div>
+      <div class="content">🍲 最后一顿腊排骨/黑山羊<br>🍰 吃到满足再走</div>
     </div>
-
     <div class="card-section">
       <div class="label"><span class="icon">🏠</span>住哪里</div>
-      <div class="content">丽江（机场附近 or 古城，第二天去机场方便）</div>
+      <div class="content">丽江（机场附近，第二天去机场方便）</div>
     </div>
+    <div class="card-buffer">💡 第二个缓冲日。你也可以把这一天用来延长大理/香格里拉，D19再从那边赶回丽江。</div>
   </div>
 
-  <!-- D20: 8/12 -->
-  <div class="day-card card-yellow" style="--rot:0.5deg">
+  <!-- D20: 8/12 回家 -->
+  <div class="day-card card-pink" style="--rot:-0.5deg">
     <div class="card-header">
       <div>
         <span class="card-day">Day 20</span>
@@ -1485,27 +1034,26 @@ body::before {
         <span class="card-drive">🚗 0h</span>
       </div>
     </div>
-    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 丽江三义机场 → 广州 ✈️</div>
-
+    <div class="card-route" style="display:inline-block;margin-bottom:8px;">📍 丽江三义 → 广州 ✈️</div>
     <div class="card-section">
       <div class="label"><span class="icon">🎯</span>行程</div>
       <div class="content">
-        · 🚗 丽江→三义机场（40分钟）<br>
+        · 🚕 丽江→三义机场（40分钟）<br>
         · ✈️ 丽江→广州（直飞约2.5h）<br>
         · 🏠 到家！
       </div>
     </div>
-
-    <div class="card-note">✈️ 丽江→广州每天有多班直飞（南航、首航等），提前买票约800-1200元/人。三义机场不大，提前1.5h到即可。</div>
+    <div class="card-note">✈️ 丽江→广州每天多班直飞（南航、首航等），提前买约800-1200元/人。三义机场不大，提前1.5h到即可。</div>
   </div>
 
 </div>
 
 <!-- ===== FOOTER ===== -->
+<div class="doodle-squiggle"></div>
 <footer class="footer">
   <div class="doodle-heart">💚</div>
-  <p>祝旅途愉快 · 一路向西 · 2026.7.24 → 8.12</p>
-  <p style="font-size:0.85rem;margin-top:6px;">路线数据仅供参考，实际行程根据天气和体力灵活调整</p>
+  <p>祝旅途愉快 · 一路向西北 · 2026.7.24 → 8.12</p>
+  <p style="font-size:0.85rem;margin-top:6px;">路线数据供参考，实际行程根据天气和体力灵活调整</p>
 </footer>
 
 </div><!-- /.container -->
@@ -1513,180 +1061,112 @@ body::before {
 <!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-// ===== MAP INIT =====
-const map = L.map('map', {
-  center: [25.5, 105],
-  zoom: 7,
-  zoomControl: true,
-  scrollWheelZoom: true
-});
+const map = L.map('map', { center: [26.3, 104], zoom: 7, scrollWheelZoom: true });
 
-// Custom tile layer - use a lighter style
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
   attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
-  subdomains: 'abcd',
-  maxZoom: 19
+  subdomains: 'abcd', maxZoom: 19
 }).addTo(map);
 
-// ===== ROUTE DATA =====
-// Driving segments (solid lines)
+// Route data
 const driveRoutes = [
-  // 广西段 - car1 桂林取还
+  { coords: [[23.129,113.264],[24.778,110.497]], label: '广州→阳朔', color: '#e8734a' },
   { coords: [[24.778,110.497],[25.760,110.120]], label: '阳朔→龙脊', color: '#e8734a' },
   { coords: [[25.760,110.120],[25.274,110.290]], label: '龙脊→桂林', color: '#e8734a' },
-  // 贵州→滇南段 - car2 贵阳取→昆明还
   { coords: [[26.647,106.630],[25.992,105.666]], label: '贵阳→黄果树', color: '#e8734a' },
   { coords: [[25.992,105.666],[25.014,104.926]], label: '黄果树→万峰林', color: '#e8734a' },
   { coords: [[25.014,104.926],[24.885,104.309]], label: '万峰林→罗平', color: '#e8734a' },
-  { coords: [[24.885,104.309],[24.152,104.050]], label: '罗平→普者黑', color: '#e8734a' },
-  { coords: [[24.152,104.050],[23.120,102.740]], label: '普者黑→元阳', color: '#e8734a' },
-  { coords: [[23.120,102.740],[23.618,102.827]], label: '元阳→建水', color: '#e8734a' },
-  { coords: [[23.618,102.827],[24.480,102.840]], label: '建水→抚仙湖', color: '#e8734a' },
-  { coords: [[24.480,102.840],[25.039,102.703]], label: '抚仙湖→昆明', color: '#e8734a' },
-  // 滇西北段 - car3 丽江取还
+  { coords: [[24.885,104.309],[25.039,102.703]], label: '罗平→昆明', color: '#e8734a' },
+  { coords: [[25.039,102.703],[25.681,100.153]], label: '昆明→大理', color: '#e8734a' },
+  { coords: [[25.681,100.153],[26.317,99.850]], label: '大理→沙溪', color: '#e8734a' },
+  { coords: [[26.317,99.850],[26.872,100.230]], label: '沙溪→丽江', color: '#e8734a' },
   { coords: [[26.872,100.230],[27.220,100.130]], label: '丽江→虎跳峡', color: '#e8734a' },
   { coords: [[27.220,100.130],[27.830,99.700]], label: '虎跳峡→香格里拉', color: '#e8734a' },
   { coords: [[27.830,99.700],[26.872,100.230]], label: '香格里拉→丽江', color: '#e8734a' },
 ];
 
-// Train segments (dashed lines)
 const trainRoutes = [
-  { coords: [[23.129,113.264],[24.778,110.497]], label: '广州南→阳朔 🚄', color: '#6366f1' },
-  { coords: [[25.274,110.290],[26.647,106.630]], label: '桂林→贵阳 🚄', color: '#6366f1' },
-  { coords: [[25.039,102.703],[26.872,100.230]], label: '昆明→丽江 🚄', color: '#6366f1' },
+  { coords: [[25.274,110.290],[26.647,106.630]], label: '桂林→贵阳 🚄 高铁', color: '#6366f1' },
 ];
 
-// Flight
 const flightRoutes = [
-  { coords: [[26.872,100.230],[23.129,113.264]], label: '丽江→广州 ✈️', color: '#22c55e' },
+  { coords: [[26.872,100.230],[23.129,113.264]], label: '丽江→广州 ✈️ 航班', color: '#22c55e' },
 ];
 
-// All stop points
+driveRoutes.forEach(r => {
+  L.polyline(r.coords, { color: r.color, weight: 3.5, opacity: 0.85, smoothFactor: 1 })
+    .addTo(map).bindPopup(`<strong>🚗 ${r.label}</strong>`);
+});
+trainRoutes.forEach(r => {
+  L.polyline(r.coords, { color: r.color, weight: 3, opacity: 0.7, smoothFactor: 1, dashArray: '10, 8' })
+    .addTo(map).bindPopup(`<strong>${r.label}</strong>`);
+});
+flightRoutes.forEach(r => {
+  L.polyline(r.coords, { color: r.color, weight: 2, opacity: 0.6, smoothFactor: 1, dashArray: '5, 10' })
+    .addTo(map).bindPopup(`<strong>${r.label}</strong>`);
+});
+
+// Stops
 const stops = [
-  { lat: 23.129, lng: 113.264, name: '广州', icon: '🏠', type: 'start' },
-  { lat: 24.778, lng: 110.497, name: '阳朔', icon: '🏞️', type: 'stay', nights: 'D1-D2' },
-  { lat: 25.760, lng: 110.120, name: '龙脊梯田', icon: '🌾', type: 'stay', nights: 'D3' },
-  { lat: 25.274, lng: 110.290, name: '桂林', icon: '🚄', type: 'transit' },
-  { lat: 26.647, lng: 106.630, name: '贵阳', icon: '🚄', type: 'transit' },
-  { lat: 25.992, lng: 105.666, name: '黄果树', icon: '🌊', type: 'stay', nights: 'D5' },
-  { lat: 25.014, lng: 104.926, name: '万峰林', icon: '⛰️', type: 'stay', nights: 'D6' },
-  { lat: 24.885, lng: 104.309, name: '罗平', icon: '💧', type: 'stay', nights: 'D7' },
-  { lat: 24.152, lng: 104.050, name: '普者黑', icon: '🪷', type: 'stay', nights: 'D8-D9' },
-  { lat: 23.120, lng: 102.740, name: '元阳梯田', icon: '🌄', type: 'stay', nights: 'D10-D11' },
-  { lat: 23.618, lng: 102.827, name: '建水', icon: '🍜', type: 'stay', nights: 'D12' },
-  { lat: 24.480, lng: 102.840, name: '抚仙湖', icon: '💙', type: 'stay', nights: 'D13' },
-  { lat: 25.039, lng: 102.703, name: '昆明', icon: '🚄', type: 'transit' },
-  { lat: 26.872, lng: 100.230, name: '丽江', icon: '🏔️', type: 'stay', nights: 'D14-D15, D18-D20' },
-  { lat: 27.220, lng: 100.130, name: '虎跳峡', icon: '🥾', type: 'daytrip' },
-  { lat: 27.830, lng: 99.700, name: '香格里拉', icon: '🏞️', type: 'stay', nights: 'D16-D17' },
+  { lat:23.129,lng:113.264, name:'广州', icon:'🏠', type:'start' },
+  { lat:24.778,lng:110.497, name:'阳朔', icon:'🏞️', type:'stay', nights:'D1-D2' },
+  { lat:25.760,lng:110.120, name:'龙脊梯田', icon:'🌾', type:'stay', nights:'D3' },
+  { lat:25.274,lng:110.290, name:'桂林', icon:'🚄', type:'transit' },
+  { lat:26.647,lng:106.630, name:'贵阳', icon:'🚄', type:'transit' },
+  { lat:25.992,lng:105.666, name:'黄果树', icon:'🌊', type:'stay', nights:'D5' },
+  { lat:25.014,lng:104.926, name:'万峰林', icon:'⛰️', type:'stay', nights:'D6' },
+  { lat:24.885,lng:104.309, name:'罗平', icon:'💧', type:'stay', nights:'D7' },
+  { lat:25.039,lng:102.703, name:'昆明', icon:'🌸', type:'stay', nights:'D8-D9' },
+  { lat:25.681,lng:100.153, name:'大理', icon:'🌊', type:'stay', nights:'D10-D11' },
+  { lat:26.317,lng:99.850,  name:'沙溪', icon:'🏘️', type:'stay', nights:'D12' },
+  { lat:26.872,lng:100.230, name:'丽江', icon:'🏔️', type:'stay', nights:'D13-D14,D17-D19' },
+  { lat:27.220,lng:100.130, name:'虎跳峡', icon:'🥾', type:'daytrip' },
+  { lat:27.830,lng:99.700,  name:'香格里拉', icon:'🏞️', type:'stay', nights:'D15-D16' },
 ];
 
-// ===== DRAW ROUTES =====
-// Driving routes
-driveRoutes.forEach(route => {
-  L.polyline(route.coords, {
-    color: route.color,
-    weight: 3.5,
-    opacity: 0.85,
-    smoothFactor: 1,
-    dashArray: null,
-  }).addTo(map).bindPopup(`<strong>🚗 ${route.label}</strong>`);
-});
-
-// Train routes
-trainRoutes.forEach(route => {
-  L.polyline(route.coords, {
-    color: route.color,
-    weight: 3,
-    opacity: 0.7,
-    smoothFactor: 1,
-    dashArray: '10, 8',
-  }).addTo(map).bindPopup(`<strong>${route.label}</strong>`);
-});
-
-// Flight route
-flightRoutes.forEach(route => {
-  L.polyline(route.coords, {
-    color: route.color,
-    weight: 2,
-    opacity: 0.6,
-    smoothFactor: 1,
-    dashArray: '5, 10',
-  }).addTo(map).bindPopup(`<strong>${route.label}</strong>`);
-});
-
-// ===== ADD STOP MARKERS =====
-// Custom icon factory
-function createIcon(emoji, size) {
+function makeIcon(emoji, size) {
   return L.divIcon({
-    html: `<div style="
-      font-size:${size || 22}px;
-      text-align:center;
-      line-height:1;
-      filter: drop-shadow(2px 2px 1px rgba(0,0,0,0.2));
-    ">${emoji}</div>`,
-    iconSize: [size || 22, size || 22],
-    iconAnchor: [(size||22)/2, (size||22)/2],
-    className: '',
+    html: `<div style="font-size:${size||22}px;text-align:center;line-height:1;filter:drop-shadow(2px 2px 1px rgba(0,0,0,0.2))">${emoji}</div>`,
+    iconSize: [size||22, size||22], iconAnchor: [(size||22)/2, (size||22)/2], className: '',
   });
 }
 
-stops.forEach(stop => {
-  const size = (stop.type === 'stay' && stop.nights && stop.nights.includes('D')) ? 28 : 22;
-  const marker = L.marker([stop.lat, stop.lng], {
-    icon: createIcon(stop.icon, size),
-  }).addTo(map);
-
-  let popupContent = `<strong>${stop.icon} ${stop.name}</strong>`;
-  if (stop.nights) popupContent += `<br><small>📅 ${stop.nights}</small>`;
-  if (stop.type === 'transit') popupContent += '<br><small>🚄 中转</small>';
-  if (stop.type === 'start') popupContent += '<br><small>出发城市</small>';
-
-  marker.bindPopup(popupContent);
+stops.forEach(s => {
+  const sz = (s.type==='stay'&&s.nights) ? 28 : 22;
+  const m = L.marker([s.lat,s.lng], { icon: makeIcon(s.icon,sz) }).addTo(map);
+  let pop = `<strong>${s.icon} ${s.name}</strong>`;
+  if (s.nights) pop += `<br><small>📅 ${s.nights}</small>`;
+  if (s.type==='transit') pop += '<br><small>🚄 中转站</small>';
+  if (s.type==='start') pop += '<br><small>出发城市</small>';
+  m.bindPopup(pop);
 });
 
-// ===== LABEL MARKERS FOR MAJOR STOPS =====
-const majorStops = [
-  { lat: 23.129, lng: 113.264, name: '广州', dir: 'right' },
-  { lat: 24.778, lng: 110.497, name: '阳朔', dir: 'right' },
-  { lat: 25.760, lng: 110.120, name: '龙脊', dir: 'top' },
-  { lat: 26.647, lng: 106.630, name: '贵阳', dir: 'top' },
-  { lat: 25.992, lng: 105.666, name: '黄果树', dir: 'right' },
-  { lat: 25.014, lng: 104.926, name: '万峰林', dir: 'bottom' },
-  { lat: 24.152, lng: 104.050, name: '普者黑', dir: 'left' },
-  { lat: 23.120, lng: 102.740, name: '元阳', dir: 'bottom' },
-  { lat: 25.039, lng: 102.703, name: '昆明', dir: 'right' },
-  { lat: 26.872, lng: 100.230, name: '丽江', dir: 'left' },
-  { lat: 27.830, lng: 99.700, name: '香格里拉', dir: 'top' },
+// Labels
+const labels = [
+  { lat:23.129,lng:113.264, name:'广州', dir:'bottom' },
+  { lat:24.778,lng:110.497, name:'阳朔', dir:'right' },
+  { lat:25.760,lng:110.120, name:'龙脊', dir:'top' },
+  { lat:26.647,lng:106.630, name:'贵阳', dir:'top' },
+  { lat:25.992,lng:105.666, name:'黄果树', dir:'right' },
+  { lat:25.014,lng:104.926, name:'万峰林', dir:'bottom' },
+  { lat:25.039,lng:102.703, name:'昆明', dir:'bottom' },
+  { lat:25.681,lng:100.153, name:'大理', dir:'left' },
+  { lat:26.317,lng:99.850,  name:'沙溪', dir:'left' },
+  { lat:26.872,lng:100.230, name:'丽江', dir:'right' },
+  { lat:27.830,lng:99.700,  name:'香格里拉', dir:'top' },
 ];
-
-majorStops.forEach(stop => {
-  const offsets = { top: [0,-24], bottom: [0,24], left: [-60,0], right: [60,0] };
-  const [ox, oy] = offsets[stop.dir] || [60,0];
-
-  const label = L.marker([stop.lat, stop.lng], {
+const offsets = { top:[0,-24], bottom:[0,24], left:[-50,0], right:[50,0] };
+labels.forEach(s => {
+  const [ox,oy] = offsets[s.dir];
+  L.marker([s.lat,s.lng], {
     icon: L.divIcon({
-      html: `<div style="
-        font-family:'Ma Shan Zheng',cursive;
-        font-size:14px;
-        color:#2c3e50;
-        white-space:nowrap;
-        text-shadow: 1px 1px 0 white, -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white;
-        transform: translate(${ox}px, ${oy}px);
-        font-weight:bold;
-      ">${stop.name}</div>`,
-      iconSize: [0,0],
-      className: '',
-    }),
-    interactive: false,
+      html: `<div style="font-family:'Ma Shan Zheng',cursive;font-size:13px;color:#2c3e50;white-space:nowrap;text-shadow:1px 1px 0 white,-1px -1px 0 white,1px -1px 0 white,-1px 1px 0 white;transform:translate(${ox}px,${oy}px);font-weight:bold">${s.name}</div>`,
+      iconSize:[0,0], className:'',
+    }), interactive: false,
   }).addTo(map);
 });
 
-// Fit map to show all stops
-const allPoints = stops.map(s => [s.lat, s.lng]);
-map.fitBounds(L.latLngBounds(allPoints).pad(0.15));
-
+map.fitBounds(L.latLngBounds(stops.map(s=>[s.lat,s.lng])).pad(0.12));
 </script>
-
 </body>
 </html>
