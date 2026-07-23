@@ -27,18 +27,6 @@ Use `AskUserQuestion` to batch questions. Key dimensions to pin down (adapt orde
 
 ### Phase 2: Route Design
 
-**Step 0 — Check for Xiaohongshu access (MANDATORY, do not skip):**
-
-Run `which xhs 2>/dev/null && xhs status 2>&1 || echo "XHS_NOT_INSTALLED"`.
-
-- **If xhs is not installed** → STOP. Do not proceed to route design yet. Ask the user whether they want to install it (mention it helps find real traveler tips, route pitfalls, food recs). If yes:
-  1. Run `pip install redbook-cli` yourself.
-  2. If `xhs login --cdp` fails with `FileNotFoundError: .../scripts`, apply the fix from `/xhs-search` troubleshooting (clone repo + symlink scripts), then retry.
-  3. Tell the user to run `xhs init` (press Enter at proxy prompt) then `xhs login --cdp` — the QR scan needs their phone.
-  4. Once they confirm login is done, proceed with `/xhs-search` available.
-  If the user says no, proceed without it.
-- **If xhs is installed and logged in** → use `/xhs-search` throughout Phase 2.
-
 **Universal principles:**
 1. Minimize backtracking — the route should flow in one general direction
 2. Match daily driving distance to the user's tolerance, adjusted for terrain and road type
@@ -67,12 +55,7 @@ Run `which xhs 2>/dev/null && xhs status 2>&1 || echo "XHS_NOT_INSTALLED"`.
 - Pre-book for peak season; off-season can stay flexible
 - For each stop, research 2-3 concrete options within the user's budget range and present them as choices — include name, rough price, location advantage, and a one-line reason it fits. Let the user pick rather than guessing their preference. Source recommendations from: Trip.com / 携程 for China domestic, Booking.com / Agoda for international, 大众点评 for local guesthouse reviews
 
-**Real-world validation:** With xhs confirmed available, run 4-6 targeted searches as you design the route:
-- Route pitfalls: `<route name> 自驾 避坑` — what went wrong for others?
-- Accommodation: `<stop name> 住宿 推荐` — real guesthouse/hotel experiences, more trustworthy than OTA reviews
-- Food: `<stop name> 必吃` — Xiaohongshu is the best source for restaurant recommendations in China
-- Seasonal conditions: `<region> <month>月 自驾 路况` — current road/weather conditions
-- Hidden gems: `<region> 冷门 秘境` — spots the guidebooks miss
+**Real-world validation:** Use `/xhs-search` to find real traveler experiences as you design the route — route pitfalls, accommodation reviews, restaurant recommendations, seasonal road conditions, and hidden gems. xhs-search handles its own setup and graceful fallback.
 
 **Phase 2 complete when:** every segment has a transport mode assigned, daily driving stays within tolerance (adjusted for terrain), all 8 universal principles are satisfied, and accommodation options have been presented for user selection.
 
