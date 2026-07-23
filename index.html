@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🚗 Travel Planner</title>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Caveat:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--paper:#faf9f5;--ink:#2c3e50;--muted:#7b8a9b;--shadow:3px 3px 0 rgba(44,62,80,0.07);--shadow-hover:5px 5px 0 rgba(44,62,80,0.11)}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:var(--paper);background-image:radial-gradient(circle,#d9d5cb .5px,transparent .5px);background-size:20px 20px;
+  color:var(--ink);line-height:1.75;min-height:100vh;
+}
+.container{max-width:780px;margin:0 auto;padding:40px 20px}
+h1{font-family:"Ma Shan Zheng",cursive;font-size:2.8rem;text-align:center;transform:rotate(-.5deg)}
+.sub{text-align:center;font-family:"Caveat",cursive;font-size:1.15rem;color:var(--muted);margin-bottom:44px}
+.trip{display:block;background:#fff;border:2px solid var(--ink);border-radius:24px 8px 24px 8px/8px 24px 8px 24px;padding:26px 30px;margin-bottom:22px;box-shadow:var(--shadow);text-decoration:none;color:var(--ink);transform:rotate(var(--rot,0deg));transition:all .3s cubic-bezier(.34,1.56,.64,1)}
+.trip:hover{transform:rotate(0deg) translateY(-3px);box-shadow:var(--shadow-hover)}
+.trip .t{font-family:"Ma Shan Zheng",cursive;font-size:1.55rem;margin-bottom:4px}
+.trip .m{font-size:.82rem;color:var(--muted)}
+.trip .r{font-size:.88rem;color:#444;margin-top:4px}
+.footer{text-align:center;padding:24px;color:var(--muted);font-size:.8rem}
+.footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>🚗 Travel Planner</h1>
+<p class="sub">Claude Code skill · 旅行计划示例</p>
+
+<a class="trip" style="--rot:-.25deg" href="western-sichuan-oct-2026.html">
+  <div class="t">🏔️ 川西小环线 · 国庆自驾</div>
+  <div class="m">2026.10.1–10.7 · 7天 · 成都进出 · 3–4人</div>
+  <div class="r">四姑娘山 → 丹巴藏寨 → 塔公草原 → 新都桥 → 康定</div>
+</a>
+
+<a class="trip" style="--rot:.3deg" href="guangxi-guizhou-yunnan-2026.html">
+  <div class="t">🌿 西南自驾 · 广西→贵州→滇西北</div>
+  <div class="m">2026.7.24–8.12 · 20天 · 跨三省</div>
+  <div class="r">桂林 → 龙脊 → 贵阳 → 黄果树 → 昆明 → 丽江 → 泸沽湖 → 香格里拉</div>
+</a>
+
+<div class="footer">
+  <p>Generated with <a href="https://claude.com/claude-code">Claude Code</a> · <a href="https://github.com/Lloyd-Pottiger/travel-planner">GitHub</a></p>
+</div>
+</div>
+</body>
+</html>

@@ -5,11 +5,6 @@ description: Plan a multi-day road trip or domestic travel itinerary.
 
 # Travel Planner Skill
 
-## Pitfalls to Avoid
-
-- **Don't overwrite existing trip plans.** Always check if `index.html` or other HTML files already exist in the project. Save new plans with descriptive filenames (see Phase 4 naming convention). The user may have multiple trips in the same project.
-- **Don't assume the user wants deployment.** Phase 5 is opt-in only — ask before publishing anything online.
-
 ## Methodology
 
 ### Phase 1: Information Gathering
@@ -81,7 +76,7 @@ Use `AskUserQuestion` to batch questions. Key dimensions to pin down (adapt orde
 
 Generate a single self-contained HTML file. The output must be **responsive** — functional on both mobile (single-column, full-width cards) and desktop (2-3 column grid).
 
-**File naming:** Use a descriptive name that identifies the trip — never hardcode `index.html` as the output filename. Pattern: `<region>-<route-type>-<year>.html` (e.g., `western-sichuan-oct-2026.html`, `guizhou-loop-jul-2026.html`). If the project already has an `index.html`, do NOT overwrite it — save with a distinct name. Only use `index.html` during Phase 5 deployment (where it's required for GitHub Pages in a separate directory).
+**File naming:** Use a descriptive name: `<region>-<route-type>-<year>.html` (e.g., `western-sichuan-oct-2026.html`).
 
 **Visual style — default to hand-drawn sketch, adapt to user preference:**
 - Default: dot-grid paper background (`radial-gradient`), mild asymmetric border-radius, hard box-shadows, paper-like feel
