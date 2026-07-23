@@ -27,6 +27,13 @@ Use `AskUserQuestion` to batch questions. Key dimensions to pin down (adapt orde
 
 ### Phase 2: Route Design
 
+**Before designing the route, check for Xiaohongshu access:**
+
+Run `which xhs && xhs status`. Two outcomes:
+
+- **xhs is installed and logged in** → use `/xhs-search` throughout Phase 2 to validate routes, find accommodations, discover restaurants, and check seasonal conditions with real traveler experiences.
+- **xhs is not installed** → use `AskUserQuestion` to ask: "装个 redbook-cli 可以搜小红书真实攻略（路线避坑、住宿推荐、餐厅测评），要装吗？" If yes, guide them through `pip install redbook-cli && xhs init && xhs login --cdp`, then use `/xhs-search` in Phase 2. If no, proceed without it.
+
 **Universal principles:**
 1. Minimize backtracking — the route should flow in one general direction
 2. Match daily driving distance to the user's tolerance, adjusted for terrain and road type
@@ -55,6 +62,13 @@ Use `AskUserQuestion` to batch questions. Key dimensions to pin down (adapt orde
 - Pre-book for peak season; off-season can stay flexible
 - For each stop, research 2-3 concrete options within the user's budget range and present them as choices — include name, rough price, location advantage, and a one-line reason it fits. Let the user pick rather than guessing their preference. Source recommendations from: Trip.com / 携程 for China domestic, Booking.com / Agoda for international, 大众点评 for local guesthouse reviews
 
+**Real-world validation:** With xhs confirmed available, run 4-6 targeted searches as you design the route:
+- Route pitfalls: `<route name> 自驾 避坑` — what went wrong for others?
+- Accommodation: `<stop name> 住宿 推荐` — real guesthouse/hotel experiences, more trustworthy than OTA reviews
+- Food: `<stop name> 必吃` — Xiaohongshu is the best source for restaurant recommendations in China
+- Seasonal conditions: `<region> <month>月 自驾 路况` — current road/weather conditions
+- Hidden gems: `<region> 冷门 秘境` — spots the guidebooks miss
+
 **Phase 2 complete when:** every segment has a transport mode assigned, daily driving stays within tolerance (adjusted for terrain), all 8 universal principles are satisfied, and accommodation options have been presented for user selection.
 
 ### Phase 3: Transport & Weather Optimization
@@ -78,11 +92,7 @@ Generate a single self-contained HTML file. The output must be **responsive** �
 
 **File naming:** Use a descriptive name: `<region>-<route-type>-<year>.html` (e.g., `western-sichuan-oct-2026.html`).
 
-**Visual style — default to hand-drawn sketch, adapt to user preference:**
-- Default: dot-grid paper background (`radial-gradient`), mild asymmetric border-radius, hard box-shadows, paper-like feel
-- Fonts: choose a pairing that matches the aesthetic — handwritten/display font for headings, clean system font for body text. For Chinese trips: "Ma Shan Zheng" for headings, "Caveat" for Latin/numbers, system fonts for body
-- Zero external dependencies except Google Fonts
-- If the user prefers a different style (minimal, modern, etc.), adapt accordingly
+**CSS:** Read `style-template.css` from the skill directory and embed it in a `<style>` block. The template is the default "hand-drawn sketch" style; adapt fonts, colors, and border-radius to match the user's preference if they asked for a different aesthetic.
 
 **Route diagram — SVG timeline:**
 - Prefer SVG over Leaflet — map tiles add weight and irrelevant data for a trip overview

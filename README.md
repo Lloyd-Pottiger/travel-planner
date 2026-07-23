@@ -1,10 +1,10 @@
 # travel-planner
 
-A [Claude Code](https://claude.com/claude-code) skill for planning multi-day road trips and domestic travel itineraries.
+A skill for planning multi-day road trips and domestic travel itineraries.
 
 ## Usage
 
-Type `/travel-planner` in Claude Code. The skill will ask about your preferences (destination, dates, budget, companions, driving tolerance) then design a route, generate an HTML handbook, and optionally deploy it online.
+Type `/travel-planner`. The skill will ask about your preferences (destination, dates, budget, companions, driving tolerance) then design a route, generate an HTML handbook, and optionally deploy it online.
 
 ## Example outputs
 
