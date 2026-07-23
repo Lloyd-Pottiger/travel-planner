@@ -1,9 +1,12 @@
 /* === Travel Planner — Default "Hand-drawn Sketch" Style ===
    Embed this in the <style> block of every generated trip HTML file.
    Fonts: Ma Shan Zheng (Chinese headings), Caveat (Latin/numbers), system fonts (body).
+     → Google Fonts @import below must come first inside the <style> block.
    To customize, swap fonts and adjust --paper, --ink, border-radius, box-shadow values.
    SVG fills must use hardcoded hex colors — CSS custom properties don't work inside SVG.
    ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Caveat:wght@400;700&display=swap');
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
@@ -61,7 +64,7 @@ body::before{
 .diagram-wrap svg a:hover circle{fill:#2c3e50}
 
 /* ===== DAY CARDS ===== */
-.days-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(440px,1fr));gap:28px;margin:0 0 40px}
+.days-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:28px;margin:0 0 40px}
 @media(max-width:500px){.days-grid{grid-template-columns:1fr;gap:20px}}
 
 .day-card{
@@ -147,5 +150,28 @@ body::before{
 .budget-table td{padding:10px 16px;border-bottom:1px solid #e8e4da}
 .budget-table tr:last-child td{border-bottom:none;font-weight:700;background:var(--y)}
 .budget-table td:last-child{text-align:right;font-weight:600}
+
+/* ===== PRINT ===== */
+@media print{
+  body{background:#fff;color:#000;font-size:11pt}
+  body::before{display:none}
+  .header h1{transform:none}
+  .header .line,.header .sub{transform:none}
+  .stat{box-shadow:none;transform:none !important}
+  .day-card{box-shadow:none;transform:none !important;break-inside:avoid;border-color:#ccc}
+  .day-card:hover{transform:none !important}
+  .packing-cat{box-shadow:none;transform:none !important;break-inside:avoid;border-color:#ccc}
+  .reminders{box-shadow:none;border-color:#ccc}
+  .diagram-wrap{box-shadow:none;border-color:#ccc;overflow-x:visible}
+  .diagram-wrap svg text{fill:#000}
+  .diagram-wrap svg .node-text{fill:#000}
+  .diagram-wrap svg .node-sub{fill:#555}
+  .diagram-wrap svg .transport-label{fill:#555}
+  .diagram-wrap svg a:hover circle{fill:inherit}
+  .budget-table,.accom-table{border-color:#ccc}
+  .route-flow .pill{box-shadow:none}
+  .route-flow .pill.hl{background:#000;color:#fff}
+  .footer{color:#555}
+}
 
 .footer{text-align:center;padding:20px;color:var(--muted);font-size:.8rem}
