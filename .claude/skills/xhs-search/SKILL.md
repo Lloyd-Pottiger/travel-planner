@@ -21,17 +21,13 @@ If not installed:
 npm install -g @jackwener/opencli
 ```
 
-Then check for the Browser Bridge Chrome extension:
+Then verify the Browser Bridge Chrome extension is connected:
 
 ```bash
 opencli doctor
 ```
 
-If it shows `[MISSING] Extension: not connected`:
-1. Download the extension from https://github.com/jackwener/opencli/releases (latest release → Assets → extension zip)
-2. Open `chrome://extensions/`, enable Developer Mode
-3. Click "Load unpacked" and select the extracted extension folder
-4. Run `opencli doctor` again — should show `[OK] Extension: connected`
+If it shows `[MISSING] Extension: not connected`, follow the setup guide at https://github.com/jackwener/opencli — download the extension from Releases, load it unpacked in `chrome://extensions/`, then re-run `opencli doctor`.
 
 Login to Xiaohongshu:
 
@@ -79,15 +75,8 @@ opencli xiaohongshu user <user-id>        # View a user's public notes
 opencli xiaohongshu feed                  # Browse home feed
 ```
 
-## When to use this skill
+## When NOT to use
 
-Good fits:
-- Travel: route tips, accommodation reviews, restaurant recommendations, seasonal conditions
-- Shopping: product comparisons, value-for-money picks
-- Lifestyle: local events, hidden gems, DIY/craft inspiration
-- Food: dish recommendations, restaurant rankings, regional specialties
-
-Not a good fit:
 - Breaking news or factual verification (use WebSearch instead)
 - Official data like opening hours or ticket prices (check official sources)
 
@@ -97,3 +86,7 @@ Not a good fit:
 - **Session expiry** — Xiaohongshu login may expire. Re-run `opencli xiaohongshu login` to refresh.
 - **No official API** — relies on browser automation of your logged-in session. Xiaohongshu may change their page structure over time.
 - **Chinese-language ecosystem** — search works best with Chinese keywords. English queries return sparse results.
+
+## Completion
+
+Search is complete when: results have been returned, key findings are contextualized for the caller's needs, and any follow-up searches suggested by the initial results have been run (or explicitly deferred by the user).

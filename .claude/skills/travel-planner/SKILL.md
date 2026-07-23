@@ -1,6 +1,6 @@
 ---
 name: travel-planner
-description: Plan a multi-day road trip or domestic travel itinerary.
+description: Plan a multi-day road trip or domestic travel itinerary within China (中国).
 ---
 
 # Travel Planner Skill
@@ -9,7 +9,7 @@ description: Plan a multi-day road trip or domestic travel itinerary.
 
 ### Phase 1: Information Gathering
 
-Default to asking questions before designing anything — unclear requirements produce bad routes. Don't stop after a fixed number of rounds; keep asking until the key dimensions are sufficiently clear. Batch 3-4 questions per round, prioritize the highest-variance dimensions first, and skip what the user has already covered. Stop when the remaining unknowns wouldn't materially fork the route design (e.g., once the region and route shape are locked in, flight price sensitivity rarely changes the plan). Rarely need more than 3 rounds for a domestic trip.
+Default to asking questions before designing anything — unclear requirements produce bad routes. Don't stop after a fixed number of rounds; keep asking until the key dimensions are sufficiently clear. Batch 3-4 questions per round, prioritize the highest-variance dimensions first, and skip what the user has already covered. Stop when the remaining unknowns wouldn't materially fork the route design (e.g., once the region and route shape are locked in, flight price sensitivity rarely changes the plan).
 
 Use `AskUserQuestion` to batch questions. Key dimensions to pin down (adapt order to what's already known):
 
@@ -82,46 +82,19 @@ Generate a single self-contained HTML file. The output must be **responsive** �
 
 **CSS:** Read `style-template.css` from the skill directory and embed it in a `<style>` block. The template is the default "hand-drawn sketch" style; adapt fonts, colors, and border-radius to match the user's preference if they asked for a different aesthetic.
 
-**Route diagram — SVG timeline:**
-- Prefer SVG over Leaflet — map tiles add weight and irrelevant data for a trip overview
-- Vertical layout with color-coded section backgrounds by region/phase
-- Line styles encode transport mode: solid = driving, dashed = train, dotted = flight
-- **Layout rule** — place transport labels on one side of the route line, node text on the other, to prevent overlap. Default: labels left, text right (assuming LTR reading flow)
-- Clickable nodes scroll to the corresponding day cards
-- Node sizes reflect importance: major stops > overnight stays > pass-through points
-- Dynamically calculate `viewBox` height to fit all nodes with padding
-- SVG fills must use hardcoded hex colors — CSS custom properties are not resolved inside SVG elements
-- Touch-friendly tap targets for mobile (minimum 44×44px tap area on interactive nodes)
-
-**Day cards:**
-- CSS Grid with `minmax(440px, 1fr)` for 2-3 columns on desktop, single column on mobile
-- Each card contains: day number + date, route badge, quick-info tags (weather, drive time, transport mode), sections for activities / food / accommodation, and a contextual note callout
-- Section labels in the traveler's language (e.g., 玩什么 / 吃什么 / 住哪里 for Chinese trips)
-- Subtle random rotation on cards (`±0.5deg max`) for a handmade feel; functional UI elements (tags, badges) stay unrotated
-- Pastel color variants rotated across cards
-
-**Additional sections:**
-- Route flow overview — inline pills showing the full route at a glance
-- Stats bar — total days, driving distance, train/flight segments, regions covered, buffer days
-- Packing checklist — generate dynamically based on trip type, weather, activities, and transport mode. Categories are determined by the trip, not hardcoded (e.g., road trip → car supplies; beach → swim gear; mountain → layers and rain gear)
-- Important reminders — derived from the specific trip: altitude warnings, rainy driving, advance booking needs, food/water safety, luggage strategy
+**Structure and layout:** See [`html-output-spec.md`](html-output-spec.md) for the full specification — SVG timeline rules, day card layout, additional sections (route flow, stats, packing, reminders), and the completion checklist.
 
 **Traveler-facing UI principle:**
 - The output is for the traveler, not the planner. Every visible string in the UI should read as natural advice from a knowledgeable friend — no internal scoring, no priority rankings, no planning meta-language.
-- Day-of-week labels must match the actual calendar year for the trip dates (verified in the completion checklist below).
+- Day-of-week labels must match the actual calendar year for the trip dates (verified in the completion checklist).
 
-**Completion checklist — verify before finalizing:**
-- No day exceeds the user's driving tolerance (adjusted for terrain)
-- No stretch of 3+ consecutive one-night stays (cluster 2-3 nights per base instead)
-- Every weather-sensitive outdoor activity has a fallback or float day
-- All day-of-week labels verified against the actual calendar year for the trip dates
-- HTML renders readably at 384px mobile viewport width
-- SVG `viewBox` height is correct — no nodes are clipped
-- Transport labels and node text are on opposite sides of the route line (no overlap)
+**Phase 4 complete when:** the completion checklist in `html-output-spec.md` is fully satisfied.
 
 ### Phase 5: Deployment
 
 Ask whether to publish online. If yes, deploy to GitHub Pages — create a new public repo, push the HTML files, and enable Pages. Keep descriptive filenames; add an `index.html` landing page to list all trips.
+
+**Phase 5 complete when:** the user has been asked and either declined, or the deployed GitHub Pages URL has been confirmed live.
 
 ## Reference Data
 
