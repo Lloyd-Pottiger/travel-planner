@@ -88,13 +88,17 @@ Generate a single self-contained HTML file. The output must be **responsive** �
 - The output is for the traveler, not the planner. Every visible string in the UI should read as natural advice from a knowledgeable friend — no internal scoring, no priority rankings, no planning meta-language.
 - Day-of-week labels must match the actual calendar year for the trip dates (verified in the completion checklist).
 
+**Privacy:** The HTML is a public travel guide. If a line isn't about the trip itself, it doesn't belong.
+
 **Phase 4 complete when:** the completion checklist in `html-output-spec.md` is fully satisfied.
 
 ### Phase 5: Deployment
 
 Ask whether to publish online. If yes, deploy to GitHub Pages — create a new public repo, push the HTML files, and enable Pages. Keep descriptive filenames; add an `index.html` landing page to list all trips.
 
-**Phase 5 complete when:** the user has been asked and either declined, or the deployed GitHub Pages URL has been confirmed live.
+**Before deploying, run a privacy scan** — re-read the HTML once more with the question: "does anything here not belong in a public travel guide?" Strip anything that doesn't.
+
+**Phase 5 complete when:** the user has been asked and either declined, or the deployed GitHub Pages URL has been confirmed live, and the privacy scan passes.
 
 ## Reference Data
 

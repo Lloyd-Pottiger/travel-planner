@@ -14,17 +14,14 @@ The output embodies **不完美的秩序** (imperfect order): clear grid and inf
 - **Interaction feels like paper.** Hover lifts a card 2-4px with a shadow deepen — like lifting a sticky note with a fingertip. Click presses it back. Animations use elastic easing at 300–500ms; snappy enough to feel responsive, slow enough to feel physical.
 - **Know the boundary.** This style suits creative, educational, and planning contexts. For authority-heavy interfaces (finance, medical), it would undermine trust. The test: if you printed this on A4 and tucked it in a notebook, would it read as a carefully kept draft? If yes, the style is working.
 
-## Route diagram — SVG timeline
+## Route diagram — Geographic map-style SVG
 
-- Prefer SVG over Leaflet — map tiles add weight and irrelevant data for a trip overview
-- Vertical layout with color-coded section backgrounds by region/phase
-- Line styles encode transport mode: solid = driving, dashed = train, dotted = flight
-- **Layout rule** — place transport labels on one side of the route line, node text on the other, to prevent overlap. Default: labels left, text right (assuming LTR reading flow)
-- Clickable nodes scroll to the corresponding day cards
-- Node sizes reflect importance: major stops > overnight stays > pass-through points
-- Dynamically calculate `viewBox` height to fit all nodes with padding
-- SVG fills must use hardcoded hex colors — CSS custom properties are not resolved inside SVG elements
-- Touch-friendly tap targets for mobile (minimum 44×44px tap area on interactive nodes)
+- **Geographic layout**: position nodes to roughly match real-world locations (west=left, east=right). Route line traces a loop or arc — not a straight vertical stack. Draw each segment individually so every node-to-node connection can be verified.
+- **Line styles**: solid=driving, dashed=train, dotted=flight. Transport labels and direction arrows at segment midpoints.
+- **Labels**: place on whichever side has more whitespace; when two nodes crowd, split labels left/right or above/below. viewBox padding ≥60px on all sides.
+- **Nodes**: clickable, scroll to day cards; size reflects importance. Fills must be hardcoded hex (CSS vars not resolved in SVG). Touch targets ≥44×44px.
+- **Decorative touches**: low-opacity mountain silhouettes, desert dunes, or lake outlines behind relevant regions. Color-coded region backgrounds with phase labels.
+- **Verify before shipping**: no overlaps, no clipped text, every segment connected, arrows point the right way.
 
 ## Day cards
 

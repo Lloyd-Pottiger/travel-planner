@@ -8,5 +8,6 @@ Type `/travel-planner`. The skill will ask about your preferences (destination, 
 
 ## Example outputs
 
+- [🏔️ 甘青大环线 · 反向深度自驾](ganqing-grand-loop-aug-2026.html) — 16 days across Gansu & Qinghai, Jul–Aug 2026
 - [🏔️ 川西小环线 · 国庆自驾](western-sichuan-oct-2026.html) — 7 days, Chengdu loop, Oct 2026
-- [🌿 西南自驾 · 广西→贵州→滇西北](guangxi-guizhou-yunnan-2026.html) — 20 days across 3 provinces, Jul–Aug 2026
+- [🏔️ 格聂小环线 · 国庆自驾](genyen-loop-oct-2026.html) — 7 days, Chengdu loop, Oct 2026
