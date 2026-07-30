@@ -93,6 +93,7 @@ body::before{
 .day-card .tag.drive{border-color:#e8734a;color:#e8734a}
 .day-card .tag.train{border-color:#6366f1;color:#6366f1}
 .day-card .tag.flight{border-color:#22c55e;color:#22c55e}
+.day-card .tag.warn{border-color:#ef4444;color:#ef4444}
 .day-card .section{margin-bottom:12px}
 .day-card .section-label{
   font-family:"Ma Shan Zheng",cursive;font-size:1.15rem;
@@ -208,8 +209,8 @@ body::before{
 <header class="header">
   <h1>🏔️ 2026 甘青大环线 · 反向深度自驾</h1>
   <div class="line"></div>
-  <p class="sub">广州 → 兰州 → 西宁（取车）→ 祁连 → 敦煌 → 青海湖 → 西宁（还车）→ 杭州</p>
-  <p class="sub" style="font-size:.95rem;margin-top:2px;">16天 · 两人换着开 · 反向避堵 · 先甘肃后青海 · 海拔渐进</p>
+  <p class="sub">广州 → 兰州 → 西宁（取车）→ 祁连 → 张掖 → 敦煌 → 青海湖 → 西宁（还车）→ 杭州</p>
+  <p class="sub" style="font-size:.95rem;margin-top:2px;">16天 · 两人换着开 · 反向避堵 · 天气驱动灵活调整 · 青海湖两晚深度</p>
 </header>
 
 <!-- ===== NAV ===== -->
@@ -229,7 +230,7 @@ body::before{
   <div class="stat" style="--r:-1deg"><span class="n">16<small style="font-size:1rem">天</small></span><span class="l">纯玩行程</span></div>
   <div class="stat" style="--r:.7deg"><span class="n">~2,800<small style="font-size:1rem">km</small></span><span class="l">自驾里程</span></div>
   <div class="stat" style="--r:-.4deg"><span class="n">2<small style="font-size:1rem">程</small></span><span class="l">飞机+高铁接驳</span></div>
-  <div class="stat" style="--r:.9deg"><span class="n">6°C<small style="font-size:1rem">–38°C</small></span><span class="l">温差跨度 · 洋葱穿搭</span></div>
+  <div class="stat" style="--r:.9deg"><span class="n">6°C<small style="font-size:1rem">–40°C</small></span><span class="l">温差跨度 · 洋葱穿搭</span></div>
   <div class="stat" style="--r:-.6deg"><span class="n">2,260<small style="font-size:1rem">→3,200m</small></span><span class="l">海拔渐进适应</span></div>
   <div class="stat" style="--r:.3deg"><span class="n">0</span><span class="l">跨省还车费 · 西宁取还</span></div>
 </div>
@@ -241,19 +242,18 @@ body::before{
   <span class="pill hl">🚗 西宁取车</span><span class="arrow">→</span>
   <span class="pill">🌼 门源</span><span class="arrow">→</span>
   <span class="pill">🏔️ 祁连</span><span class="arrow">→</span>
-  <span class="pill">🌈 张掖</span><span class="arrow">→</span>
+  <span class="pill">🌈 张掖·2晚</span><span class="arrow">→</span>
   <span class="pill">🏰 嘉峪关</span><span class="arrow">→</span>
-  <span class="pill">🐪 敦煌</span><span class="arrow">→</span>
+  <span class="pill">🐪 敦煌·2晚</span><span class="arrow">→</span>
   <span class="pill">💎 大柴旦</span><span class="arrow">→</span>
   <span class="pill">🏜️ 水上雅丹</span><span class="arrow">→</span>
   <span class="pill">💚 察尔汗</span><span class="arrow">→</span>
   <span class="pill">🧂 茶卡</span><span class="arrow">→</span>
-  <span class="pill">💙 青海湖</span><span class="arrow">→</span>
+  <span class="pill">💙 青海湖·2晚</span><span class="arrow">→</span>
   <span class="pill hl">🏙️ 西宁还车</span><span class="arrow">✈️</span>
   <span class="pill">🏠 杭州</span>
 </div>
 
-<!-- ===== SVG ROUTE DIAGRAM (geographic map style) ===== -->
 <!-- ===== SVG ROUTE DIAGRAM (geographic map style) ===== -->
 <div class="diagram-wrap" id="map-wrap">
   <svg viewBox="0 0 920 560" xmlns="http://www.w3.org/2000/svg">
@@ -359,27 +359,16 @@ body::before{
 
     <!-- ===== DIRECTION ARROWS (at segment midpoints) ===== -->
     <g fill="#2c3e50" opacity="0.5">
-      <!-- 西宁→门源 mid ~(578,213) -->
       <polygon points="576,216 582,210 582,222"/>
-      <!-- 门源→祁连 mid ~(494,167) -->
       <polygon points="492,170 498,164 498,176"/>
-      <!-- 祁连→张掖 mid ~(385,115) -->
       <polygon points="383,118 389,112 389,124"/>
-      <!-- 张掖→嘉峪关 mid ~(271,96) -->
       <polygon points="269,99 275,93 275,105"/>
-      <!-- 嘉峪关→敦煌 mid ~(173,95) -->
       <polygon points="171,98 177,92 177,104"/>
-      <!-- 敦煌→大柴旦 mid ~(166,200) -->
       <polygon points="164,203 170,197 170,209"/>
-      <!-- 大柴旦→水上雅丹 mid ~(150,310) -->
       <polygon points="148,313 154,307 154,319"/>
-      <!-- 水上雅丹→察尔汗 mid ~(183,355) -->
       <polygon points="185,352 179,358 179,346"/>
-      <!-- 察尔汗→茶卡 mid ~(338,373) -->
       <polygon points="340,370 334,376 334,364"/>
-      <!-- 茶卡→青海湖 mid ~(492,366) -->
       <polygon points="494,363 488,369 488,357"/>
-      <!-- 青海湖→西宁 return mid ~(611,318) -->
       <polygon points="613,315 607,321 607,309"/>
     </g>
 
@@ -400,7 +389,7 @@ body::before{
 
     <!-- ===== NODES ===== -->
 
-    <!-- 西宁 start (labels go UP to avoid 门源) -->
+    <!-- 西宁 start -->
     <a href="#s1">
       <circle cx="628" cy="230" r="18" fill="#fff" stroke="#2c3e50" stroke-width="2.5"/>
       <text x="628" y="236" text-anchor="middle" font-size="16">🚗</text>
@@ -408,7 +397,7 @@ body::before{
       <text x="628" y="217" fill="#7b8a9b" font-size="10" text-anchor="middle">取车 · D1</text>
     </a>
 
-    <!-- 门源 (labels go LEFT) -->
+    <!-- 门源 -->
     <a href="#s1">
       <circle cx="530" cy="194" r="12" fill="#f0faf4" stroke="#2c3e50" stroke-width="1.8"/>
       <text x="530" y="199" text-anchor="middle" font-size="12">🌼</text>
@@ -424,28 +413,29 @@ body::before{
       <text x="482" y="149" fill="#7b8a9b" font-size="10">D2-3 · 2晚 · 2800m</text>
     </a>
 
-    <!-- 张掖 D4 -->
+    <!-- 张掖 D4-5 · 2晚 -->
     <a href="#s2">
-      <circle cx="320" cy="98" r="17" fill="#fff7ed" stroke="#2c3e50" stroke-width="2"/>
+      <circle cx="320" cy="98" r="19" fill="#fff7ed" stroke="#2c3e50" stroke-width="2.2"/>
       <text x="320" y="104" text-anchor="middle" font-size="15">🌈</text>
-      <text x="345" y="93" fill="#2c3e50" font-size="14" font-weight="700">张掖</text>
-      <text x="345" y="108" fill="#7b8a9b" font-size="10">D4 · 1500m</text>
+      <text x="345" y="88" fill="#2c3e50" font-size="14" font-weight="700">张掖</text>
+      <text x="345" y="103" fill="#7b8a9b" font-size="10">D4-5 · 2晚 · 1500m</text>
+      <text x="345" y="116" fill="#7b8a9b" font-size="9">丹霞 · 大佛寺 · 平山湖</text>
     </a>
 
-    <!-- 嘉峪关 D5 -->
+    <!-- 嘉峪关 D6 -->
     <a href="#s2">
       <circle cx="222" cy="96" r="15" fill="#fff7ed" stroke="#2c3e50" stroke-width="2"/>
       <text x="222" y="102" text-anchor="middle" font-size="14">🏰</text>
       <text x="200" y="73" fill="#2c3e50" font-size="13" font-weight="700" text-anchor="end">嘉峪关</text>
-      <text x="200" y="88" fill="#7b8a9b" font-size="10" text-anchor="end">D5</text>
+      <text x="200" y="88" fill="#7b8a9b" font-size="10" text-anchor="end">D6 · 城楼日落</text>
     </a>
 
-    <!-- 敦煌 D6-8 -->
+    <!-- 敦煌 D7-8 · 2晚 -->
     <a href="#s2">
-      <circle cx="118" cy="95" r="22" fill="#fffbe6" stroke="#2c3e50" stroke-width="2.8"/>
+      <circle cx="118" cy="95" r="20" fill="#fffbe6" stroke="#2c3e50" stroke-width="2.5"/>
       <text x="118" y="102" text-anchor="middle" font-size="18">🐪</text>
       <text x="85" y="68" fill="#2c3e50" font-size="17" font-weight="700" text-anchor="end">敦煌</text>
-      <text x="85" y="85" fill="#7b8a9b" font-size="10" text-anchor="end">D6-8 · 3晚</text>
+      <text x="85" y="85" fill="#7b8a9b" font-size="10" text-anchor="end">D7-8 · 2晚</text>
       <text x="85" y="99" fill="#7b8a9b" font-size="9" text-anchor="end">莫高窟 · 鸣沙山</text>
     </a>
 
@@ -481,13 +471,13 @@ body::before{
       <text x="410" y="376" fill="#7b8a9b" font-size="10">D11 · 3100m</text>
     </a>
 
-    <!-- 青海湖 D12 -->
+    <!-- 青海湖 D12-13 · 2晚 -->
     <a href="#s3">
-      <circle cx="590" cy="358" r="22" fill="#eef6ff" stroke="#2c3e50" stroke-width="2.8"/>
+      <circle cx="590" cy="358" r="24" fill="#eef6ff" stroke="#2c3e50" stroke-width="2.8"/>
       <text x="590" y="365" text-anchor="middle" font-size="18">💙</text>
-      <text x="620" y="348" fill="#2c3e50" font-size="17" font-weight="700">青海湖</text>
-      <text x="620" y="365" fill="#7b8a9b" font-size="10">D12 · 油菜花巅峰</text>
-      <text x="620" y="380" fill="#7b8a9b" font-size="9">3200m · 南山全景</text>
+      <text x="620" y="345" fill="#2c3e50" font-size="17" font-weight="700">青海湖</text>
+      <text x="620" y="362" fill="#7b8a9b" font-size="10">D12-13 · 2晚 · 油菜花巅峰</text>
+      <text x="620" y="377" fill="#7b8a9b" font-size="9">3200m · 南山全景 · 环湖发呆</text>
     </a>
 
     <!-- 西宁 return -->
@@ -495,7 +485,7 @@ body::before{
       <circle cx="622" cy="286" r="15" fill="#fff" stroke="#2c3e50" stroke-width="2" stroke-dasharray="4,2"/>
       <text x="622" y="292" text-anchor="middle" font-size="14">🏙️</text>
       <text x="642" y="278" fill="#2c3e50" font-size="13" font-weight="700">西宁·还车</text>
-      <text x="642" y="294" fill="#7b8a9b" font-size="10">D13-15 · 3晚</text>
+      <text x="642" y="294" fill="#7b8a9b" font-size="10">D14-15 · 2晚</text>
     </a>
 
     <!-- ===== LEGEND ===== -->
@@ -518,7 +508,7 @@ body::before{
   <div class="num">❶</div>
   <div>
     <h2>祁连山区 · 草原雪山</h2>
-    <span class="sum">7.28 — 7.31 ｜ 海拔渐进2260→2800m ｜ 🚗 西宁取车出发</span>
+    <span class="sum">7.28 — 7.31 ｜ 海拔渐进2260→2800m ｜ 🚗 西宁取车出发 ｜ D3祁连有雨灵活调整</span>
   </div>
 </div>
 
@@ -532,7 +522,7 @@ body::before{
     <div class="section"><div class="section-label">🎯 行程</div><p>广州✈️兰州中川（上午航班，¥800-1000）→ 机场城际35min→兰州西站 → 高铁1h→西宁 → 🚗 <strong>站外取车</strong>（一嗨/神州）→ 🍜 莫家街觅食 → 🕌 东关清真大寺外观（夜灯很美）</p></div>
     <div class="section"><div class="section-label">🍜 吃什么</div><p>🐑 <strong>和财羊肉</strong>手抓（吃货必去！）· 莫家街<strong>酿皮</strong> · 酸奶 · 甜醅 · 马尔沙牛杂（夜宵）</p></div>
     <div class="section"><div class="section-label">🏠 住哪里</div><p>西宁市区（城东或城西，方便D2出城）</p></div>
-    <div class="note-callout">💡 今天核心是接驳+取车。兰州中川机场内就有高铁站，步行5分钟，不用出机场。在西宁加满油、买好补给（矿泉水、零食、红牛），后面无人区补给少。</div>
+    <div class="note-callout">💡 今天核心是接驳+取车。兰州中川机场内就有高铁站，步行5分钟，不用出机场。西宁加满油、买好补给（矿泉水、零食、红牛），后面无人区补给少。</div>
   </div>
 
   <!-- D2 -->
@@ -542,30 +532,31 @@ body::before{
     <div class="tags"><span class="tag drive">🚗 5h</span><span class="tag">☀️ 10-24°C</span></div>
     <div class="section"><div class="section-label">🎯 玩什么</div><p>🛣️ <strong>G227国道</strong>（中国最美国道之一）→ 🏔️ 达坂山观景台远眺<strong>岗什卡雪峰</strong>（5254m，夏天仍有积雪）→ 🌼 门源油菜花（7月底过巅峰但仍有金色斑块+绿色麦浪交错）→ 🏚️ 峨堡古城遗址（丝路古镇，免费）→ 🌿 傍晚进入<strong>祁连草原</strong>，光线最美</p></div>
     <div class="section"><div class="section-label">🍜 吃什么</div><p>🍖 祁连·<strong>炕锅羊肉</strong>（必吃！）· 羊肉串 · 牦牛酸奶（很酸，加白糖！）· 青稞饼</p></div>
-    <div class="section"><div class="section-label">🏠 住哪里</div><p><strong>祁连县城</strong>（海拔2800m，第一天到这里不要洗澡！让身体适应）</p></div>
+    <div class="section"><div class="section-label">🏠 住哪里</div><p><strong>祁连县城</strong>（海拔2800m，第一晚不要洗澡！让身体适应）</p></div>
     <div class="note-callout">💡 G227区间测速密集，限速70。看到牛羊过马路减速但<strong>不要鸣笛</strong>。海拔从2260升到2800m，比直接冲青海湖(3200m)舒服得多。</div>
   </div>
 
   <!-- D3 -->
   <div class="day-card c-pu" style="--rot:-.3deg">
     <div class="card-header"><div class="day-num">Day 3</div><div class="card-date">📅 7月30日 周四</div></div>
-    <div class="route-badge">祁连全天：卓尔山后山 + 草原</div>
-    <div class="tags"><span class="tag">☀️ 10-24°C</span><span class="tag">📸 日出5:30</span></div>
-    <div class="section"><div class="section-label">🎯 玩什么</div><p>🌅 <strong>5:30起床 → 6:00卓尔山后山</strong>（免费秘境！）→ 导航「伦布夏果游客服务中心」，徒步10分钟登顶 → 🏔️ <strong>牛心山日照金山</strong>（7点金色光线点亮雪峰）→ 🌼 俯瞰油菜花+丹霞+草原三位一体 → 🐎 上午<strong>祁连草原骑马</strong>（50-120元/小时，先问清按时间还是按圈）→ 🏛️ 下午阿柔大寺（免费，藏传佛寺）→ 🌲 冰沟林海（松林+溪水，森系出片）</p></div>
-    <div class="section"><div class="section-label">🍜 吃什么</div><p>🥩 继续炕锅羊肉 · 🥛 祁连<strong>牦牛酸奶</strong>（现做）· 土火锅</p></div>
+    <div class="route-badge">祁连全天 · 雨天灵活调整</div>
+    <div class="tags"><span class="tag warn">🌧️ 暴雨蓝警 7-14°C</span><span class="tag">⚠️ 卓尔山不上</span></div>
+    <div class="section"><div class="section-label">🎯 玩什么</div><p>🌧️ <strong>雨天方案：</strong>上午<strong>阿柔大寺</strong>（藏传佛寺，大殿内暖和，慢慢看转经筒+壁画）→ 下午看雨势：雨小去<strong>冰沟林海</strong>（松林遮雨+雨后溪水更透亮，森系出片），雨大回县城喝奶茶休息 → 🛕 县城的清真寺和藏式建筑街区也可以溜达</p></div>
+    <div class="section"><div class="section-label">⚠️ 今天不去</div><p>⛔ 卓尔山后山——泥路+陡坡，暴雨天湿滑危险，不值得冒险。⛔ 草原骑马——下雨马也不舒服，体验差。</p></div>
+    <div class="section"><div class="section-label">🍜 吃什么</div><p>🥩 炕锅羊肉续命 · 🥛 祁连<strong>牦牛酸奶</strong>（现做）· 土火锅（雨天吃火锅正合适！）</p></div>
     <div class="section"><div class="section-label">🏠 住哪里</div><p>继续祁连（不搬行李）</p></div>
-    <div class="note-callout">📸 卓尔山后山视角<strong>比收费前山更高更震撼</strong>，而且免费！后山因东侧有高山遮挡拍不到太阳本身，但朝霞+日照金山场景极壮观。9点后云雾散开，可见牛心山云海。</div>
+    <div class="note-callout">🌧️ 祁连夏季午后雷阵雨是常态，今天刚好赶上。暴雨蓝警预计15:00解除，如果下午放晴——雨后空气通透，冰沟林海的光线反而比晴天更好。阿柔大寺游客极少、不收门票，大殿内酥油灯的味道和安静氛围是此行的意外收获。卓尔山如果明早放晴，离开前可以再冲一次日出（D4出发前）。</div>
   </div>
 
   <!-- D4 -->
   <div class="day-card c-o" style="--rot:.2deg">
     <div class="card-header"><div class="day-num">Day 4</div><div class="card-date">📅 7月31日 周五</div></div>
     <div class="route-badge">祁连 → 张掖 · 七彩丹霞</div>
-    <div class="tags"><span class="tag drive">🚗 3.5h</span><span class="tag">☀️ 18-32°C</span></div>
-    <div class="section"><div class="section-label">🎯 玩什么</div><p>🚗 上午出发→张掖（途经扁都口、黑河大峡谷）→ 🌈 下午<strong>七彩丹霞</strong>（⚠️ 4点以后入园！正午光线太硬）+ 重点看<strong>4号观景台</strong>（色彩最艳丽）→ 🌅 日落时丹霞像火烧一样红</p></div>
+    <div class="tags"><span class="tag drive">🚗 3.5h</span><span class="tag">⛅ 多云 16-30°C</span></div>
+    <div class="section"><div class="section-label">🎯 玩什么</div><p>🚗 上午出发→张掖（途经扁都口、黑河大峡谷）→ 🍜 中午到<strong>张掖市区</strong>吃午饭 → 🌈 下午<strong>4点后进七彩丹霞</strong>（⚠️ 正午光线太硬！）+ 重点看<strong>4号观景台</strong>（色彩最艳丽）→ 🌅 日落时返回市区吃晚饭</p></div>
     <div class="section"><div class="section-label">🍜 吃什么</div><p>🍜 张掖·<strong>搓鱼面</strong>（本地特色面食）· 炒炮仗 · 牛肉小饭 · 张掖卤肉</p></div>
-    <div class="section"><div class="section-label">🏠 住哪里</div><p>张掖七彩镇（丹霞景区门口，方便第二天直接出发）</p></div>
-    <div class="note-callout">💡 丹霞最佳观赏时间是<strong>下午4点到日落</strong>，夕阳打在红色岩壁上颜色炸裂。千万别中午去——白花花的啥也看不见。雨后初晴颜色最好。</div>
+    <div class="section"><div class="section-label">🏠 住哪里</div><p><strong>张掖市区</strong>（丹霞回市区40分钟，市区吃住远优于七彩镇）</p></div>
+    <div class="note-callout">💡 今天张掖多云转阴，虽不是雨后初晴的最佳丹霞天气，但多云天光比柔和、不会过曝。如果正好遇到阵雨过境——别躲，雨后丹霞颜色饱和度翻倍。丹霞回市区晚上9点前就能到，搓鱼面+卤肉安排上，不用在景区门口凑合。</div>
   </div>
 
 </div>
@@ -575,7 +566,7 @@ body::before{
   <div class="num">❷</div>
   <div>
     <h2>河西走廊 · 戈壁丝路</h2>
-    <span class="sum">8.1 — 8.5 ｜ 张掖→嘉峪关→敦煌→大柴旦 ｜ 精华集中段，莫高窟是重头戏</span>
+    <span class="sum">8.1 — 8.5 ｜ 张掖→嘉峪关→敦煌→大柴旦 ｜ 张掖深度两晚 · 敦煌莫高窟重头戏 · 8/5高温早走</span>
   </div>
 </div>
 
@@ -584,56 +575,56 @@ body::before{
   <!-- D5 -->
   <div class="day-card c-p" style="--rot:-.15deg">
     <div class="card-header"><div class="day-num">Day 5</div><div class="card-date">📅 8月1日 周六</div></div>
-    <div class="route-badge">张掖 → 平山湖大峡谷 → 嘉峪关</div>
-    <div class="tags"><span class="tag drive">🚗 2.5h</span><span class="tag">☀️ 19-35°C</span></div>
-    <div class="section"><div class="section-label">🎯 玩什么</div><p>🏜️ 上午<strong>平山湖大峡谷</strong>（"中国科罗拉多"，红色峡谷徒步2-3h，上午光比小）→ 🚗 中午→嘉峪关（2.5h）→ 🏰 下午<strong>嘉峪关城楼</strong>（天下第一雄关，等到日落金色光线扫过关城）</p></div>
-    <div class="section"><div class="section-label">🍜 吃什么</div><p>🍖 嘉峪关·<strong>烤肉</strong>（西北烤肉天花板！）· 羊肉垫卷子 · 糊锅</p></div>
-    <div class="section"><div class="section-label">🏠 住哪里</div><p>嘉峪关市区</p></div>
-    <div class="note-callout">💡 平山湖大峡谷比丹霞更野更震撼，很多人只去丹霞就跳过了，但这里才是张掖的隐藏宝藏。峡谷徒步有两条线，选"一线天"路线最出片。嘉峪关城楼下午去，日落前1小时光线最好。</div>
+    <div class="route-badge">张掖全天 · 看天吃饭日</div>
+    <div class="tags"><span class="tag">🌧️ 小雨 14-28°C</span><span class="tag">🏛️ 室内优先</span></div>
+    <div class="section"><div class="section-label">🎯 玩什么</div><p>🏛️ 上午<strong>大佛寺</strong>（34.5m西夏卧佛，全国最大室内卧佛，1-1.5h）→ 🌤️ 下午<strong>看天气</strong>：雨停就去<strong>平山湖大峡谷</strong>（一线天路线2-3h，"中国科罗拉多"）→ 雨大就回市区逛吃/张掖湿地/随便溜达</p></div>
+    <div class="section"><div class="section-label">🍜 吃什么</div><p>🍜 继续<strong>搓鱼面</strong>（换一家店！）· 炒炮仗 · 张掖卤肉 · 牛肉小饭</p></div>
+    <div class="section"><div class="section-label">🏠 住哪里</div><p><strong>张掖市区</strong>（连住两晚，行李不用收！）</p></div>
+    <div class="note-callout">🌧️ 今天小雨是全程唯一一个"看天吃饭"的日子。大佛寺室内不受影响，正好把这座西夏皇家寺院看仔细——卧佛脚趾上的西夏文题记、清代壁画，慢慢看1.5h刚好。平山湖如果能去就是赚到（雨后云层低矮+红色峡谷层次感炸裂），去不了也不亏——相比暴晒天赶路，在张掖慢悠悠逛吃反而是个惊喜。明天嘉峪关转晴，不用焦虑。</div>
   </div>
 
   <!-- D6 -->
   <div class="day-card c-o" style="--rot:.25deg">
     <div class="card-header"><div class="day-num">Day 6</div><div class="card-date">📅 8月2日 周日</div></div>
-    <div class="route-badge">嘉峪关 → 敦煌 · 鸣沙山日落</div>
-    <div class="tags"><span class="tag drive">🚗 4h</span><span class="tag">☀️ 22-38°C</span></div>
-    <div class="section"><div class="section-label">🎯 玩什么</div><p>🏰 上午<strong>悬壁长城</strong>（1h够了）→ 🚗 中午出发→敦煌（连霍高速，4h直达）→ 🐪 下午到敦煌先休息（外面暴热！）→ 🌅 <strong>17:00后进鸣沙山月牙泉</strong>（日落时间20:00+，6点以后不晒且光线最好）→ 🏜️ 骑骆驼/滑沙 → 月牙泉日落 → 晚上沙洲夜市</p></div>
-    <div class="section"><div class="section-label">🍜 吃什么</div><p>🐴 敦煌·<strong>驴肉黄面</strong>（顺张/达记）· 🥤 <strong>杏皮水</strong>（必喝！解暑神器）· 羊肉粉汤</p></div>
-    <div class="section"><div class="section-label">🏠 住哪里</div><p>敦煌市区（莫高窟数字中心附近优先，旺季300-500/晚）</p></div>
-    <div class="note-callout">💡 鸣沙山门票<strong>3天内可二次入园</strong>（110元），D6看日落，D8还可以再来补拍。带酒店拖鞋就行，不用买鞋套。别带单反进沙漠——细沙会进镜头。</div>
+    <div class="route-badge">张掖 → 嘉峪关 · 天下第一雄关</div>
+    <div class="tags"><span class="tag drive">🚗 2.5h</span><span class="tag">🌤️ 小雨转晴 18-28°C</span></div>
+    <div class="section"><div class="section-label">🎯 玩什么</div><p>🚗 上午悠闲出发→嘉峪关（连霍高速2.5h）→ 🏨 中午到，入住+午饭 → 🏰 下午<strong>嘉峪关城楼</strong>（天下第一雄关，天气转晴！等到日落金色光线扫过关城）→ 🍖 晚上<strong>大唐美食街</strong>烤肉</p></div>
+    <div class="section"><div class="section-label">🍜 吃什么</div><p>🍖 嘉峪关·<strong>烤肉</strong>（西北烤肉天花板！）· 羊肉垫卷子 · 糊锅</p></div>
+    <div class="section"><div class="section-label">🏠 住哪里</div><p>嘉峪关市区（近大唐美食街）</p></div>
+    <div class="note-callout">🌤️ 今天是这趟行程的"天气翻转日"——早上从张掖出来可能还飘小雨，到嘉峪关下午就放晴了。城楼日落前1小时光线最佳，关城+祁连雪山背景+金色光=此行最佳人文照片之一。比起原计划（大峡谷徒步完再赶过来），今天轻松太多了——上午不用赶景区，下午不用赶路。</div>
   </div>
 
   <!-- D7 -->
-  <div class="day-card c-y" style="--rot:-.25deg">
+  <div class="day-card c-b" style="--rot:-.1deg">
     <div class="card-header"><div class="day-num">Day 7</div><div class="card-date">📅 8月3日 周一</div></div>
-    <div class="route-badge">🏛️ 莫高窟 + 沙洲夜市</div>
-    <div class="tags"><span class="tag">☀️ 23-38°C</span><span class="tag">⚠️ 提前30天抢票</span></div>
-    <div class="section"><div class="section-label">🎯 玩什么</div><p>🏛️ <strong>莫高窟</strong>（A类票238元/8个窟+球幕电影）→ 早上8:00场次，人少光线好 → 2场数字电影（球幕《梦幻佛宫》坐后排中间！）→ 摆渡车进窟区 → 30人一组8个随机洞窟（~75min）→ 🏛️ 陈列中心看1:1复制窟（<strong>可以拍照</strong>）→ 🛍️ 晚上<strong>沙洲夜市</strong>吃吃吃</p></div>
-    <div class="section"><div class="section-label">🍜 吃什么</div><p>夜市·<strong>烤包子</strong> · 红柳烤肉 · 杏皮水续杯 · 李广杏（8月正当季！）</p></div>
-    <div class="section"><div class="section-label">🏠 住哪里</div><p>继续敦煌</p></div>
-    <div class="note-callout">⚠️ A类票每天7:00放票，秒空！刷退票技巧：每天早上7:00-7:10持续刷新小程序。抢不到的话B类应急票100元/4个窟兜底——区别是B类无电影、无专属讲解。特窟票到现场排队买（11:00前），150-200元/窟。洞窟内<strong>严禁拍照</strong>。</div>
+    <div class="route-badge">嘉峪关 → 敦煌 · 鸣沙山日落</div>
+    <div class="tags"><span class="tag drive">🚗 4h</span><span class="tag">☀️ 18-35°C</span></div>
+    <div class="section"><div class="section-label">🎯 玩什么</div><p>🏗️ 上午<strong>悬壁长城</strong>（1h够了，趁凉快）→ 🚗 中午出发→敦煌（连霍高速4h直达）→ 🏨 下午到敦煌先休息（外面暴热！）→ 🌅 <strong>17:00后进鸣沙山月牙泉</strong>（日落约20:50，6点以后不晒且光线最好）→ 🐪 骑骆驼/滑沙 → 月牙泉日落 → 晚上沙洲夜市</p></div>
+    <div class="section"><div class="section-label">🍜 吃什么</div><p>🐴 敦煌·<strong>驴肉黄面</strong>（顺张/达记）· 🥤 <strong>杏皮水</strong>（必喝！解暑神器）· 羊肉粉汤</p></div>
+    <div class="section"><div class="section-label">🏠 住哪里</div><p>敦煌市区（莫高窟数字中心附近优先，旺季300-500/晚，连住两晚）</p></div>
+    <div class="note-callout">💡 鸣沙山门票<strong>3天内可二次入园</strong>（110元），明天莫高窟结束后如果有体力还可以再来补拍。带酒店拖鞋就行，不用买鞋套。别带单反进沙漠——细沙会进镜头。今天35°C，17:00前入园是自虐，酒店睡到4点半出门刚刚好。</div>
   </div>
 
   <!-- D8 -->
-  <div class="day-card c-b" style="--rot:.1deg">
+  <div class="day-card c-y" style="--rot:-.25deg">
     <div class="card-header"><div class="day-num">Day 8</div><div class="card-date">📅 8月4日 周二</div></div>
-    <div class="route-badge">敦煌全天：玉门关 + 雅丹魔鬼城</div>
-    <div class="tags"><span class="tag">☀️ 22-37°C</span><span class="tag">备选：二进鸣沙山</span></div>
-    <div class="section"><div class="section-label">🎯 玩什么</div><p><strong>Plan A：</strong>🏛️ 上午<strong>玉门关</strong>（"春风不度玉门关"，1.5h车程）→ 🏜️ 下午<strong>雅丹魔鬼城</strong>（日落时分最震撼，回程看戈壁星空）<br><strong>Plan B（休整）：</strong>😴 睡到自然醒 → ☕ 敦煌书局喝杯咖啡 → 🐪 傍晚<strong>二进鸣沙山</strong>（用3天有效的门票）拍照补漏</p></div>
-    <div class="section"><div class="section-label">🍜 吃什么</div><p>🍖 敦煌·<strong>胡羊焖饼</strong> · 羊肉合汁 · 🍦 莫高窟文创雪糕（拍照道具！）</p></div>
-    <div class="section"><div class="section-label">🏠 住哪里</div><p>继续敦煌（3连住，不搬）</p></div>
-    <div class="note-callout">💡 雅丹魔鬼城往返敦煌180km，来回4h+游玩3h=一整天，比较累。如果D7莫高窟已经消耗体力，选Plan B休整更好——敦煌值得慢下来，别赶路。</div>
+    <div class="route-badge">🏛️ 莫高窟全天 + 沙洲夜市</div>
+    <div class="tags"><span class="tag">☀️ 15-36°C</span><span class="tag warn">⚠️ 买8/4的A类票！</span></div>
+    <div class="section"><div class="section-label">🎯 玩什么</div><p>🏛️ <strong>莫高窟</strong>（A类票238元/8个窟+球幕电影）→ 早上8:00场次，人少光线好 → 2场数字电影（球幕《梦幻佛宫》坐后排中间！）→ 摆渡车进窟区 → 30人一组8个随机洞窟（~75min）→ 🏛️ 陈列中心看1:1复制窟（<strong>可以拍照</strong>）→ 🛍️ 晚上<strong>沙洲夜市</strong>吃吃吃</p></div>
+    <div class="section"><div class="section-label">🍜 吃什么</div><p>夜市·<strong>烤包子</strong> · 红柳烤肉 · 杏皮水续杯 · 李广杏（8月正当季！）</p></div>
+    <div class="section"><div class="section-label">🏠 住哪里</div><p>继续敦煌</p></div>
+    <div class="note-callout">⚠️ <strong>立刻抢8月4日（周二）的A类票！</strong>微信「莫高窟参观预约网」，每天7:00放票秒空。刷退票技巧：每天7:00-7:10持续刷新。抢不到B类应急票100元/4窟兜底。特窟票现场排队（11:00前），150-200元/窟。洞窟内<strong>严禁拍照</strong>。8点场体验最好，看完中午回市区吹空调。</div>
   </div>
 
   <!-- D9 -->
   <div class="day-card c-pu" style="--rot:-.2deg">
     <div class="card-header"><div class="day-num">Day 9</div><div class="card-date">📅 8月5日 周三</div></div>
     <div class="route-badge">敦煌 → 大柴旦 · 翡翠湖</div>
-    <div class="tags"><span class="tag drive">🚗 5h</span><span class="tag">☀️ 12-25°C</span><span class="tag">⚠️ 最长驾驶日</span></div>
-    <div class="section"><div class="section-label">🎯 玩什么</div><p>🚗 早上出发→大柴旦（G3011柳格高速，全程5h，戈壁风光）→ 🏔️ 途经<strong>当金山</strong>（海拔从1100升到2900m，注意高反）→ ⛰️ 远眺<strong>黑独山</strong>（黑色山脉像水墨画，路边拍照即可）→ 💎 下午<strong>翡翠湖</strong>（日落时颜色最梦幻！比茶卡更出片）</p></div>
+    <div class="tags"><span class="tag drive">🚗 5h</span><span class="tag">敦煌☀️40°C→大柴旦~25°C</span><span class="tag warn">⚠️ 最长驾驶日</span></div>
+    <div class="section"><div class="section-label">🎯 玩什么</div><p>🌅 <strong>8点前出发</strong>（趁敦煌还没热炸）→ 🏔️ 途经<strong>当金山</strong>（海拔1100→2900m，从40°C戈壁逃到25°C高原，体感像从烤箱进空调房）→ ⛰️ 远眺<strong>黑独山</strong>（黑色山脉像水墨画，路边拍照即可）→ 💎 下午<strong>翡翠湖</strong>（日落时颜色最梦幻！比茶卡更出片）</p></div>
     <div class="section"><div class="section-label">🍜 吃什么</div><p>🍲 大柴旦·炕锅羊肉 · 大盘鸡 · 清真面食</p></div>
-    <div class="section"><div class="section-label">🏠 住哪里</div><p>大柴旦镇（旺季超紧张，提前15天订！400-600/晚）</p></div>
-    <div class="note-callout">⚠️ 全程最长驾驶日（5h），但都是戈壁高速，路况好。敦煌出发前<strong>务必加满油</strong>，当金山到D11路段几乎没有加油站。海拔一天升1800m（1100→2900m），到了别剧烈运动。翡翠湖<strong>别穿白裙子</strong>——和白色盐堆融为一体，红裙或亮色最出片。湖里是卤水有腐蚀性，别光脚踩。</div>
+    <div class="section"><div class="section-label">🏠 住哪里</div><p>大柴旦镇（旺季超紧张，提前15天订！400-600/晚，连住两晚）</p></div>
+    <div class="note-callout">🔥 今天敦煌40°C——正是离开敦煌的最佳时机。原本这天安排的玉门关+雅丹魔鬼城在40°C户外是玩命的。反过来，上午从40°C戈壁逃到25°C高原，下午在翡翠湖吹着凉风拍蒂芙尼蓝——才是正确打开方式。敦煌出发前<strong>务必加满油</strong>（当金山到D11路段加油站极少）。海拔一天升1800m（1100→2900m），到了别剧烈运动。翡翠湖<strong>别穿白裙子</strong>——红裙最出片。卤水有腐蚀性别光脚踩。</div>
   </div>
 
 </div>
@@ -644,7 +635,7 @@ body::before{
   <div class="num">❸</div>
   <div>
     <h2>青藏高原 · 盐湖花海</h2>
-    <span class="sum">8.6 — 8.12 ｜ 水上雅丹→察尔汗→茶卡→青海湖→西宁 ｜ 全程最高光段</span>
+    <span class="sum">8.6 — 8.12 ｜ 水上雅丹→察尔汗→茶卡→青海湖→西宁 ｜ 茶卡8/8晴天镜面日 · 青海湖两晚深度</span>
   </div>
 </div>
 
@@ -654,76 +645,76 @@ body::before{
   <div class="day-card c-b" style="--rot:.15deg">
     <div class="card-header"><div class="day-num">Day 10</div><div class="card-date">📅 8月6日 周四</div></div>
     <div class="route-badge">大柴旦 → 水上雅丹 + 南八仙魔鬼城</div>
-    <div class="tags"><span class="tag drive">🚗 往返5h</span><span class="tag">☀️ 12-25°C</span><span class="tag">🛸 带无人机！</span></div>
-    <div class="section"><div class="section-label">🎯 玩什么</div><p>🚗 上午G315→<strong>水上雅丹</strong>（全球唯一！雅丹群矗立湖中像万舰出海）→ 🎫 门票60+观光车60 → 登上雅丹顶俯瞰全景 → 🏚️ 回程<strong>南八仙魔鬼城</strong>（免费！雅丹地貌群，比收费景区更野更震撼）→ ⚠️ 越野车<strong>别离开车辙路</strong>，容易陷车 → 📸 G315公路（U型路段已加护栏，路边土坡上拍照安全）</p></div>
+    <div class="tags"><span class="tag drive">🚗 往返5h</span><span class="tag">☀️ ~15-27°C</span><span class="tag">🛸 带无人机！</span></div>
+    <div class="section"><div class="section-label">🎯 玩什么</div><p>🚗 上午G315→<strong>水上雅丹</strong>（全球唯一！雅丹群矗立湖中像万舰出海）→ 🎫 门票60+观光车60 → 登上雅丹顶俯瞰全景 → 🏚️ 回程<strong>南八仙魔鬼城</strong>（免费！雅丹地貌群，比收费景区更野更震撼）→ ⚠️ 越野车<strong>别离开车辙路</strong>，容易陷车 → 📸 G315公路（路边土坡上拍照安全）</p></div>
     <div class="section"><div class="section-label">🍜 吃什么</div><p>🥡 自带干粮（沿途无餐厅！）· 早上从酒店带鸡蛋+饼</p></div>
     <div class="section"><div class="section-label">🏠 住哪里</div><p>继续大柴旦（2连住）</p></div>
-    <div class="note-callout">🚁 水上雅丹是全程最需要无人机的点——没有航拍根本无法展现"万舰出海"的震撼。G315<strong>严禁在马路中间拍照</strong>（曾有游客被撞身亡），路两边有土坡可以安全取景。大柴旦→水上雅丹往返5h，沿途没加油站，出发前加满。</div>
+    <div class="note-callout">🚁 水上雅丹是全程最需要无人机的点——没有航拍根本无法展现"万舰出海"的震撼。今天晴天为主，航拍条件完美。G315<strong>严禁在马路中间拍照</strong>（曾有游客被撞身亡），路边土坡安全取景。大柴旦→水上雅丹往返5h，沿途没加油站，出发前加满。</div>
   </div>
 
   <!-- D11 -->
   <div class="day-card c-g" style="--rot:-.2deg">
     <div class="card-header"><div class="day-num">Day 11</div><div class="card-date">📅 8月7日 周五</div></div>
     <div class="route-badge">大柴旦 → 察尔汗盐湖 → 茶卡</div>
-    <div class="tags"><span class="tag drive">🚗 5.5h</span><span class="tag">☀️ 10-22°C</span></div>
+    <div class="tags"><span class="tag drive">🚗 5.5h</span><span class="tag">☀️ 10-25°C</span></div>
     <div class="section"><div class="section-label">🎯 玩什么</div><p>🚗 上午大柴旦→💚<strong>察尔汗盐湖</strong>（1.5h）→ 🎫 门票+大巴100元（私家车不能进，必须坐景区大巴30分钟进核心区）→ 🍏 <strong>千岛盐花</strong>（珊瑚状盐结晶，苹果绿色湖水不挑天气）→ 🛣️ <strong>万丈盐桥</strong>（32公里盐壳公路）→ 🚗 下午→茶卡（4h），傍晚到</p></div>
     <div class="section"><div class="section-label">🍜 吃什么</div><p>🏪 察尔汗景区无餐饮，自带干粮 · 晚餐茶卡镇上解决</p></div>
     <div class="section"><div class="section-label">🏠 住哪里</div><p>茶卡镇（海拔3100m）</p></div>
-    <div class="note-callout">💚 全网共识：<strong>察尔汗远胜茶卡</strong>！苹果绿色不依赖天气，阴天也美，面积是茶卡56倍而且人少得多。察尔汗时间控制在3h内（大巴往返1h+游玩2h），到茶卡4h要赶在天黑前。高浓度卤水<strong>有强腐蚀性，严禁光脚下水</strong>。务必戴墨镜，盐湖反光极强。</div>
+    <div class="note-callout">💚 全网共识：<strong>察尔汗远胜茶卡</strong>！苹果绿色不依赖天气，阴天也美，面积是茶卡56倍而且人少得多。时间控制在3h内（大巴往返1h+游玩2h）。<strong>明天茶卡预报晴天</strong>——是全程最重要的镜面窗口，今晚养精蓄锐。卤水有强腐蚀性严禁光脚下水，务必戴墨镜。</div>
   </div>
 
   <!-- D12 -->
   <div class="day-card c-pu" style="--rot:.3deg">
     <div class="card-header"><div class="day-num">Day 12</div><div class="card-date">📅 8月8日 周六</div></div>
     <div class="route-badge">茶卡盐湖 → 青海湖南岸</div>
-    <div class="tags"><span class="tag drive">🚗 2.5h</span><span class="tag">☀️ 8-20°C</span><span class="tag">🌼 油菜花巅峰</span></div>
-    <div class="section"><div class="section-label">🎯 玩什么</div><p>🧂 清晨<strong>茶卡盐湖</strong>（早上7点前入园，无风+人少=镜面效果最好）→ 🚂 小火车进湖心（单程50元，不便宜但走路太远）→ 👗 红裙子/亮色长裙拍照 → 🚗 中午→<strong>青海湖南岸</strong>（2.5h）→ 🌼 <strong>二郎剑/黑马河</strong>油菜花田（南山+黑马河区域<strong>8月上旬正值巅峰！</strong>）→ 🌅 <strong>黑马河日落</strong>（青海湖最美日落点）</p></div>
+    <div class="tags"><span class="tag drive">🚗 2.5h</span><span class="tag">☀️ 晴 9-27°C</span><span class="tag">🪞 镜面日！</span><span class="tag">🌼 油菜花巅峰</span></div>
+    <div class="section"><div class="section-label">🎯 玩什么</div><p>🧂 清晨<strong>茶卡盐湖</strong>（<strong>7点前入园！</strong>晴天+无风=镜面概率最高的一天）→ 🚂 小火车进湖心（单程50元，不便宜但走路太远）→ 👗 红裙子/亮色长裙拍照 → 🚗 中午→<strong>青海湖南岸</strong>（2.5h）→ 🌼 <strong>黑马河</strong>油菜花田（南山+黑马河区域<strong>8月上旬正值巅峰！</strong>）→ 🌅 <strong>黑马河日落</strong>（青海湖最美日落点）</p></div>
     <div class="section"><div class="section-label">🍜 吃什么</div><p>🐟 青海湖·<strong>湟鱼</strong>（保护动物，别吃！）→ 🍲 炕锅羊肉 · 牦牛肉</p></div>
-    <div class="section"><div class="section-label">🏠 住哪里</div><p>黑马河或二郎剑湖畔民宿（海拔3200m，别洗澡！）</p></div>
-    <div class="note-callout">📸 茶卡镜面需要<strong>晴天+无风</strong>——早上7-9点概率最大。如果当天风大阴天，果断跳过直接去青海湖，别浪费时间。青海湖8月初油菜花正在巅峰（南山/黑马河区域），花海+湛蓝湖水=此行最佳人像背景。湖边风大，早上看日出体感温度接近0°C，穿薄羽绒+冲锋衣。</div>
+    <div class="section"><div class="section-label">🏠 住哪里</div><p>黑马河湖畔民宿（海拔3200m，第一晚别洗澡！连住两晚）</p></div>
+    <div class="note-callout">🪞 今天是这趟行程最重要的晴天窗口——茶卡8/8天气预报晴天，是全程镜面概率最高的一天！8月能赶上晴天+无风是小概率事件，把茶卡排在这天是我们查完天气后的核心决策。镜面需要晴天+无风，早上7-9点概率最大。青海湖8月初油菜花正值巅峰，花海+湛蓝湖水=此行最佳人像背景。湖边风大，早上体感接近0°C，穿薄羽绒+冲锋衣。</div>
   </div>
 
   <!-- D13 -->
-  <div class="day-card c-p" style="--rot:-.15deg">
+  <div class="day-card c-y" style="--rot:-.2deg">
     <div class="card-header"><div class="day-num">Day 13</div><div class="card-date">📅 8月9日 周日</div></div>
-    <div class="route-badge">青海湖日出 → 南山全景 → 塔尔寺 → 西宁</div>
-    <div class="tags"><span class="tag drive">🚗 2.5h</span><span class="tag">⛅ 12-24°C</span></div>
-    <div class="section"><div class="section-label">🎯 玩什么</div><p>🌅 <strong>黑马河日出</strong>（6:00前到湖边，青海湖日出+油菜花前景=此行最佳照片）→ 🏔️ <strong>南山观景台</strong>（俯瞰青海湖全景最佳角度，人极少）→ 🚗 中午→西宁（2.5h）→ 🛕 下午<strong>塔尔寺</strong>（藏传佛教六大寺院之一，酥油花/堆绣/壁画三绝）→ 🛞 傍晚回到西宁</p></div>
-    <div class="section"><div class="section-label">🍜 吃什么</div><p>🐑 西宁·<strong>和财羊肉</strong>再来一顿！· 砂锅 · 青海土火锅（正式的，比祁连讲究）</p></div>
-    <div class="section"><div class="section-label">🏠 住哪里</div><p>西宁市区（回来了！好好洗个澡）</p></div>
-    <div class="note-callout">💡 青海湖日出是全程最重要的一个日出——湖边+油菜花+远山层次感，值得4:30起床。看完日出回酒店补觉再出发。南山观景台是本地人才知道的机位，能拍到青海湖全景+S弯公路，免费人少。塔尔寺注意：殿内<strong>禁止拍照</strong>，顺时针绕行。</div>
+    <div class="route-badge">青海湖全天 · 环湖+发呆</div>
+    <div class="tags"><span class="tag">⛅ 多云 13-25°C</span><span class="tag">🌼 油菜花</span><span class="tag">🐴 骑马发呆</span></div>
+    <div class="section"><div class="section-label">🎯 玩什么</div><p>😴 睡到自然醒（不用赶路的一天！）→ 🐴 上午湖边骑马/骑行/发呆 → 🏔️ 下午<strong>南山观景台</strong>（俯瞰青海湖全景+S弯公路，人极少，出片圣地）→ 🚗 环湖东路/西路随便开，看到漂亮花田就停车拍照 → 🌅 傍晚再找个没人的湖边看日落 → 🌌 晚上看星星（光污染极少，黑马河是青海湖最佳观星点之一）</p></div>
+    <div class="section"><div class="section-label">🍜 吃什么</div><p>🍲 黑马河镇上藏餐 · 炕锅羊肉 · 牦牛酸奶 ☕ 湖边咖啡馆（如果有的话）发呆</p></div>
+    <div class="section"><div class="section-label">🏠 住哪里</div><p>黑马河（连住第二晚，3200m已适应，可以洗澡了）</p></div>
+    <div class="note-callout">💙 这是原计划里没有的一天——青海湖不再是"路过打卡"，而是真正停下来住一晚、发呆一天。湖边8月油菜花+湛蓝湖水，坐在花田边什么都不做就是最好的行程。南山观景台是本地人才知道的机位，能拍到青海湖全景+S弯公路，免费人少。星空爱好者今晚有福——黑马河光污染接近零，银河清晰可见。</div>
   </div>
 
   <!-- D14 -->
-  <div class="day-card c-y" style="--rot:.2deg">
+  <div class="day-card c-p" style="--rot:.15deg">
     <div class="card-header"><div class="day-num">Day 14</div><div class="card-date">📅 8月10日 周一</div></div>
-    <div class="route-badge">西宁休整日</div>
-    <div class="tags"><span class="tag">☀️ 14-26°C</span></div>
-    <div class="section"><div class="section-label">🎯 玩什么</div><p>😴 睡到自然醒（13天奔波后的休息日）→ 🏛️ <strong>青海省博物馆</strong>（了解藏文化+丝绸之路，免费）→ 🛍️ <strong>水井巷/力盟商业街</strong>买伴手礼：牦牛肉干、枸杞、青稞酒、藏红花 → ☕ 找个咖啡馆整理照片 → 🧳 晚上整理行李准备D16飞杭州</p></div>
-    <div class="section"><div class="section-label">🍜 吃什么</div><p>🍲 <strong>青海土火锅</strong>（铜锅，和北京涮肉完全不同）· 酿皮 · 甜醅 · 🍦 酸奶（西宁酸奶是全西北最好的！）</p></div>
-    <div class="section"><div class="section-label">🏠 住哪里</div><p>继续西宁</p></div>
-    <div class="note-callout">💡 休整日不要安排景点。13天高原+戈壁奔波，身体需要恢复。博物馆是个轻松的选择——有空调、不累、还能对走完的路线有更深理解。伴手礼推荐：可可西里<strong>风干牦牛肉</strong>（超市买最实惠）、柴达木<strong>红枸杞</strong>。</div>
+    <div class="route-badge">青海湖日出 → 塔尔寺 → 西宁</div>
+    <div class="tags"><span class="tag drive">🚗 3h</span><span class="tag">青海湖⛅→西宁🌧️</span></div>
+    <div class="section"><div class="section-label">🎯 玩什么</div><p>🌅 <strong>黑马河日出</strong>（6:00前到湖边，油菜花前景+湖面晨雾=此行最佳照片）→ 😴 回酒店补觉+收拾行李 → 🚗 中午出发→西宁（2.5h）→ 🛕 途经<strong>塔尔寺</strong>（藏传佛教六大寺院之一，酥油花/堆绣/壁画三绝，顺路！）→ 🛞 傍晚到西宁</p></div>
+    <div class="section"><div class="section-label">🍜 吃什么</div><p>🐑 西宁·<strong>和财羊肉</strong>再来一顿！· 砂锅 · 青海土火锅（正式的，比祁连讲究）</p></div>
+    <div class="section"><div class="section-label">🏠 住哪里</div><p>西宁市区（回来了！好好洗个澡，连住两晚）</p></div>
+    <div class="note-callout">💡 青海湖日出是全程最重要的一个日出——湖边+油菜花+远山层次感，值得4:30起床。看完日出补觉再走，不用赶——两晚青海湖的好处就在这里。塔尔寺在湟中县，从青海湖回西宁刚好顺路经过，不用绕。西宁今天开始有雨，但城市活动不受影响。塔尔寺殿内<strong>禁止拍照</strong>，顺时针绕行。</div>
   </div>
 
   <!-- D15 -->
-  <div class="day-card c-o" style="--rot:-.3deg">
+  <div class="day-card c-g" style="--rot:-.2deg">
     <div class="card-header"><div class="day-num">Day 15</div><div class="card-date">📅 8月11日 周二</div></div>
-    <div class="route-badge">缓冲日 · 弹性安排</div>
-    <div class="tags"><span class="tag">☀️ 14-26°C</span><span class="tag">🔄 随时调整</span></div>
-    <div class="section"><div class="section-label">🎯 怎么用</div><p><strong>优先级1：</strong>补偿之前任何因天气/身体原因错过的景点<br><strong>优先级2：</strong>如果一切顺利，去<strong>坎布拉国家公园</strong>一日游（黄河+丹霞，距西宁1.5h）<br><strong>优先级3：</strong>彻底躺平——14天玩下来大概率已经满足了，多一天放松也不错<br><strong>或者：</strong>提前一天返回，节省一天时间</p></div>
-    <div class="section"><div class="section-label">🍜 吃什么</div><p>🥟 西宁·<strong>尕面片</strong>（如果还没吃过）· 烤羊排 · 黄焖羊肉</p></div>
-    <div class="section"><div class="section-label">🏠 住哪里</div><p>继续西宁（或杭州）</p></div>
-    <div class="note-callout">💡 长途旅行必须留缓冲日——西北天气多变（茶卡没倒影？缓冲日补。D9高反没去翡翠湖？今天去。之前哪天下雨毁了拍照？今天重拍）。如果一切完美，提前飞杭州也不错。</div>
+    <div class="route-badge">西宁休整 + 弹性缓冲</div>
+    <div class="tags"><span class="tag">🌧️ 雨 10-26°C</span><span class="tag">🔄 室内为主</span></div>
+    <div class="section"><div class="section-label">🎯 怎么用</div><p><strong>优先级1：</strong>补偿之前任何因天气/身体原因错过的景点（比如茶卡前天如果没倒影，今天可以杀回去补，2.5h单程值得）<br><strong>优先级2：</strong>🏛️ <strong>青海省博物馆</strong>（了解藏文化+丝路，免费有空调，对走完的路线会有更深理解）→ 🛍️ <strong>水井巷/力盟商业街</strong>买伴手礼：牦牛肉干、枸杞、青稞酒、藏红花 → ☕ 找咖啡馆整理16天的照片<br><strong>优先级3：</strong>彻底躺平——13天奔波后大概率已经满足了，多一天放松也不错</p></div>
+    <div class="section"><div class="section-label">🍜 吃什么</div><p>🥟 西宁·<strong>尕面片</strong>（如果还没吃过）· 烤羊排 · 黄焖羊肉 · 🍦 <strong>西宁酸奶</strong>（全西北最好的酸奶！）</p></div>
+    <div class="section"><div class="section-label">🏠 住哪里</div><p>继续西宁（或提前飞杭州）</p></div>
+    <div class="note-callout">💡 今天兼任休整+缓冲日。西宁连续有雨，但城市活动（博物馆、买伴手礼、吃吃喝喝）全室内不影响。伴手礼推荐：可可西里<strong>风干牦牛肉</strong>（超市买最实惠）、柴达木<strong>红枸杞</strong>。如果一切完美想提前走，今天也可以飞回杭州。</div>
   </div>
 
   <!-- D16 -->
-  <div class="day-card c-g" style="--rot:.1deg">
+  <div class="day-card c-o" style="--rot:.1deg">
     <div class="card-header"><div class="day-num">Day 16</div><div class="card-date">📅 8月12日 周三</div></div>
     <div class="route-badge">西宁还车 → ✈️ 杭州</div>
-    <div class="tags"><span class="tag flight">✈️ 飞行3h</span></div>
+    <div class="tags"><span class="tag flight">✈️ 飞行3h</span><span class="tag">🌧️ 西宁有雨</span></div>
     <div class="section"><div class="section-label">🎯 行程</div><p>🚗 上午西宁还车（检查车况+拍照留底）→ 🚕 打车→西宁曹家堡机场 → ✈️ <strong>西宁→杭州</strong>（直飞3h，¥800-1200）→ 🏠 傍晚到杭州！</p></div>
     <div class="section"><div class="section-label">📅 抵达</div><p>傍晚到达杭州，旅程结束。16天甘青大环线，从祁连草原到敦煌戈壁到青海湖花海——西北的夏天，一次看够。</p></div>
-    <div class="note-callout">💡 西宁机场离市区30分钟，预留1.5h到机场。还车前加满油+洗车（一嗨/神州要求）。飞杭州班次多（东航/南航/首航都有），选下午航班上午还能再逛逛。</div>
+    <div class="note-callout">💡 西宁机场离市区30分钟，预留1.5h到机场。还车前加满油+洗车（一嗨/神州要求）。飞杭州班次多（东航/南航/首航都有），选下午航班上午还能再逛逛。西宁今天有雨但不影响飞行。16天下来——你会发现青海湖那两天发呆的时光，可能是这趟旅行最好的部分。</div>
   </div>
 
 </div>
@@ -737,13 +728,13 @@ body::before{
     <tbody>
       <tr><td class="stay-loc">D1</td><td>西宁</td><td class="stay-name">城东区中档酒店</td><td class="stay-price">¥400-600</td><td class="stay-note">近莫家街，方便D2出城上G227</td></tr>
       <tr><td class="stay-loc">D2-3</td><td>祁连</td><td class="stay-name">县城民宿 / 拉洞台村</td><td class="stay-price">¥400-700</td><td class="stay-note">推窗见牛心山，提前10天订！D2不洗澡</td></tr>
-      <tr><td class="stay-loc">D4</td><td>张掖</td><td class="stay-name">七彩镇酒店</td><td class="stay-price">¥350-550</td><td class="stay-note">丹霞景区门口，方便第二天出发</td></tr>
-      <tr><td class="stay-loc">D5</td><td>嘉峪关</td><td class="stay-name">市区商务酒店</td><td class="stay-price">¥350-500</td><td class="stay-note">近大唐美食街（烤肉一条街）</td></tr>
-      <tr><td class="stay-loc">D6-8</td><td>敦煌</td><td class="stay-name">莫高窟数字中心附近</td><td class="stay-price">¥500-800</td><td class="stay-note"><strong>提前30天订！</strong>旺季翻倍</td></tr>
-      <tr><td class="stay-loc">D9-10</td><td>大柴旦</td><td class="stay-name">镇中心酒店</td><td class="stay-price">¥400-700</td><td class="stay-note"><strong>提前15天订！</strong>房源极少</td></tr>
-      <tr><td class="stay-loc">D11</td><td>茶卡</td><td class="stay-name">镇上经济酒店</td><td class="stay-price">¥350-500</td><td class="stay-note">住宿条件一般，将就一晚</td></tr>
-      <tr><td class="stay-loc">D12</td><td>青海湖</td><td class="stay-name">黑马河湖畔民宿</td><td class="stay-price">¥500-800</td><td class="stay-note">推窗见湖！别洗澡，3200m</td></tr>
-      <tr><td class="stay-loc">D13-15</td><td>西宁</td><td class="stay-name">市中心舒适酒店</td><td class="stay-price">¥400-600</td><td class="stay-note">终于可以好好洗澡洗衣服了</td></tr>
+      <tr><td class="stay-loc">D4-5</td><td>张掖</td><td class="stay-name"><strong>张掖市区酒店</strong></td><td class="stay-price">¥350-550</td><td class="stay-note"><strong>2晚连住！</strong>市区吃住远优于七彩镇，丹霞回市区40分钟</td></tr>
+      <tr><td class="stay-loc">D6</td><td>嘉峪关</td><td class="stay-name">市区商务酒店</td><td class="stay-price">¥350-500</td><td class="stay-note">近大唐美食街（烤肉一条街）</td></tr>
+      <tr><td class="stay-loc">D7-8</td><td>敦煌</td><td class="stay-name">莫高窟数字中心附近</td><td class="stay-price">¥500-800</td><td class="stay-note"><strong>2晚，提前订！</strong>旺季翻倍。D7到、D8莫高窟、D9早走</td></tr>
+      <tr><td class="stay-loc">D9-10</td><td>大柴旦</td><td class="stay-name">镇中心酒店</td><td class="stay-price">¥400-700</td><td class="stay-note"><strong>2晚连住！提前15天订！</strong>房源极少</td></tr>
+      <tr><td class="stay-loc">D11</td><td>茶卡</td><td class="stay-name">镇上经济酒店</td><td class="stay-price">¥350-500</td><td class="stay-note">住宿条件一般，将就一晚。3100m别洗澡</td></tr>
+      <tr><td class="stay-loc">D12-13</td><td>青海湖</td><td class="stay-name"><strong>黑马河湖畔民宿</strong></td><td class="stay-price">¥500-800</td><td class="stay-note"><strong>2晚连住！</strong>推窗见湖！D12别洗澡3200m，D13已适应</td></tr>
+      <tr><td class="stay-loc">D14-15</td><td>西宁</td><td class="stay-name">市中心舒适酒店</td><td class="stay-price">¥400-600</td><td class="stay-note">终于可以好好洗澡洗衣服了</td></tr>
     </tbody>
   </table>
 </div>
@@ -751,7 +742,7 @@ body::before{
 <!-- ============ PACKING LIST ============ -->
 <div class="squiggle"></div>
 <div class="section-wrap" id="packing">
-  <h2>🎒 物品清单 · 从33°C到6°C的温差</h2>
+  <h2>🎒 物品清单 · 从40°C到6°C的温差</h2>
   <div class="packing-grid">
 
     <div class="packing-cat c-y" style="--rot:-.3deg">
@@ -761,8 +752,9 @@ body::before{
         <li><strong>中层：</strong>薄卫衣/抓绒衣 ×2（祁连+大柴旦+青海湖必穿）</li>
         <li><strong>外层：</strong><strong>冲锋衣</strong>（防风防雨，必带！）</li>
         <li><strong>保暖：</strong><strong>薄羽绒服</strong>（青海湖日出+茶卡清晨，体感0-5°C）</li>
+        <li><strong>雨衣/轻便雨伞</strong>（祁连+张掖+西宁有雨！）</li>
         <li>长裤 ×2-3、短裤 ×1-2</li>
-        <li><strong>亮色长裙</strong> ×1-2（盐湖拍照！红/白/蓝）</li>
+        <li><strong>亮色长裙</strong> ×1-2（盐湖拍照！红/蓝首选，别穿白）</li>
         <li><strong>防水徒步鞋</strong>（盐湖+丹霞+峡谷徒步）</li>
         <li>拖鞋/凉鞋（鸣沙山+酒店）</li>
         <li>遮阳帽 + 墨镜🕶️（盐湖反光极强！）</li>
@@ -772,14 +764,14 @@ body::before{
     <div class="packing-cat c-p" style="--rot:.2deg">
       <h3>💊 药品 · 高原+肠胃</h3>
       <ul>
-        <li><strong>红景天</strong>（提前1周开始吃，D7到D13用）</li>
+        <li><strong>红景天</strong>（提前1周开始吃）</li>
         <li><strong>葡萄糖口服液</strong>（高反时快速缓解）</li>
         <li><strong>布洛芬</strong>（高反头痛+日常止痛）</li>
         <li>感冒药、退烧药</li>
         <li><strong>肠胃药</strong>（蒙脱石散、黄连素——西北羊肉天天吃胃不一定扛得住）</li>
         <li>创可贴、碘伏棉签</li>
         <li><strong>晕车药</strong>（祁连山路+G315多弯）</li>
-        <li><strong>防晒霜 SPF50+</strong>（高原紫外线穿透衣服！）</li>
+        <li><strong>防晒霜 SPF50+</strong>（高原紫外线穿透衣服！敦煌40°C暴晒）</li>
         <li>润唇膏、保湿霜、身体乳（干燥到爆皮）</li>
         <li>鼻腔生理盐水喷雾（干燥到流鼻血）</li>
       </ul>
@@ -791,7 +783,7 @@ body::before{
         <li><strong>手机支架</strong>（导航用，租车不一定有）</li>
         <li>车载充电器 + 多口充电线</li>
         <li><strong>离线地图</strong>（青海+甘肃全域提前下载！无人区没信号）</li>
-        <li>遮阳挡（敦煌暴晒，车内能煎鸡蛋）</li>
+        <li>遮阳挡（敦煌40°C暴晒，车内能煎鸡蛋）</li>
         <li>雨伞 + <strong>轻便雨衣</strong> ×2</li>
         <li>纸巾 + 湿巾（旱厕没水洗手！）</li>
         <li>垃圾袋</li>
@@ -836,7 +828,7 @@ body::before{
         <li><strong>驾驶证</strong> ×2（两人都要带，轮换开）</li>
         <li>信用卡 + 储蓄卡</li>
         <li><strong>现金 ¥500</strong></li>
-        <li>莫高窟预约确认截图（离线备用）</li>
+        <li>莫高窟预约确认截图（8/4，离线备用）</li>
         <li>租车订单截图</li>
         <li>机票行程单截图</li>
         <li>旅行保险（支付宝买，¥50-100保16天）</li>
@@ -852,17 +844,19 @@ body::before{
 <div class="reminders" id="tips">
   <h2>⚠️ 重要提醒 · 出发前必读</h2>
 
+  <div class="rem-item"><span class="rem-icon">🎫</span><span class="rem-text"><strong>莫高窟门票——立刻买8/4！：</strong>微信搜「莫高窟参观预约网」→ 抢<strong>8月4日（周二）</strong>A类票（238元/8窟+球幕电影）。每天7:00放票秒空，抢不到立刻买B类应急票（100元/4窟）保底。每天7:00-7:10持续刷新捡退票。特窟现场排队（11:00前），150-200元/窟。</span></div>
+
   <div class="rem-item"><span class="rem-icon">🏔️</span><span class="rem-text"><strong>高原反应：</strong>路线设计海拔渐进（2260→2800→1500→1100→2900→3200m），身体有充足时间适应。D9（敦煌→大柴旦）一天升1800m是最大考验，到了别跑跳。D2（祁连）和D12（青海湖）第一晚<strong>不要洗澡</strong>——浴室缺氧+温差是最常见高反诱因。严重头痛+呕吐→立刻下撤。最高点3200m，大多数人只有轻微头痛。</span></div>
 
-  <div class="rem-item"><span class="rem-icon">🎫</span><span class="rem-text"><strong>莫高窟门票——现在就抢！：</strong>微信搜「莫高窟参观预约网」→ 选8月3日（周一）→ 抢A类票（238元/8窟+球幕电影）。A类票每天7:00放票秒空，抢不到立刻买B类应急票（100元/4窟）保底。每天7:00-7:10持续刷新捡退票。特窟现场排队（11:00前），150-200元/窟。</span></div>
+  <div class="rem-item"><span class="rem-icon">🌧️</span><span class="rem-text"><strong>天气策略（已查过预报）：</strong>D3祁连暴雨→室内活动（阿柔大寺）。D4张掖多云→丹霞下午OK。D5张掖小雨→大佛寺室内优先。D6嘉峪关转晴→城楼日落。D7-8敦煌全晴→鸣沙山+莫高窟完美。D9敦煌40°C→趁早逃往大柴旦。D10-11柴达木晴天。D12茶卡晴天→镜面日概率高。D13青海湖多云→花海OK。D14-16西宁有雨→城市室内活动不影响。整体天气非常配合，关键景区全晴。</span></div>
 
   <div class="rem-item"><span class="rem-icon">🚗</span><span class="rem-text"><strong>租车：</strong>一嗨/神州→西宁取还→<strong>必须SUV、2.0T以上</strong>（高原小排量动力衰减严重）。坦克300约¥240-400/天（旺季翻倍），买全险。取车时绕车录视频+查备胎。一嗨异地还车大概率免费，神州约¥220。D1到西宁就取车。</span></div>
 
-  <div class="rem-item"><span class="rem-icon">⛽</span><span class="rem-text"><strong>加油铁律：</strong>见到加油站就加满！关键无油路段：大柴旦→敦煌（400km无加油站）、大柴旦→水上雅丹往返（无加油站）。偏远油站<strong>只收现金</strong>，备¥500现金。只加<strong>中石化/中石油</strong>，私营油品差容易堵喷油嘴。</span></div>
+  <div class="rem-item"><span class="rem-icon">⛽</span><span class="rem-text"><strong>加油铁律：</strong>见到加油站就加满！关键无油路段：大柴旦→敦煌、大柴旦→水上雅丹往返。偏远油站<strong>只收现金</strong>，备¥500现金。只加<strong>中石化/中石油</strong>，私营油品差容易堵喷油嘴。</span></div>
 
   <div class="rem-item"><span class="rem-icon">🗺️</span><span class="rem-text"><strong>离线地图：</strong>G315、大柴旦、冷湖等大面积无人区无信号。出发前在高德/百度地图下载<strong>青海省+甘肃省全域离线包</strong>。苹果用户尤其注意——信号断了导航直接废。</span></div>
 
-  <div class="rem-item"><span class="rem-icon">🌞</span><span class="rem-text"><strong>防晒保湿是刚需：</strong>高原紫外线穿透衣服，盐湖反光加倍暴击。SPF50+防晒霜每小时补涂、防晒面罩、冰袖、墨镜缺一不可。带身体乳+润唇膏+鼻腔盐水喷雾——西北干燥到你可能流鼻血。住<strong>带加湿器的酒店</strong>不是矫情。</span></div>
+  <div class="rem-item"><span class="rem-icon">🌞</span><span class="rem-text"><strong>防晒保湿是刚需：</strong>敦煌8/5高达40°C！高原紫外线穿透衣服，盐湖反光加倍暴击。SPF50+防晒霜每小时补涂、防晒面罩、冰袖、墨镜缺一不可。带身体乳+润唇膏+鼻腔盐水喷雾——西北干燥到你可能流鼻血。</span></div>
 
   <div class="rem-item"><span class="rem-icon">🚽</span><span class="rem-text"><strong>厕所现实：</strong>青海段（大柴旦→茶卡→青海湖）厕所大部分是旱厕，条件极差。策略：①遇到加油站就上厕所；②自带湿纸巾+干纸巾（上完厕所没水洗手）；③女生带把伞，无人区路边解决比旱厕干净。做好心理准备。</span></div>
 
@@ -885,21 +879,21 @@ body::before{
     <tr><td>🚗 租车 SUV 15天 + 全险</td><td>¥8,000–12,000</td></tr>
     <tr><td>⛽ 油费（~2800km × 0.8元/km）</td><td>¥2,240</td></tr>
     <tr><td>🛣️ 过路费</td><td>¥800–1,000</td></tr>
-    <tr><td>🏠 住宿 15晚（400-800/晚）</td><td>¥6,000–12,000</td></tr>
-    <tr><td>🎫 门票（莫高窟A类+丹霞+水上雅丹+茶卡+塔尔寺+察尔汗…）</td><td>¥1,500–2,000/人 ×2</td></tr>
+    <tr><td>🏠 住宿 15晚（350-800/晚）</td><td>¥5,250–12,000</td></tr>
+    <tr><td>🎫 门票（莫高窟A类+丹霞+大佛寺+平山湖+嘉峪关+水上雅丹+茶卡+察尔汗+塔尔寺…）</td><td>¥1,500–2,000/人 ×2</td></tr>
     <tr><td>🍜 餐饮 16天</td><td>¥4,000–6,000</td></tr>
     <tr><td>🎒 其他（保险+伴手礼+杂项）</td><td>¥1,500–2,000</td></tr>
     <tr><td><strong>💰 两人总计（16天）</strong></td><td><strong>¥30,000–44,000</strong></td></tr>
     <tr><td><strong>💰 人均</strong></td><td><strong>¥15,000–22,000</strong></td></tr>
   </table>
-  <p style="font-size:.78rem;color:var(--muted);margin-top:8px;">旺季（7-8月）偏上限，提前预订可控制在中线。最大变量是租车价格（旺季翻倍）和住宿（热门点提前30天 vs 临时订差价巨大）。</p>
+  <p style="font-size:.78rem;color:var(--muted);margin-top:8px;">旺季（7-8月）偏上限，提前预订可控制在中线。最大变量是租车价格（旺季翻倍）和住宿（热门点提前订 vs 临时订差价巨大）。酒店连住（张掖2晚+大柴旦2晚+青海湖2晚）可以跟老板谈连住优惠。</p>
 </div>
 
 <!-- ===== FOOTER ===== -->
 <div class="squiggle"></div>
 <footer class="footer">
-  <p>🏔️ 祝旅途愉快 · 反向避堵 · 海拔渐进 · 盐湖花海一网打尽</p>
-  <p style="margin-top:4px;">2026.7.28 → 8.12 ｜ 祁连草原 → 敦煌戈壁 → 青海湖花海</p>
+  <p>🏔️ 祝旅途愉快 · 反向避堵 · 天气驱动 · 青海湖两晚深度 · 茶卡晴天镜面日</p>
+  <p style="margin-top:4px;">2026.7.28 → 8.12 ｜ 祁连草原 → 敦煌莫高窟 → 柴达木盐湖 → 青海湖花海</p>
 </footer>
 
 </div><!-- /.container -->
