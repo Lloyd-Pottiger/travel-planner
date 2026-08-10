@@ -3,7 +3,7 @@
    Fonts: Ma Shan Zheng (Chinese headings), Caveat (Latin/numbers), system fonts (body).
      → Google Fonts @import below must come first inside the <style> block.
    To customize, swap fonts and adjust --paper, --ink, border-radius, box-shadow values.
-   SVG fills must use hardcoded hex colors — CSS custom properties don't work inside SVG.
+   Leaflet marker colors must use hardcoded hex — CSS custom properties don't resolve in JS.
    ================================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Caveat:wght@400;700&display=swap');
@@ -52,31 +52,36 @@ body::before{
 .route-flow .pill.hl{background:var(--ink);color:#fff}
 .route-flow .arrow{font-size:1rem;color:var(--muted);margin:0 2px}
 
-/* ===== SVG DIAGRAM ===== */
-/*
-  Optional hand-drawn jitter for diagram lines:
-  Add this SVG filter inline in the HTML (inside the diagram-wrap or a hidden <svg>),
-  then apply via `filter:url(#sketch)` on diagram elements:
+/* ===== LEAFLET MAP ===== */
+.diagram-wrap{background:#fff;border:2px solid var(--ink);border-radius:24px 8px 24px 8px/8px 24px 8px 24px;box-shadow:var(--shadow);margin:0 auto 40px;max-width:900px;overflow:hidden;padding:0}
+.diagram-wrap .leaflet-container{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif}
+/* Tone down tile saturation to harmonize with pastel sketch palette */
+.diagram-wrap .leaflet-tile{filter:saturate(.85) brightness(1.04)}
+.diagram-wrap .leaflet-control-layers{font-size:.82rem;font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif}
+/* Legend control — match sketch aesthetic */
+.leaflet-control.leaflet-legend{background:#fff;border:1.5px solid var(--ink);border-radius:12px 4px 12px 4px/4px 12px 4px 12px;padding:10px 14px;font-size:.78rem;line-height:1.7;box-shadow:var(--shadow)}
+.leaflet-control.leaflet-legend b{display:inline-block;width:22px;height:2px;vertical-align:middle;margin-right:6px;position:relative;top:-2px}
 
-  <svg style="position:absolute;width:0;height:0" aria-hidden="true">
-    <filter id="sketch" x="-2%" y="-2%" width="104%" height="104%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="n"/>
-      <feDisplacementMap in="SourceGraphic" in2="n" scale="1.2" xChannelSelector="R" yChannelSelector="G"/>
-    </filter>
-  </svg>
-
-  Use sparingly — on the diagram frame or route lines, not on small text or icons.
-  Scale >2 looks messy; keep it at 1–1.5 for a subtle hand-drawn wobble.
-*/
-.diagram-wrap{background:#fff;border:2px solid var(--ink);border-radius:24px 8px 24px 8px/8px 24px 8px 24px;box-shadow:var(--shadow);margin:0 auto 40px;max-width:820px;overflow-x:auto;padding:16px}
-.diagram-wrap svg{display:block;width:100%;min-width:380px;height:auto}
-.diagram-wrap svg text{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif}
-.diagram-wrap svg .node-text{font-size:14px;font-weight:700;fill:#2c3e50}
-.diagram-wrap svg .node-sub{font-size:11px;fill:#7b8a9b}
-.diagram-wrap svg .transport-label{font-size:11px;fill:#7b8a9b}
-.diagram-wrap svg .section-title{font-family:"Caveat",cursive;font-size:18px;font-weight:600;fill:#2c3e50}
-.diagram-wrap svg a circle{transition:r .2s ease,fill .2s ease}
-.diagram-wrap svg a:hover circle{fill:#2c3e50}
+/* ===== SEGMENT SUMMARY TABLE ===== */
+.seg-table-wrap{margin:0 auto 40px;max-width:900px;overflow-x:auto}
+.seg-table{width:100%;border-collapse:separate;border-spacing:0;font-size:.82rem;background:#fff;border:2px solid var(--ink);border-radius:20px 6px 20px 6px/6px 20px 6px 20px;box-shadow:var(--shadow);overflow:hidden}
+.seg-table thead th{text-align:left;padding:12px 14px;font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);border-bottom:2px solid var(--ink);background:var(--paper)}
+.seg-table thead th.seg-dist,.seg-table thead th.seg-time{text-align:right}
+.seg-table tbody td{padding:10px 14px;border-bottom:1px solid #e8e4da;vertical-align:middle}
+.seg-table tbody tr:last-child td{border-bottom:none}
+.seg-table .seg-date{white-space:nowrap;font-weight:600;font-size:.78rem;color:var(--muted)}
+.seg-table .seg-route{font-weight:600}
+.seg-table .seg-dist,.seg-table .seg-time{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
+.seg-table .seg-road{font-size:.72rem;background:var(--paper);border-radius:4px;padding:1px 6px;white-space:nowrap;display:inline-block}
+.seg-table .seg-note{font-size:.78rem;color:var(--muted);max-width:140px}
+.seg-table tbody tr.spur td{font-style:italic;color:var(--muted);font-size:.78rem}
+.seg-table tbody tr.spur td:first-child{padding-left:28px}
+.seg-table tbody tr.total td{font-weight:700;background:var(--y);border-top:2px solid var(--ink)}
+.seg-table tbody tr.total td.seg-date{color:var(--ink)}
+.seg-table tbody tr.transit{background:var(--b)}
+.seg-table tbody tr.transit td{color:var(--muted)}
+.seg-table .seg-group{background:var(--paper)}
+.seg-table .seg-group td{font-family:"Ma Shan Zheng",cursive;font-size:.95rem;padding:16px 14px 6px;color:var(--ink);border-bottom:none}
 
 /* ===== DAY CARDS ===== */
 .days-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:28px;margin:0 0 40px}
@@ -183,13 +188,10 @@ body::before{
   .day-card:hover{transform:none !important}
   .packing-cat{box-shadow:none;transform:none !important;break-inside:avoid;border-color:#ccc}
   .reminders{box-shadow:none;border-color:#ccc}
-  .diagram-wrap{box-shadow:none;border-color:#ccc;overflow-x:visible}
-  .diagram-wrap svg text{fill:#000}
-  .diagram-wrap svg .node-text{fill:#000}
-  .diagram-wrap svg .node-sub{fill:#555}
-  .diagram-wrap svg .transport-label{fill:#555}
-  .diagram-wrap svg a:hover circle{fill:inherit}
-  .budget-table,.accom-table{border-color:#ccc}
+  .diagram-wrap{box-shadow:none;border-color:#ccc;overflow:hidden}
+  .diagram-wrap .leaflet-tile{filter:none}
+  .budget-table,.accom-table,.seg-table{border-color:#ccc}
+  .seg-table tbody tr.total td{background:#faf9f5}
   .route-flow .pill{box-shadow:none}
   .route-flow .pill.hl{background:#000;color:#fff}
   .footer{color:#555}

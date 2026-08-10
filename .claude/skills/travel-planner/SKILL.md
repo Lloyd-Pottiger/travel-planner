@@ -57,7 +57,9 @@ Use `AskUserQuestion` to batch questions. Key dimensions to pin down (adapt orde
 
 **Real-world validation:** Use `/xhs-search` to find real traveler experiences as you design the route — route pitfalls, accommodation reviews, restaurant recommendations, seasonal road conditions, and hidden gems. xhs-search handles its own setup and graceful fallback.
 
-**Phase 2 complete when:** every segment has a transport mode assigned, daily driving stays within tolerance (adjusted for terrain), all 8 universal principles are satisfied, and accommodation options have been presented for user selection.
+**Geo-coordinate collection:** for every stop on the route — overnight stays AND major pass-through points (mountain passes, scenic lookouts, charging stops, road junctions that define the route shape) — collect approximate `[lat, lng]` coordinates. Also collect 2–5 intermediate waypoints per road segment so the Leaflet polylines in Phase 4 will follow actual roads, not straight lines. These coordinates drive the interactive map and require no manual SVG layout.
+
+**Phase 2 complete when:** every segment has a transport mode assigned, daily driving stays within tolerance (adjusted for terrain), all 8 universal principles are satisfied, accommodation options have been presented for user selection, and lat/lng coordinates + segment waypoints have been collected for all stops.
 
 ### Phase 3: Transport & Weather Optimization
 
@@ -82,7 +84,25 @@ Generate a single self-contained HTML file. The output must be **responsive** �
 
 **CSS:** Read `style-template.css` from the skill directory and embed it in a `<style>` block. The template is the default "hand-drawn sketch" style; adapt fonts, colors, and border-radius to match the user's preference if they asked for a different aesthetic.
 
-**Structure and layout:** See [`html-output-spec.md`](html-output-spec.md) for the full specification — SVG timeline rules, day card layout, additional sections (route flow, stats, packing, reminders), and the completion checklist.
+**Structure and layout:** See [`html-output-spec.md`](html-output-spec.md) for the full specification. Key sections in order:
+
+1. **Header** — title, subtitle, stats bar, route-flow pills (≤10 pills, major stops only)
+2. **Interactive Leaflet map** — real map tiles (高德 + OSM layer switcher) with route polylines and circle markers. Uses the lat/lng coordinates and waypoints collected in Phase 2. Polylines must include intermediate waypoints so lines follow actual roads. Detour spurs (round-trips from a base) use a distinct dash style. Markers click-to-scroll to day cards.
+3. **Segment summary table** — every driving/train/flight leg with distance, drive time, and road number. This is the **single source of truth** for all segment data. Day cards reference but do not repeat this data.
+4. **Day cards** — grouped by trip section. Each card: activities / food / accommodation / note-callout. Note-callouts must NOT contain "明天去…" previews.
+5. **Accommodation summary** — lookup table: night, location, name, price, ONE critical constraint.
+6. **Packing checklist** — dynamically generated from trip context.
+7. **Important reminders** — cross-cutting only (each item applies to ≥3 days).
+8. **Budget estimate** — major categories + total range.
+9. **Footer**
+
+**Anti-duplication principles:**
+- Segment data lives in the segment table; day cards don't repeat distances or drive times in prose
+- Note-callouts never preview the next day (that info is in the next day card + segment table)
+- Reminders are cross-cutting (≥3 days); day-specific warnings stay in day card note-callouts
+- Weather: daily in day card tags, seasonal patterns in reminders (not a day-by-day list)
+- Accommodation table is a lookup index, not a reprint of day card lodging sections
+- Route-flow pills: ≤10 items for a 5-second scan
 
 **Traveler-facing UI principle:**
 - The output is for the traveler, not the planner. Every visible string in the UI should read as natural advice from a knowledgeable friend — no internal scoring, no priority rankings, no planning meta-language.
