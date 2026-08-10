@@ -1,10 +1,9 @@
 /* === Travel Planner — Default "Hand-drawn Sketch" Style ===
-   Embed this in the <style> block of every generated trip HTML file.
+   Embed in <style> block of every generated trip HTML.
    Fonts: Ma Shan Zheng (Chinese headings), Caveat (Latin/numbers), system fonts (body).
-     → Google Fonts @import below must come first inside the <style> block.
-   To customize, swap fonts and adjust --paper, --ink, border-radius, box-shadow values.
-   Leaflet marker colors must use hardcoded hex — CSS custom properties don't resolve in JS.
-   ================================================================ */
+   → Google Fonts @import must be first inside <style>.
+   Customize: swap fonts, adjust --paper/--ink, border-radius, box-shadow.
+   Leaflet marker colors: use hardcoded hex — CSS custom properties don't resolve in JS. */
 
 @import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Caveat:wght@400;700&display=swap');
 
